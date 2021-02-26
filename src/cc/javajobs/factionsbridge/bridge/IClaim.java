@@ -59,4 +59,10 @@ public interface IClaim {
      */
     UUID getWorldUID();
 
+    /**
+     * Method to return the IClaim as an Object (API friendly)
+     * @return object of API.
+     */
+    Object asObject();
+
 }

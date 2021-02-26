@@ -2,6 +2,8 @@ package cc.javajobs.factionsbridge.bridge;
 
 import org.bukkit.OfflinePlayer;
 
+import java.util.List;
+
 /**
  * IFactionsAPI is the forefront of the bridge.
  * <p>
@@ -12,6 +14,12 @@ import org.bukkit.OfflinePlayer;
  * @since 25/02/2021 - 18:48
  */
 public interface IFactionsAPI {
+
+    /**
+     * Method to obtain all Factions.
+     * @return IFactions in the form of a List.
+     */
+    List<IFaction> getAllFactions();
 
     /**
      * Method to retrieve an IFaction from Id.

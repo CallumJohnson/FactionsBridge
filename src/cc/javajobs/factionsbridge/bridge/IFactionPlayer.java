@@ -54,4 +54,24 @@ public interface IFactionPlayer {
      */
     boolean isOnline();
 
+    /**
+     * Method to get the relationship from a Player to a Faction.
+     * @param other faction to test
+     * @return {@link IRelationship}
+     */
+    IRelationship getRelationTo(IFaction other);
+
+    /**
+     * Method to get the relationship from a Player to another Player.
+     * @param other IFactionPlayer to test
+     * @return {@link IRelationship}
+     */
+    IRelationship getRelationTo(IFactionPlayer other);
+
+    /**
+     * Method to return the IFactionPlayer as an Object (API friendly)
+     * @return object of API.
+     */
+    Object asObject();
+
 }

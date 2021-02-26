@@ -40,9 +40,9 @@ public interface IFaction {
 
     /**
      * Method to get all Claims related to the Faction.
-     * @return Claims in the form {@link IClaim}
+     * @return Claims in the form List of {@link IClaim}
      */
-    IClaim getAllClaims();
+    List<IClaim> getAllClaims();
 
     /**
      * Method to get all of the Members for the Faction.
@@ -56,5 +56,18 @@ public interface IFaction {
      * @return {@link IRelationship}
      */
     IRelationship getRelationTo(IFaction other);
+
+    /**
+     * Method to get the relationship between an IFaction and an IFactionPlayer.
+     * @param other IFactionPlayer to test
+     * @return {@link IRelationship}
+     */
+    IRelationship getRelationTo(IFactionPlayer other);
+
+    /**
+     * Method to return the IFaction as an Object (API friendly)
+     * @return object of API.
+     */
+    Object asObject();
 
 }
