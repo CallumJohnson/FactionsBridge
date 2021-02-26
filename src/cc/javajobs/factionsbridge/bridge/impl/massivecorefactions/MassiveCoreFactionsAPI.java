@@ -1,0 +1,94 @@
+package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
+
+import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.FactionColl;
+import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.massivecore.store.MStore;
+import org.bukkit.OfflinePlayer;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * MassiveCoreFactions implementation of IFactionsAPI.
+ *
+ * @author Callum Johnson
+ * @version 1.0
+ * @since 26/02/2021 - 15:25
+ */
+public class MassiveCoreFactionsAPI implements IFactionsAPI {
+
+    /**
+     * Method to obtain all Factions.
+     *
+     * @return IFactions in the form of a List.
+     */
+    @Override
+    public List<IFaction> getAllFactions() {
+        return FactionColl.get().getAll()
+                .stream().map(MassiveCoreFactionsFaction::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to retrieve an IFaction from Id.
+     *
+     * @param id of the IFaction
+     * @return IFaction implementation.
+     */
+    @Override
+    public IFaction getFaction(String id) {
+        return getFactionByName(id);
+    }
+
+    /**
+     * Method to retrive an IFaction from Name.
+     *
+     * @param name of the IFaction
+     * @return IFaction implementation.
+     */
+    @Override
+    public IFaction getFactionByName(String name) {
+        return new MassiveCoreFactionsFaction(FactionColl.get().getByName(name));
+    }
+
+    /**
+     * Method to retrieve an IFaction from Player/OfflinePlayer.
+     *
+     * @param player in the IFaction.
+     * @return IFaction implementation.
+     */
+    @Override
+    public IFaction getFaction(OfflinePlayer player) {
+        return new MassiveCoreFactionsFaction(MPlayer.get(player).getFaction());
+    }
+
+    /**
+     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     *
+     * @param player related to the IFactionPlayer.
+     * @return IFactionPlayer implementation.
+     */
+    @Override
+    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+        return new MassiveCoreFactionsPlayer(MPlayer.get(player));
+    }
+
+    /**
+     * Method to create a new Faction with the given name.
+     *
+     * @param name of the new Faction.
+     * @return IFaction implementation.
+     * @throws IllegalStateException if the IFaction exists already.
+     */
+    @Override
+    public IFaction createFaction(String name) throws IllegalStateException {
+        String fId = MStore.createId();
+        Faction faction = FactionColl.get().create(fId);
+        faction.setName(name);
+        return new MassiveCoreFactionsFaction(faction);
+    }
+
+}
