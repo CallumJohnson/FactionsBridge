@@ -39,13 +39,11 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
      * </p>
      */
     public void onEnable() {
+        instance = this;
         long start = System.currentTimeMillis();
-        instance=this;
-
         ProviderManager manager = new ProviderManager();
         this.provider = manager.discover(false);
         factionapi = manager.getAPI();
-
         String status = "without";
         long diff = System.currentTimeMillis()-start;
         if (provider == null) {
@@ -96,6 +94,14 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         warn("FactionsX Found§7:\t§f" + (Bukkit.getPluginManager().getPlugin("FactionsX") != null));
         warn("Kingdoms Found§7:\t\t§f" + (Bukkit.getPluginManager().getPlugin("Kingdoms") != null));
         spacer(ChatColor.WHITE);
+    }
+
+    /**
+     * Method to get a static instance of FactionsBridge.
+     * @return FactionsBridge instance.
+     */
+    public static FactionsBridge get() {
+        return instance;
     }
 
     /**
