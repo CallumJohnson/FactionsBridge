@@ -1,0 +1,60 @@
+package cc.javajobs.factionsbridge.bridge;
+
+import java.util.List;
+
+/**
+ * IFaction stands for a Faction of varying implementations.
+ * <p>
+ *     An IFaction bridges all Faction variants into one for Developers.
+ * </p>
+ * @author Callum Johnson
+ * @version 1.0
+ * @since 25/02/2021 - 18:52
+ */
+public interface IFaction {
+
+    /**
+     * Method to get the Id of the Faction.
+     * @return Id in the form of String.
+     */
+    String getId();
+
+    /**
+     * Method to get the Name of the Faction.
+     * @return name of the Faction.
+     */
+    String getName();
+
+    /**
+     * Method to get the IFactionPlayer Leader.
+     * @return the person who created the Faction.
+     */
+    IFactionPlayer getLeader();
+
+    /**
+     * Method to get the name of the Leader.
+     * @return name of the person who created the Faction.
+     * @see IFaction#getLeader()
+     */
+    String getLeaderName();
+
+    /**
+     * Method to get all Claims related to the Faction.
+     * @return Claims in the form {@link IClaim}
+     */
+    IClaim getAllClaims();
+
+    /**
+     * Method to get all of the Members for the Faction.
+     * @return List of IFactionPlayer
+     */
+    List<IFactionPlayer> getMembers();
+
+    /**
+     * Method to get the relationship between two Factions.
+     * @param other faction to test
+     * @return {@link IRelationship}
+     */
+    IRelationship getRelationTo(IFaction other);
+
+}
