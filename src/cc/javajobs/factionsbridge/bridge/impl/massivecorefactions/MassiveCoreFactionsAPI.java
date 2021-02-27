@@ -109,4 +109,18 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
         return new MassiveCoreFactionsFaction(faction);
     }
 
+    /**
+     * Method to delete a Faction.
+     *
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    @Override
+    public void deleteFaction(IFaction faction) throws IllegalStateException {
+        if (faction == null) {
+            throw new IllegalStateException("IFaction cannot be null!");
+        }
+        ((Faction) faction.asObject()).detach();
+    }
+
 }

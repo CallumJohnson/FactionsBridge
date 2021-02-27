@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.FactionManager;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.manager.PlayerManager;
@@ -97,6 +98,20 @@ public class FactionsXAPI implements IFactionsAPI {
     @Override
     public IFaction createFaction(String name) throws IllegalStateException {
         throw new BridgeMethodUnsupportedException("FactionsX doesn't support createFaction(name).");
+    }
+
+    /**
+     * Method to delete a Faction.
+     *
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    @Override
+    public void deleteFaction(IFaction faction) throws IllegalStateException {
+        if (faction == null) {
+            throw new IllegalStateException("IFaction cannot be null!");
+        }
+        FactionManager.INSTANCE.deleteFaction(((Faction) faction.asObject()));
     }
 
 }

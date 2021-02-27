@@ -6,6 +6,7 @@ import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.land.Land;
 import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.data.DataHandler;
@@ -97,6 +98,20 @@ public class KingdomsAPI implements IFactionsAPI {
     @Override
     public IFaction createFaction(String name) throws IllegalStateException {
         throw new BridgeMethodUnsupportedException("Kingdoms doesn't support createFaction(name).");
+    }
+
+    /**
+     * Method to delete a Faction.
+     *
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    @Override
+    public void deleteFaction(IFaction faction) throws IllegalStateException {
+        if (faction == null) {
+            throw new IllegalStateException("IFaction cannot be null!");
+        }
+        ((Kingdom) faction.asObject()).disband();
     }
 
 }

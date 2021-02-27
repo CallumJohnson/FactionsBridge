@@ -112,4 +112,15 @@ public class FactionsBlueAPI implements IFactionsAPI {
         return new FactionsBlueFaction(f);
     }
 
+    /**
+     * Method to delete a Faction.
+     *
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    @Override
+    public void deleteFaction(IFaction faction) throws IllegalStateException {
+        ((Faction) faction.asObject()).disband();
+    }
+
 }

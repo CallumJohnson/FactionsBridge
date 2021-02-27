@@ -65,4 +65,11 @@ public interface IFactionsAPI {
      */
     IFaction createFaction(String name) throws IllegalStateException;
 
+    /**
+     * Method to delete a Faction.
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    void deleteFaction(IFaction faction) throws IllegalStateException;
+
 }

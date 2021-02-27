@@ -98,5 +98,5 @@ public class AtlasFactionsAPI extends FactionsUUIDAPI {
     public IFaction createFaction(String name) throws IllegalStateException {
         return new AtlasFactionsFaction((Faction) super.createFaction(name).asObject());
     }
-    
+
 }

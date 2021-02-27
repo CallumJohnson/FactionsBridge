@@ -103,4 +103,15 @@ public class FactionsUUIDAPI implements IFactionsAPI {
         return new FactionsUUIDFaction(faction);
     }
 
+    /**
+     * Method to delete a Faction.
+     *
+     * @param faction to delete
+     * @throws IllegalStateException if the Faction doesn't exist.
+     */
+    @Override
+    public void deleteFaction(IFaction faction) throws IllegalStateException {
+        Factions.getInstance().removeFaction(faction.getId());
+    }
+
 }
