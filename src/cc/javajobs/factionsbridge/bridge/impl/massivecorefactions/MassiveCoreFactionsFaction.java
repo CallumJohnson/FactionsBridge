@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -155,7 +156,7 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        return 0;
+        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getBank().");
     }
 
     /**
@@ -165,7 +166,7 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public int getPoints() {
-        return 0;
+        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getPoints().");
     }
 
 }
