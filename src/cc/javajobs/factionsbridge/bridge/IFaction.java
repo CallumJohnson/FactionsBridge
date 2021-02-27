@@ -91,4 +91,18 @@ public interface IFaction {
      */
     int getPoints();
 
+    /**
+     * Added a Default Method to display faction to console.
+     * @return String (id, name, isserver, object, claimcount)
+     */
+    default String asString() {
+        return "Faction{" +
+                "id=" + getId() +
+                ", name=" + getName() +
+                ", isServerFaction?=" + isServerFaction() +
+                ", obj=" + asObject() +
+                ", claimcount=" + getAllClaims().size() +
+                "}";
+    }
+
 }
