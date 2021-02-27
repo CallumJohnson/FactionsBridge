@@ -99,15 +99,4 @@ public class SavageFactionsAPI extends FactionsUUIDAPI {
         return new SavageFactionsFaction((Faction) super.createFaction(name).asObject());
     }
 
-    /**
-     * Method to delete a Faction.
-     *
-     * @param faction to delete
-     * @throws IllegalStateException if the Faction doesn't exist.
-     */
-    @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
-        super.deleteFaction(faction);
-    }
-
 }
