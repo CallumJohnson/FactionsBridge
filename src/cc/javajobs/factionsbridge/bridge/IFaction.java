@@ -79,8 +79,16 @@ public interface IFaction {
      */
     boolean isServerFaction();
 
+    /**
+     * Method to get the bank balance of the Faction.
+     * @return in the form of Double.
+     */
     double getBank();
 
+    /**
+     * Method to get the points of a Faction.
+     * @return in the form of Integer.
+     */
     int getPoints();
 
 }

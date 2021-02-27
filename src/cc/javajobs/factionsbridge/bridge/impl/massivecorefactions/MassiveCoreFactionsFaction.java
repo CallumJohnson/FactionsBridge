@@ -148,4 +148,24 @@ public class MassiveCoreFactionsFaction implements IFaction {
         ).contains(getId().toLowerCase());
     }
 
+    /**
+     * Method to get the bank balance of the Faction.
+     *
+     * @return in the form of Double.
+     */
+    @Override
+    public double getBank() {
+        return 0;
+    }
+
+    /**
+     * Method to get the points of a Faction.
+     *
+     * @return in the form of Integer.
+     */
+    @Override
+    public int getPoints() {
+        return 0;
+    }
+
 }

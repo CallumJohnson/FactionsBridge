@@ -148,4 +148,24 @@ public class FactionsBlueFaction implements IFaction {
         return getId().equals("-2") || getId().equals("-1") || getId().equals("0");
     }
 
+    /**
+     * Method to get the bank balance of the Faction.
+     *
+     * @return in the form of Double.
+     */
+    @Override
+    public double getBank() {
+        return 0;
+    }
+
+    /**
+     * Method to get the points of a Faction.
+     *
+     * @return in the form of Integer.
+     */
+    @Override
+    public int getPoints() {
+        return 0;
+    }
+
 }
