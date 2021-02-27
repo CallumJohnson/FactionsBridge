@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.util.Communicator;
@@ -55,6 +56,11 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
             status = "with";
         }
         log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+        if (factionapi != null) {
+            int loaded = factionapi.getAllFactions().size();
+            warn(loaded + " factions have been loaded.");
+            if (loaded != 0) warn(factionapi.getAllFactions().get(0).asString());
+        }
     }
 
     /**
