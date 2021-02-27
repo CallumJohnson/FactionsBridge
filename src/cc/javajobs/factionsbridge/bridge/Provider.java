@@ -1,5 +1,14 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import cc.javajobs.factionsbridge.bridge.impl.atlasfactions.AtlasFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.factionsblue.FactionsBlueAPI;
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
+import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXAPI;
+import cc.javajobs.factionsbridge.bridge.impl.kingdoms.KingdomsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.saberfactions.SaberFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.supremefactions.SupremeFactionsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -20,14 +29,15 @@ import java.util.List;
  */
 public enum Provider {
 
-    Factions_AtlasFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Elapsed"), null),
-    Factions_FactionsBlue("FactionsBlue", Collections.singletonList("NickD"), null), Factions_FactionsUUID("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"), null),
-    Factions_FactionsX("FactionsX", Collections.singletonList("ProSavage"), null),
-    Kingdoms_Kingdoms("Kingdoms", Collections.singletonList("Crypto Morin"), null),
-    Factions_MassiveCoreFactions("Factions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan"), null),
-    Factions_SaberFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"), null),
-    Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReiÃŸaus", "Driftay", "D3cide", "Savag3life"), null),
-    Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), null);
+    Factions_AtlasFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Elapsed"), new AtlasFactionsAPI()),
+    Factions_FactionsBlue("FactionsBlue", Collections.singletonList("NickD"), new FactionsBlueAPI()),
+    Factions_FactionsUUID("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"), new FactionsUUIDAPI()),
+    Factions_FactionsX("FactionsX", Collections.singletonList("ProSavage"), new FactionsXAPI()),
+    Kingdoms_Kingdoms("Kingdoms", Collections.singletonList("Crypto Morin"), new KingdomsAPI()),
+    Factions_MassiveCoreFactions("Factions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan"), new MassiveCoreFactionsAPI()),
+    Factions_SaberFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"), new SaberFactionsAPI()),
+    Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life"), new SavageFactionsAPI()),
+    Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), new SupremeFactionsAPI());
 
     private final String pluginName;
     private final List<String> authors;
