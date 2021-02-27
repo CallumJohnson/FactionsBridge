@@ -4,8 +4,6 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
 import net.prosavage.factionsx.core.FPlayer;
-import net.prosavage.factionsx.core.Faction;
-import net.prosavage.factionsx.util.Relation;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

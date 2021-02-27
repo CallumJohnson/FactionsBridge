@@ -6,7 +6,6 @@ import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.land.Land;
 import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.data.DataHandler;

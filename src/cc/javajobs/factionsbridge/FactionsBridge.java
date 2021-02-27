@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge;
 
-import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
