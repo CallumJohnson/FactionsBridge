@@ -6,7 +6,9 @@ import org.bukkit.plugin.Plugin;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * The Provider Manager class handles all methodology to locate/identify the API-provider for the plugin.
@@ -33,22 +35,12 @@ public class ProviderManager implements Communicator {
         for (Provider provider : Provider.values()) {
             Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
-            log("Plugin found for " + provider.name());
             boolean hook = false;
-            boolean[] authors = provider.authorsMatch(plugin.getDescription().getAuthors());
+
+            boolean[] authors = provider.authorsMatch(new ArrayList<>(plugin.getDescription().getAuthors()));
             List<String> providerAuthors = provider.getAuthors();
-            int auth = 0;
-            StringBuilder bs = new StringBuilder();
-            for (int i = 0; i < providerAuthors.size(); i++) {
-                String author = providerAuthors.get(i);
-                bs.append("Author:\t").append(author).append("\t(").append(authors[i]).append(")");
-                if (i != providerAuthors.size()-1) {
-                    bs.append(", ");
-                }
-                if (authors[i]) auth++;
-            }
+            int auth = (int) IntStream.range(0, providerAuthors.size()).filter(i -> authors[i]).count();
             if (providerAuthors.size() == auth) hook = true;
-            log(bs.toString());
             if (classLevel) {
                 int classes = provider.areClassesLoaded();
                 int totalClasses = provider.getClassCount();
