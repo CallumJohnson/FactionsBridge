@@ -7,7 +7,7 @@ import cc.javajobs.factionsbridge.bridge.IRelationship;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.integration.Econ;
-import com.massivecraft.factions.struct.Relation;
+import com.massivecraft.factions.perms.Relation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class FactionsUUIDFaction implements IFaction {
 
-    private final Faction f;
+    protected final Faction f;
 
     public FactionsUUIDFaction(Faction faction) {
         this.f = faction;
@@ -54,7 +54,7 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public IFactionPlayer getLeader() {
-        return new FactionsUUIDPlayer(f.getFPlayerLeader());
+        return new FactionsUUIDPlayer(f.getFPlayerAdmin());
     }
 
     /**
@@ -142,7 +142,7 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public boolean isServerFaction() {
-        return f.isSystemFaction();
+        return (f.isSafeZone() || f.isWarZone() || f.isWilderness());
     }
 
     /**

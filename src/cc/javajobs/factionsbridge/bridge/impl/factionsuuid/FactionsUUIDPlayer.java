@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class FactionsUUIDPlayer implements IFactionPlayer {
 
-    private final FPlayer fpl;
+    protected final FPlayer fpl;
 
     public FactionsUUIDPlayer(FPlayer fpl) {
         this.fpl = fpl;

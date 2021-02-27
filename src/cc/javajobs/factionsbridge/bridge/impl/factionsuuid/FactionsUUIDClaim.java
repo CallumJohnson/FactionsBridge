@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class FactionsUUIDClaim implements IClaim {
 
-    private final FLocation floc;
+    protected final FLocation floc;
 
     public FactionsUUIDClaim(FLocation fLocation) {
         this.floc = fLocation;

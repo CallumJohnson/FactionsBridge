@@ -71,7 +71,7 @@ public class FactionsUUIDAPI implements IFactionsAPI {
      */
     @Override
     public IFaction getFaction(OfflinePlayer player) {
-        return new FactionsUUIDFaction(FPlayers.getInstance().getByOfflinePlayer(player).getFaction());
+        return getFactionPlayer(player).getFaction();
     }
 
     /**
