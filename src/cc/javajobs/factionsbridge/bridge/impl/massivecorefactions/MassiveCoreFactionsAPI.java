@@ -3,10 +3,13 @@ package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
+import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.MStore;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -30,6 +33,17 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
     public List<IFaction> getAllFactions() {
         return FactionColl.get().getAll()
                 .stream().map(MassiveCoreFactionsFaction::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to obtain a Faction from Location.
+     *
+     * @param location of the faction.
+     * @return IFaction at that location
+     */
+    @Override
+    public IFaction getFactionAt(Location location) {
+        return new MassiveCoreFactionsFaction(BoardColl.get().getFactionAt(PS.valueOf(location)));
     }
 
     /**
@@ -85,6 +99,10 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
      */
     @Override
     public IFaction createFaction(String name) throws IllegalStateException {
+        IFaction fac = getFactionByName(name);
+        if (fac != null && !fac.isServerFaction()) {
+            throw new IllegalStateException("Faction already exists.");
+        }
         String fId = MStore.createId();
         Faction faction = FactionColl.get().create(fId);
         faction.setName(name);

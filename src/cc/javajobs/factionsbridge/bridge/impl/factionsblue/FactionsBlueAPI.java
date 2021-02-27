@@ -7,7 +7,9 @@ import me.zysea.factions.FPlugin;
 import me.zysea.factions.api.FactionsApi;
 import me.zysea.factions.faction.Faction;
 import me.zysea.factions.interfaces.Factions;
+import me.zysea.factions.objects.Claim;
 import me.zysea.factions.persist.FactionsMemory;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collection;
@@ -33,6 +35,17 @@ public class FactionsBlueAPI implements IFactionsAPI {
         Factions factions = FPlugin.getInstance().getFactions();
         Collection<Faction> facs = ((FactionsMemory) factions).getAllFactions();
         return facs.stream().map(FactionsBlueFaction::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to obtain a Faction from Location.
+     *
+     * @param location of the faction.
+     * @return IFaction at that location
+     */
+    @Override
+    public IFaction getFactionAt(Location location) {
+        return new FactionsBlueFaction(FactionsApi.getOwner(new Claim(location)));
     }
 
     /**
@@ -88,6 +101,10 @@ public class FactionsBlueAPI implements IFactionsAPI {
      */
     @Override
     public IFaction createFaction(String name) throws IllegalStateException {
+        IFaction fac = getFactionByName(name);
+        if (fac != null && !fac.isServerFaction()) {
+            throw new IllegalStateException("Faction already exists.");
+        }
         Factions factions = FPlugin.getInstance().getFactions();
         int id = factions.generateFactionId();
         Faction f = new Faction(id, name);

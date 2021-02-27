@@ -70,4 +70,17 @@ public interface IFaction {
      */
     Object asObject();
 
+    /**
+     * Method to test if this Faction is a Server Faction
+     * <p>
+     *     Server Factions: Wilderness, SafeZone, WarZone.
+     * </p>
+     * @return {@code true} if yes, {@code false} if no.
+     */
+    boolean isServerFaction();
+
+    double getBank();
+
+    int getPoints();
+
 }

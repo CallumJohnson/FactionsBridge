@@ -7,7 +7,9 @@ import cc.javajobs.factionsbridge.bridge.IRelationship;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import org.bukkit.ChatColor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -129,6 +131,21 @@ public class MassiveCoreFactionsFaction implements IFaction {
     @Override
     public Object asObject() {
         return f;
+    }
+
+    /**
+     * Method to test if this Faction is a Server Faction
+     * <p>
+     * Server Factions: Wilderness, SafeZone, WarZone.
+     * </p>
+     *
+     * @return {@code true} if yes, {@code false} if no.
+     */
+    @Override
+    public boolean isServerFaction() {
+        return Arrays.asList(
+                "none", "safezone", "warzone", "wilderness", ChatColor.DARK_GREEN.toString() + " wilderness"
+        ).contains(getId().toLowerCase());
     }
 
 }

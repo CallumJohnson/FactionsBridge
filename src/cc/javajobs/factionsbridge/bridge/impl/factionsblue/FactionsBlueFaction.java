@@ -135,4 +135,17 @@ public class FactionsBlueFaction implements IFaction {
         return faction;
     }
 
+    /**
+     * Method to test if this Faction is a Server Faction
+     * <p>
+     * Server Factions: Wilderness, SafeZone, WarZone.
+     * </p>
+     *
+     * @return {@code true} if yes, {@code false} if no.
+     */
+    @Override
+    public boolean isServerFaction() {
+        return getId().equals("-2") || getId().equals("-1") || getId().equals("0");
+    }
+
 }

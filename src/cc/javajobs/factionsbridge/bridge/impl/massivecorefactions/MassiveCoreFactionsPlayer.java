@@ -3,8 +3,6 @@ package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
-import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -95,19 +93,7 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public IRelationship getRelationTo(IFaction other) {
-        Rel rel =  mpl.getRelationTo((Faction) other.asObject());
-        switch (rel) {
-            case ENEMY:
-                return IRelationship.ENEMY;
-            case NEUTRAL:
-                return IRelationship.NONE;
-            case TRUCE:
-                return IRelationship.TRUCE;
-            case ALLY:
-                return IRelationship.ALLY;
-            default:
-                return IRelationship.MEMBER;
-        }
+        return getFaction().getRelationTo(other);
     }
 
     /**

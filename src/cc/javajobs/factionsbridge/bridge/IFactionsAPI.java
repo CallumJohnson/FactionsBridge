@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -20,6 +21,13 @@ public interface IFactionsAPI {
      * @return IFactions in the form of a List.
      */
     List<IFaction> getAllFactions();
+
+    /**
+     * Method to obtain a Faction from Location.
+     * @param location of the faction.
+     * @return IFaction at that location
+     */
+    IFaction getFactionAt(Location location);
 
     /**
      * Method to retrieve an IFaction from Id.
