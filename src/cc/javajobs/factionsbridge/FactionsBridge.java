@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,6 +32,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
 
     private static FactionsBridge instance;
     private static IFactionsAPI factionapi;
+    public boolean registered;
     private Plugin provider;
 
     /**
@@ -59,7 +61,22 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         if (factionapi != null) {
             int loaded = factionapi.getAllFactions().size();
             warn(loaded + " factions have been loaded.");
-            if (loaded != 0) warn(factionapi.getAllFactions().get(0).asString());
+            if (loaded != 0) {
+                IFaction fac = factionapi.getAllFactions().get(0);
+                warn(fac.asString());
+                try {
+                    warn("Points:\t" + fac.getPoints());
+                } catch (BridgeMethodException ex) {
+                    warn("Points:\tN/A (Not Supported)");
+                    ex.printStackTrace();
+                }
+                try {
+                    warn("F-Balance:\t" + fac.getBank());
+                } catch (BridgeMethodException ex) {
+                    warn("F-Balance:\tN/A (Not Supported)");
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
