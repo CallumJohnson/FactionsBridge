@@ -59,6 +59,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         }
         log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
         if (factionapi != null) {
+            factionapi.register();
             int loaded = factionapi.getAllFactions().size();
             warn(loaded + " factions have been loaded.");
             if (loaded != 0) {
