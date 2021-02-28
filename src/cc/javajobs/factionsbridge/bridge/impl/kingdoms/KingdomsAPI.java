@@ -1,13 +1,16 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
+import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.land.Land;
+import org.kingdoms.constants.land.location.SimpleChunkLocation;
 import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.data.DataHandler;
 
@@ -42,6 +45,28 @@ public class KingdomsAPI implements IFactionsAPI {
     @Override
     public IFaction getFactionAt(Location location) {
         return new KingdomsKingdom(Land.getLand(location).getKingdom());
+    }
+
+    /**
+     * Method to obtain an IClaim from Location.
+     *
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Location location) {
+        return getClaimAt(location.getChunk());
+    }
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     *
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Chunk chunk) {
+        return new KingdomsClaim(new Land(SimpleChunkLocation.of(chunk)));
     }
 
     /**
@@ -112,6 +137,14 @@ public class KingdomsAPI implements IFactionsAPI {
             throw new IllegalStateException("IFaction cannot be null!");
         }
         ((Kingdom) faction.asObject()).disband();
+    }
+
+    /**
+     * Method to register events and handle event pass-through for the Bridge.
+     */
+    @Override
+    public void register() {
+
     }
 
 }

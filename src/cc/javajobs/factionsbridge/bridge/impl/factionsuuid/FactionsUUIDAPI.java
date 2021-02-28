@@ -1,9 +1,14 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
+import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events.FactionsUUIDListener;
 import com.massivecraft.factions.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -39,6 +44,28 @@ public class FactionsUUIDAPI implements IFactionsAPI {
     @Override
     public IFaction getFactionAt(Location location) {
         return new FactionsUUIDFaction(Board.getInstance().getFactionAt(new FLocation(location)));
+    }
+
+    /**
+     * Method to obtain an IClaim from Location.
+     *
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Location location) {
+        return getClaimAt(location.getChunk());
+    }
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     *
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Chunk chunk) {
+        return new FactionsUUIDClaim(new FLocation(chunk));
     }
 
     /**
@@ -112,6 +139,14 @@ public class FactionsUUIDAPI implements IFactionsAPI {
     @Override
     public void deleteFaction(IFaction faction) throws IllegalStateException {
         Factions.getInstance().removeFaction(faction.getId());
+    }
+
+    /**
+     * Method to register events and handle event pass-through for the Bridge.
+     */
+    @Override
+    public void register() {
+
     }
 
 }

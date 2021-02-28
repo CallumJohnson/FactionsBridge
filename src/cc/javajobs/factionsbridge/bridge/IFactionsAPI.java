@@ -1,5 +1,7 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -28,6 +30,20 @@ public interface IFactionsAPI {
      * @return IFaction at that location
      */
     IFaction getFactionAt(Location location);
+
+    /**
+     * Method to obtain an IClaim from Location.
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    IClaim getClaimAt(Location location);
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    IClaim getClaimAt(Chunk chunk);
 
     /**
      * Method to retrieve an IFaction from Id.
@@ -71,5 +87,18 @@ public interface IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     void deleteFaction(IFaction faction) throws IllegalStateException;
+
+    /**
+     * Method to determine if the {@link IFactionsAPI#register()} method has been called.
+     * @return {@code true} yes, {@code false} no
+     */
+    default boolean hasRegistered() {
+        return FactionsBridge.get().registered;
+    }
+
+    /**
+     * Method to register events and handle event pass-through for the Bridge.
+     */
+    void register();
 
 }

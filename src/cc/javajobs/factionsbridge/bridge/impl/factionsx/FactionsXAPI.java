@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx;
 
+import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
@@ -8,6 +9,8 @@ import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.FactionManager;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.manager.PlayerManager;
+import net.prosavage.factionsx.persist.data.FLocation;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -42,6 +45,28 @@ public class FactionsXAPI implements IFactionsAPI {
     @Override
     public IFaction getFactionAt(Location location) {
         return new FactionsXFaction(GridManager.INSTANCE.getFactionAt(location.getChunk()));
+    }
+
+    /**
+     * Method to obtain an IClaim from Location.
+     *
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Location location) {
+        return getClaimAt(location.getChunk());
+    }
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     *
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Chunk chunk) {
+        return new FactionsXClaim(new FLocation(chunk.getX(), chunk.getZ(), chunk.getWorld().getName()));
     }
 
     /**
@@ -112,6 +137,14 @@ public class FactionsXAPI implements IFactionsAPI {
             throw new IllegalStateException("IFaction cannot be null!");
         }
         FactionManager.INSTANCE.deleteFaction(((Faction) faction.asObject()));
+    }
+
+    /**
+     * Method to register events and handle event pass-through for the Bridge.
+     */
+    @Override
+    public void register() {
+
     }
 
 }

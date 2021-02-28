@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
+import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
@@ -9,6 +10,7 @@ import me.zysea.factions.faction.Faction;
 import me.zysea.factions.interfaces.Factions;
 import me.zysea.factions.objects.Claim;
 import me.zysea.factions.persist.FactionsMemory;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -46,6 +48,28 @@ public class FactionsBlueAPI implements IFactionsAPI {
     @Override
     public IFaction getFactionAt(Location location) {
         return new FactionsBlueFaction(FactionsApi.getOwner(new Claim(location)));
+    }
+
+    /**
+     * Method to obtain an IClaim from Location.
+     *
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Location location) {
+        return getClaimAt(location.getChunk());
+    }
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     *
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Chunk chunk) {
+        return new FactionsBlueClaim(new Claim(chunk));
     }
 
     /**
@@ -121,6 +145,14 @@ public class FactionsBlueAPI implements IFactionsAPI {
     @Override
     public void deleteFaction(IFaction faction) throws IllegalStateException {
         ((Faction) faction.asObject()).disband();
+    }
+
+    /**
+     * Method to register events and handle event pass-through for the Bridge.
+     */
+    @Override
+    public void register() {
+
     }
 
 }

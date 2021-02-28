@@ -1,12 +1,15 @@
 package cc.javajobs.factionsbridge.bridge.impl.supremefactions;
 
+import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
 import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsFaction;
+import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -19,6 +22,28 @@ import java.util.stream.Collectors;
  * @since 27/02/2021 - 17:34
  */
 public class SupremeFactionsAPI extends FactionsUUIDAPI {
+
+    /**
+     * Method to obtain an IClaim from Location.
+     *
+     * @param location to get IClaim from.
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Location location) {
+        return new SupremeFactionsClaim((FLocation) super.getClaimAt(location).asObject());
+    }
+
+    /**
+     * Method to obtain an IClaim from Chunk.
+     *
+     * @param chunk to convert
+     * @return IClaim object.
+     */
+    @Override
+    public IClaim getClaimAt(Chunk chunk) {
+        return new SupremeFactionsClaim((FLocation) super.getClaimAt(chunk).asObject());
+    }
 
     /**
      * Method to obtain all Factions.
