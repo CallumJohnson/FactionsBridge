@@ -101,6 +101,7 @@ public class IFactionCreateEvent extends Event implements Cancellable {
      */
     @Override
     public boolean isCancelled() {
+        if (event == null) return false;
         if (!(event instanceof Cancellable)) return false;
         return ((Cancellable) event).isCancelled();
     }
@@ -115,6 +116,7 @@ public class IFactionCreateEvent extends Event implements Cancellable {
      */
     @Override
     public void setCancelled(boolean b) {
+        if (event == null) return;
         if (!(event instanceof Cancellable)) return;
         ((Cancellable) event).setCancelled(b);
     }

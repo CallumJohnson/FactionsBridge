@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * IFactionEvent is the baseline for all Faction-Related Events.
@@ -35,6 +36,7 @@ public class IFactionEvent extends Event implements Cancellable {
         return faction;
     }
 
+    @NotNull
     public HandlerList getHandlers() {
         return IFactionEvent.handlers;
     }
@@ -53,6 +55,7 @@ public class IFactionEvent extends Event implements Cancellable {
      */
     @Override
     public boolean isCancelled() {
+        if (event == null) return false;
         if (!(event instanceof Cancellable)) return false;
         return ((Cancellable) event).isCancelled();
     }
@@ -67,6 +70,7 @@ public class IFactionEvent extends Event implements Cancellable {
      */
     @Override
     public void setCancelled(boolean b) {
+        if (event == null) return;
         if (!(event instanceof Cancellable)) return;
         ((Cancellable) event).setCancelled(b);
     }
