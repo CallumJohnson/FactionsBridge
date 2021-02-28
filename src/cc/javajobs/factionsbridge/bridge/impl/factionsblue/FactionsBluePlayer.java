@@ -60,6 +60,20 @@ public class FactionsBluePlayer implements IFactionPlayer {
     }
 
     /**
+     * Method to determine if the Player is in a Faction & if the Faction isn't a System Faction.
+     * <p>
+     * Some Factions implementations, if a Player isn't in a Faction, the Player is assumed
+     * to be "factionless" which is defaulted to Wilderness.
+     * </p>
+     *
+     * @return {@code true} if the player is in a faction other than Wilderness/WarZone/SafeZone.
+     */
+    @Override
+    public boolean hasFaction() {
+        return fpl.hasFaction();
+    }
+
+    /**
      * Method to get the Offline form of the Player.
      *
      * @return {@link OfflinePlayer}

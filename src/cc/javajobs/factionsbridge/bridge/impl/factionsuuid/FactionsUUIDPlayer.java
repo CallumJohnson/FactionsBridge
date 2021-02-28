@@ -55,6 +55,21 @@ public class FactionsUUIDPlayer implements IFactionPlayer {
     }
 
     /**
+     * Method to determine if the Player is in a Faction & if the Faction isn't a System Faction.
+     * <p>
+     * Some Factions implementations, if a Player isn't in a Faction, the Player is assumed
+     * to be "factionless" which is defaulted to Wilderness.
+     * </p>
+     *
+     * @return {@code true} if the player is in a faction other than Wilderness/WarZone/SafeZone.
+     */
+    @Override
+    public boolean hasFaction() {
+        // FactionsUUID only checks for '0', this method removes WarZone and SafeZone issues too.
+        return fpl.hasFaction() && !getFaction().isServerFaction();
+    }
+
+    /**
      * Method to get the Offline form of the Player.
      *
      * @return {@link OfflinePlayer}

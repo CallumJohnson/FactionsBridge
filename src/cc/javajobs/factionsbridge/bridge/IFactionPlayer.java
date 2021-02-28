@@ -36,6 +36,16 @@ public interface IFactionPlayer {
     IFaction getFaction();
 
     /**
+     * Method to determine if the Player is in a Faction & if the Faction isn't a System Faction.
+     * <p>
+     *     Some Factions implementations, if a Player isn't in a Faction, the Player is assumed
+     *     to be "factionless" which is defaulted to Wilderness.
+     * </p>
+     * @return {@code true} if the player is in a faction other than Wilderness/WarZone/SafeZone.
+     */
+    boolean hasFaction();
+
+    /**
      * Method to get the Offline form of the Player.
      * @return {@link OfflinePlayer}
      */
