@@ -1,2 +1,52 @@
 # FactionsBridge
- A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
+
+A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
+
+Due to the nature of Factions and their individualised implementations, it can be difficult to implement Factions into a Project without having to make a multitude of methods to support them all or choosing a specific branch to exclusively support. This project is being developed to hopefully mitigate this issue and create a unified interface, which any developer can depend, use and rely upon to make the distance for them when handling different Factions APIs.
+
+### Plugins which are supported.
+
+As of Version 1.0, 9 different versions of Factions are supported.
+| Plugin | Download Link |
+| ------ | ------ |
+| FactionsX | https://www.spigotmc.org/resources/factionsx.83459/ |
+| FactionsUUID | https://www.spigotmc.org/resources/factionsuuid.1035/ |
+| SavageFactions (Abandoned) | https://www.spigotmc.org/resources/savagefactions-the-ultimate-factions-experience-abandoned.52891/ |
+| SaberFactions | https://www.spigotmc.org/resources/saberfactions-1-8-1-16-x-discord-saber-pw-the-complete-factions-solution.69771/ |
+| SupremeFactions | https://docs.supremedev.us/supreme-dev-supreme-factions |
+| Atlas Factions | https://elapsed.dev/ | 
+| FactionsBlue | https://www.spigotmc.org/resources/factions-blue.66627/ | 
+| MassiveFactions | https://www.spigotmc.org/resources/factions.1900/ |
+| KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
+
+### How to use the API
+
+To begin, you need to remove Factions from your dependancies, this will hopefully be a full replacement and if it is not, please create an issue/contact me to get your desired functionality added into this project.
+Added FactionsBridge into your plugin.yml dependancies to ensure that your plugin is hooked correctly.
+```YML
+name: YourProject
+main: com.yourname.yourproject.YourProject
+version: 1.0-Snapshot-of-the-century
+softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
+```
+
+Now, the nitty gritty side of the project, how to actually use the API.
+```JAVA
+// This is how to obtain the API.
+IFactionAPI api = FactionsBridge.getFactionAPI(); 
+// The API class has many methods which will hopefully add all the functionality you could ever require.
+```
+
+There are also events which are bridged, these events are listened to within FactionsBridge and then ported into the API so you can use them at the same time.
+```YML
+IClaimClaimEvent            # When a Faction claims land.
+IClaimUnclaimAllEvent       # When a Faction unclaims all their land.
+IClaimUnclaimEvent          # When a Faction unclaims land.
+IFactionCreateEvent         # When a Faction is created.
+IFactionDisbandEvent        # When a Faction is disbanded.
+IFactionRenameEvent         # When a Faction is renamed.
+```
+
+
+#### side-note:
+This API is very unstable and is a very basic implementation of the concept, updates will come to increase stability and fix issues if they arise.
