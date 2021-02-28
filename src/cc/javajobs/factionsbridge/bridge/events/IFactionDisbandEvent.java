@@ -62,10 +62,10 @@ public class IFactionDisbandEvent extends IFactionEvent {
      * This enumeration is a bridge for disbandment reasons.
      * <p>
      *     The current reasons are:
-     *      - Command (Savage/Saber).
-     *      - Plugin (Savage/Saber).
-     *      - Inactivity (Savage/Saber).
-     *      - Leave (Savage/Saber).
+     *      - Command (Savage/Saber/Atlas).
+     *      - Plugin (Savage/Saber/Atlas).
+     *      - Inactivity (Savage/Saber/Atlas).
+     *      - Leave (Savage/Saber/Atlas).
      * </p>
      * @author Callum Johnson
      * @version 1.0
