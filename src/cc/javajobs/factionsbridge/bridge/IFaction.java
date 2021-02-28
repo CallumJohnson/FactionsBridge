@@ -1,6 +1,7 @@
 package cc.javajobs.factionsbridge.bridge;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * IFaction stands for a Faction of varying implementations.
@@ -49,6 +50,14 @@ public interface IFaction {
      * @return List of IFactionPlayer
      */
     List<IFactionPlayer> getMembers();
+
+    /**
+     * Method to get all of the Members for the Faction who are currently online.
+     * @return list of IFactionPlayer.
+     */
+    default List<IFactionPlayer> getOnlineMembers() {
+        return getMembers().stream().filter(IFactionPlayer::isOnline).collect(Collectors.toList());
+    }
 
     /**
      * Method to get the relationship between two Factions.
