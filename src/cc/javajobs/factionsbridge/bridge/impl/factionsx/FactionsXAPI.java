@@ -1,15 +1,18 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.impl.factionsx.events.FactionsXListener;
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.FactionManager;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.manager.PlayerManager;
 import net.prosavage.factionsx.persist.data.FLocation;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -144,7 +147,9 @@ public class FactionsXAPI implements IFactionsAPI {
      */
     @Override
     public void register() {
-
+        if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
+        Bukkit.getPluginManager().registerEvents(new FactionsXListener(), FactionsBridge.get());
+        FactionsBridge.get().registered = true;
     }
 
 }
