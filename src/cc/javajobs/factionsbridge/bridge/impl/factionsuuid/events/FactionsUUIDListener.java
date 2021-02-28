@@ -95,4 +95,15 @@ public class FactionsUUIDListener implements Listener {
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
     }
+
+    @EventHandler
+    public void onRename(FactionRenameEvent event) {
+        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                api.getFaction(event.getFaction().getId()),
+                event.getFactionTag(),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
 }

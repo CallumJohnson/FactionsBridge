@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.kingdoms.events.general.KingdomCreateEvent;
 import org.kingdoms.events.general.KingdomDisbandEvent;
+import org.kingdoms.events.general.KingdomRenameEvent;
 import org.kingdoms.events.lands.ClaimLandEvent;
 import org.kingdoms.events.lands.UnclaimLandEvent;
 
@@ -69,6 +70,16 @@ public class KingdomsListener implements Listener {
                 api.getFactionPlayer(event.getKingdom().getKing().getPlayer()),
                 api.getFaction(event.getKingdom().getId().toString()),
                 IFactionDisbandEvent.DisbandReason.UNKNOWN,
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onRename(KingdomRenameEvent event) {
+        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                api.getFaction(event.getKingdom().getId().toString()),
+                event.getName(),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

@@ -6,6 +6,7 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.events.IClaimUnclaimAllEvent;
 import cc.javajobs.factionsbridge.bridge.events.IClaimUnclaimEvent;
 import cc.javajobs.factionsbridge.bridge.events.IFactionCreateEvent;
+import cc.javajobs.factionsbridge.bridge.events.IFactionRenameEvent;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -21,13 +22,15 @@ import java.util.Set;
  */
 public class FactionsBlueTasks implements Runnable {
 
-    public HashMap<IFaction, Set<IClaim>> claimCount = new HashMap<>();
+    private final HashMap<IFaction, Set<IClaim>> claimCount = new HashMap<>();
+    private final HashMap<IFaction, String> nameChangeTrack = new HashMap<>();
 
     @Override
     public void run() {
         for (IFaction faction : FactionsBridge.getFactionsAPI().getAllFactions()) {
             Set<IClaim> currentClaims = new HashSet<>(faction.getAllClaims());
             Set<IClaim> oldClaims = claimCount.getOrDefault(faction, new HashSet<>());
+
             if (currentClaims.size() == oldClaims.size() && !claimCount.containsKey(faction)) {
 
                 // create
@@ -57,6 +60,21 @@ public class FactionsBlueTasks implements Runnable {
                     }
                 }
             }
+
+            if (nameChangeTrack.containsKey(faction)) {
+                String oldName = nameChangeTrack.get(faction);
+                if (!faction.getName().equalsIgnoreCase(oldName)) {
+                    IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                            faction,
+                            faction.getName(),
+                            null
+                    );
+                }
+            }
+
+            claimCount.put(faction, currentClaims);
+            nameChangeTrack.put(faction, faction.getName());
+
         }
     }
 

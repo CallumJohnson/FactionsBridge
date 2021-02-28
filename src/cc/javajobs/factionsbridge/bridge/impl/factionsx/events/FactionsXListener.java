@@ -72,4 +72,14 @@ public class FactionsXListener implements Listener {
         Bukkit.getPluginManager().callEvent(bridgeEvent);
     }
 
+    @EventHandler
+    public void onRename(FactionRenameEvent event) {
+        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                api.getFaction(String.valueOf(event.getFaction().getId())),
+                event.getNewTag(),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
 }

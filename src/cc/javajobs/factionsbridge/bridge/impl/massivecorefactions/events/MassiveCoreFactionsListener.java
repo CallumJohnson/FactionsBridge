@@ -7,6 +7,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.EventFactionsChunksChange;
 import com.massivecraft.factions.event.EventFactionsCreate;
 import com.massivecraft.factions.event.EventFactionsDisband;
+import com.massivecraft.factions.event.EventFactionsNameChange;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -72,6 +73,16 @@ public class MassiveCoreFactionsListener implements Listener {
                 api.getFactionPlayer(event.getMPlayer().getPlayer()),
                 api.getFaction(event.getFactionId()),
                 IFactionDisbandEvent.DisbandReason.UNKNOWN,
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onRename(EventFactionsNameChange event) {
+        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                api.getFaction(event.getFaction().getId()),
+                event.getNewName(),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
