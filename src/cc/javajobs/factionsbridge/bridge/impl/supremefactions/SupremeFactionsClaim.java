@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge.impl.supremefactions;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDClaim;
 import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.Faction;
 
 /**
  * SupremeFactions implementation of IClaim.
@@ -32,7 +33,7 @@ public class SupremeFactionsClaim extends FactionsUUIDClaim {
      */
     @Override
     public IFaction getFaction() {
-        return super.getFaction(); // FIXME: 27/02/2021
+        return new SupremeFactionsFaction((Faction) super.getFaction().asObject());
     }
 
 }

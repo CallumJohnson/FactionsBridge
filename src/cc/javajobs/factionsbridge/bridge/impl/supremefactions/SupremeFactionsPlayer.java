@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge.impl.supremefactions;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDPlayer;
 import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.Faction;
 
 /**
  * SupremeFactions implementation of IFactionPlayer.
@@ -31,7 +32,7 @@ public class SupremeFactionsPlayer extends FactionsUUIDPlayer {
      */
     @Override
     public IFaction getFaction() {
-        return super.getFaction(); // FIXME: 27/02/2021 
+        return new SupremeFactionsFaction((Faction) super.getFaction().asObject());
     }
     
 }
