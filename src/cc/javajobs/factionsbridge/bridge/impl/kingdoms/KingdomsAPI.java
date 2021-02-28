@@ -1,10 +1,13 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.impl.kingdoms.events.KingdomsListener;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -144,7 +147,9 @@ public class KingdomsAPI implements IFactionsAPI {
      */
     @Override
     public void register() {
-
+        if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
+        Bukkit.getPluginManager().registerEvents(new KingdomsListener(), FactionsBridge.get());
+        FactionsBridge.get().registered = true;
     }
 
 }
