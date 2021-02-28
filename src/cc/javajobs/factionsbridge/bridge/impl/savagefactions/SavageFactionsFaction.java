@@ -7,6 +7,7 @@ import cc.javajobs.factionsbridge.bridge.impl.atlasfactions.AtlasFactionsPlayer;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.zcore.persist.MemoryFaction;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -41,7 +42,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
     public IFactionPlayer getLeader() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getLeader = factionClass.getDeclaredMethod("getFPlayerLeader");
+            Method getLeader = factionClass.getMethod("getFPlayerLeader");
             FPlayer leader = (FPlayer) getLeader.invoke(f);
             return new AtlasFactionsPlayer(leader);
         } catch (Exception ex) {
@@ -77,10 +78,11 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
     @Override
     public int getPoints() {
         try {
-            Class<?> factionClass = f.getClass();
-            Method getPoints = factionClass.getDeclaredMethod("getPoints");
+            Class<?> factionClass = ((MemoryFaction) f).getClass();
+            Method getPoints = factionClass.getMethod("getPoints");
             return (int) getPoints.invoke(f);
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new BridgeMethodException(getClass(), "getPoints()");
         }
     }

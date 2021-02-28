@@ -69,7 +69,7 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
     public double getBank() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getFBalance = factionClass.getDeclaredMethod("getFBalance");
+            Method getFBalance = factionClass.getMethod("getFBalance");
             return (double) getFBalance.invoke(f);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getFBalance()");

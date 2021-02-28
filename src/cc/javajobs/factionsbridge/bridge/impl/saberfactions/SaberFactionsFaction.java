@@ -43,7 +43,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     public IFactionPlayer getLeader() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getLeader = factionClass.getDeclaredMethod("getFPlayerLeader");
+            Method getLeader = factionClass.getMethod("getFPlayerLeader");
             FPlayer leader = (FPlayer) getLeader.invoke(f);
             return new AtlasFactionsPlayer(leader);
         } catch (Exception ex) {
@@ -90,7 +90,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     public int getPoints() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getPoints = factionClass.getDeclaredMethod("getPoints");
+            Method getPoints = factionClass.getMethod("getPoints");
             return (int) getPoints.invoke(f);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getPoints()");

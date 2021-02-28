@@ -40,7 +40,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     public IFactionPlayer getLeader() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getLeader = factionClass.getDeclaredMethod("getFPlayerLeader");
+            Method getLeader = factionClass.getMethod("getFPlayerLeader");
             FPlayer leader = (FPlayer) getLeader.invoke(f);
             return new AtlasFactionsPlayer(leader);
         } catch (Exception ex) {
@@ -90,7 +90,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     public double getBank() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getBalance = factionClass.getDeclaredMethod("getBalance");
+            Method getBalance = factionClass.getMethod("getBalance");
             return (double) getBalance.invoke(f);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getBalance()");
@@ -106,7 +106,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     public int getPoints() {
         try {
             Class<?> factionClass = f.getClass();
-            Method getPoints = factionClass.getDeclaredMethod("getPoints");
+            Method getPoints = factionClass.getMethod("getPoints");
             return (int) getPoints.invoke(f);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getPoints()");
