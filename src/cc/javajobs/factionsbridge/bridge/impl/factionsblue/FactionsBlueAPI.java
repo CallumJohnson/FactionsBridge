@@ -80,7 +80,11 @@ public class FactionsBlueAPI implements IFactionsAPI {
      */
     @Override
     public IFaction getFaction(String id) {
-        return new FactionsBlueFaction(FactionsApi.getFaction(id));
+        try {
+            return new FactionsBlueFaction(FactionsApi.getFaction(Integer.parseInt(id)));
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
     /**
