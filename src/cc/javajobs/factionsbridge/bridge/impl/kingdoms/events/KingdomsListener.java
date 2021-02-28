@@ -2,10 +2,7 @@ package cc.javajobs.factionsbridge.bridge.impl.kingdoms.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
-import cc.javajobs.factionsbridge.bridge.events.IClaimClaimEvent;
-import cc.javajobs.factionsbridge.bridge.events.IClaimUnclaimEvent;
-import cc.javajobs.factionsbridge.bridge.events.IFactionCreateEvent;
-import cc.javajobs.factionsbridge.bridge.events.IFactionDisbandEvent;
+import cc.javajobs.factionsbridge.bridge.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,6 +35,15 @@ public class KingdomsListener implements Listener {
 
     @EventHandler
     public void onUnclaim(UnclaimLandEvent event) {
+        if (event.getKingdomPlayer().getKingdom().getLands().size() == 0) {
+            IClaimUnclaimAllEvent bridgeEvent = new IClaimUnclaimAllEvent(
+                    api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
+                    api.getFactionPlayer(event.getKingdomPlayer().getPlayer()),
+                    event
+            );
+            Bukkit.getPluginManager().callEvent(bridgeEvent);
+            return;
+        }
         IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
                 api.getClaimAt(event.getLand().getLocation().toChunk()),
                 api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
