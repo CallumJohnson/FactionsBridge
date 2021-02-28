@@ -1,15 +1,19 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.factionsblue.events.FactionsBlueListener;
+import cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks.FactionsBlueTasks;
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.api.FactionsApi;
 import me.zysea.factions.faction.Faction;
 import me.zysea.factions.interfaces.Factions;
 import me.zysea.factions.objects.Claim;
 import me.zysea.factions.persist.FactionsMemory;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -156,7 +160,10 @@ public class FactionsBlueAPI implements IFactionsAPI {
      */
     @Override
     public void register() {
-
+        if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
+        Bukkit.getPluginManager().registerEvents(new FactionsBlueListener(), FactionsBridge.get());
+        Bukkit.getScheduler().runTaskTimer(FactionsBridge.get(), new FactionsBlueTasks(), 0, 12000);
+        FactionsBridge.get().registered = true;
     }
 
 }
