@@ -13,7 +13,6 @@ import java.util.UUID;
  * MassiveCoreFactions implementation of IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 15:17
  */
 public class MassiveCoreFactionsPlayer implements IFactionPlayer {

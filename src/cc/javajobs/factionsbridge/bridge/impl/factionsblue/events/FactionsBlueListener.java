@@ -18,7 +18,6 @@ import org.bukkit.event.Listener;
  *
  * @see FactionsBlueTasks Other Events
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 09:36
  */
 public class FactionsBlueListener implements Listener, Communicator {

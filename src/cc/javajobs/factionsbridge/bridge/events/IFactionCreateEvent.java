@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
  * IFactionCreateEvent is the Event which is called when a Player creates a new IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:29
  */
 public class IFactionCreateEvent extends Event implements Cancellable {

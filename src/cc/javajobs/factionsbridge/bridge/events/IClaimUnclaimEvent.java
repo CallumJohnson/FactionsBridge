@@ -9,7 +9,6 @@ import org.bukkit.event.Event;
  * IClaimUnclaimEvent is the Event which is called when an IClaim becomes Unclaimed.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:42
  */
 public class IClaimUnclaimEvent extends IFactionPlayerEvent {

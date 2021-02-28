@@ -10,7 +10,6 @@ import org.bukkit.event.Event;
  * IFactionDisbandEvent is called when an IFaction is disbanded.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:33
  */
 public class IFactionDisbandEvent extends IFactionEvent {
@@ -68,7 +67,6 @@ public class IFactionDisbandEvent extends IFactionEvent {
      *      - Leave (Savage/Saber/Atlas).
      * </p>
      * @author Callum Johnson
-     * @version 1.0
      * @since 28/02/2021 - 08:34
      */
     public enum DisbandReason {

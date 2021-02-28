@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  * FactionsX implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 16:38
  */
 public class FactionsXFaction implements IFaction {

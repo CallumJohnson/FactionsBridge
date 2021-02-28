@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  * MassiveCoreFactions implementation of IFactionsAPI.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 15:25
  */
 public class MassiveCoreFactionsAPI implements IFactionsAPI {

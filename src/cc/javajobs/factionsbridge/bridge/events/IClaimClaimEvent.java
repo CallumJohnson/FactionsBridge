@@ -9,7 +9,6 @@ import org.bukkit.event.Event;
  * The IClaimClaimEvent is an event which is called when an IClaim is claimed.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:40
  */
 public class IClaimClaimEvent extends IFactionPlayerEvent {

@@ -8,7 +8,6 @@ import org.bukkit.event.Event;
  * IClaimUnclaimAllEvent is the Event which is called when a FactionPlayer unclaims all of the Faction IClaims.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:41
  */
 public class IClaimUnclaimAllEvent extends IFactionPlayerEvent {

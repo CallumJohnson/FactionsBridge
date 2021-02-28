@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  * FactionsUUID implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 14:55
  */
 public class FactionsUUIDFaction implements IFaction {

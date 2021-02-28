@@ -13,7 +13,6 @@ import java.util.UUID;
  * Kingdoms implementation of IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 17:08
  */
 public class KingdomsPlayer implements IFactionPlayer {

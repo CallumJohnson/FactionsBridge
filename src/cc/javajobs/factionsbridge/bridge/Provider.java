@@ -24,7 +24,6 @@ import java.util.List;
  *     if ever required.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 09:54
  */
 public enum Provider {

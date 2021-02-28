@@ -12,7 +12,6 @@ import java.util.UUID;
  * Kingdoms implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 17:02
  */
 public class KingdomsClaim implements IClaim {

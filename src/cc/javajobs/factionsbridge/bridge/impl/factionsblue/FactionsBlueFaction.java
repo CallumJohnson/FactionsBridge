@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  * FactionsBlue Implementation of the IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 14:05
  */
 public class FactionsBlueFaction implements IFaction {

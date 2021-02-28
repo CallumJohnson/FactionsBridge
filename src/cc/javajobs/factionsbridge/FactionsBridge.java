@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
  *     functionality of said Factions plugins.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 09:05
  */
 public class FactionsBridge extends JavaPlugin implements Communicator {

@@ -9,7 +9,6 @@ import com.massivecraft.factions.Faction;
  * SupremeFactions implementation of IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 17:29
  */
 public class SupremeFactionsPlayer extends FactionsUUIDPlayer {

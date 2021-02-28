@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  * SavageFactions implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 10:34
  */
 public class SavageFactionsFaction extends FactionsUUIDFaction {

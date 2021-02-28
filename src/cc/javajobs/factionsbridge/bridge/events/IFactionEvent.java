@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * IFactionEvent is the baseline for all Faction-Related Events.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 08:24
  */
 public class IFactionEvent extends Event implements Cancellable {

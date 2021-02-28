@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
  *     An IFaction bridges all Faction variants into one for Developers.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 18:52
  */
 public interface IFaction {

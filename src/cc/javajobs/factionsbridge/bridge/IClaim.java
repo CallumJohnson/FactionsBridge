@@ -12,7 +12,6 @@ import java.util.UUID;
  *     of Claims/Chunks.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 19:28
  */
 public interface IClaim {

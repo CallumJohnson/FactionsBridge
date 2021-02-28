@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 17:30
  */
 public class SupremeFactionsFaction extends FactionsUUIDFaction {

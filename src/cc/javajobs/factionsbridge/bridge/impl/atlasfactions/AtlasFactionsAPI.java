@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * AtlasFactions implementation of IFactionsAPI.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 09:27
  */
 public class AtlasFactionsAPI extends FactionsUUIDAPI {

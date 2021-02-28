@@ -14,7 +14,6 @@ import java.util.UUID;
  * FactionsBlue Implementation of the IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 14:01
  */
 public class FactionsBlueClaim implements IClaim {

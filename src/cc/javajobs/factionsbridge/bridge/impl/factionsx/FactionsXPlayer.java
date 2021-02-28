@@ -13,7 +13,6 @@ import java.util.UUID;
  * FactionsX implementation of IFactionPlayer.
  * 
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 16:31
  */
 public class FactionsXPlayer implements IFactionPlayer {

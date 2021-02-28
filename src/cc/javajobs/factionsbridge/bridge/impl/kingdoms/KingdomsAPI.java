@@ -22,8 +22,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
+ * Kingdoms implementation of IFactionsAPI.
+ *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 17:17
  */
 public class KingdomsAPI implements IFactionsAPI {

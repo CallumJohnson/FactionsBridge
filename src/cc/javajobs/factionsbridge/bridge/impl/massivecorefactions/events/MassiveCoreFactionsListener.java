@@ -19,7 +19,6 @@ import java.util.Map;
  * MassiveCoreFactions implementation of the Bridges needed to handle all Custom Events.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 10:53
  */
 public class MassiveCoreFactionsListener implements Listener {

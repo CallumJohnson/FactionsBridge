@@ -9,7 +9,6 @@ import com.massivecraft.factions.Faction;
  * SupremeFactions implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 10:56
  */
 public class SupremeFactionsClaim extends FactionsUUIDClaim {

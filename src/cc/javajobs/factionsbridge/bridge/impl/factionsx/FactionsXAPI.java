@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  * FactionsX implementation of IFactionsAPI.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 16:43
  */
 public class FactionsXAPI implements IFactionsAPI {

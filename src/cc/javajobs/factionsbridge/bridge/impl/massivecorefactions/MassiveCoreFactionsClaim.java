@@ -13,7 +13,6 @@ import java.util.UUID;
  * MassiveCoreFactions implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 15:11
  */
 public class MassiveCoreFactionsClaim implements IClaim {

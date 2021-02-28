@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * SavageFactions implementation of SavageFactionsAPI.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 10:39
  */
 public class SavageFactionsAPI extends FactionsUUIDAPI {

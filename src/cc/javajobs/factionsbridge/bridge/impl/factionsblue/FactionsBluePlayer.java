@@ -14,7 +14,6 @@ import java.util.UUID;
  * FactionsBlue Implementation of the IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 14:21
  */
 public class FactionsBluePlayer implements IFactionPlayer {

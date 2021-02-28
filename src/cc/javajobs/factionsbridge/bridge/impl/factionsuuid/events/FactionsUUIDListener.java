@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
  * FactionsUUID implementation of the Bridges needed to handle all Custom Events.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 09:02
  */
 public class FactionsUUIDListener implements Listener {

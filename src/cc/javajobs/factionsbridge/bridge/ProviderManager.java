@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
  *     plugins loaded on the server. If a match is found, the plugin is returned.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 16:48
  */
 public class ProviderManager implements Communicator {

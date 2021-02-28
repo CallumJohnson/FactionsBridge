@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
  * Kingdoms implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 17:11
  */
 public class KingdomsKingdom implements IFaction {

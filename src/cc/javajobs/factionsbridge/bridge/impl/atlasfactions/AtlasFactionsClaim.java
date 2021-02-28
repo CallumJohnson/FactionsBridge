@@ -9,7 +9,6 @@ import com.massivecraft.factions.Faction;
  * AtlasFactions implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 08:35
  */
 public class AtlasFactionsClaim extends FactionsUUIDClaim {

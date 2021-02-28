@@ -17,7 +17,6 @@ import java.util.Set;
  * Due to the nature of FactionsBlue, this class should hopefully add functionality to the plugin.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 09:37
  */
 public class FactionsBlueTasks implements Runnable {

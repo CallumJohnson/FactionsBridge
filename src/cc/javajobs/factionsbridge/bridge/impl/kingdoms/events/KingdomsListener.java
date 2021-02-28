@@ -16,7 +16,6 @@ import org.kingdoms.events.lands.UnclaimLandEvent;
  * Kingdoms implementation of the Bridges needed to handle all Custom Events.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 10:33
  */
 public class KingdomsListener implements Listener {

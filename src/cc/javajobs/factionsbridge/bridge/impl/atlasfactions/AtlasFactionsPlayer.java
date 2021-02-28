@@ -9,7 +9,6 @@ import com.massivecraft.factions.Faction;
  * AtlasFactions implementation of IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 09:06
  */
 public class AtlasFactionsPlayer extends FactionsUUIDPlayer {

@@ -12,7 +12,6 @@ import java.util.UUID;
  * FactionsX implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 16:23
  */
 public class FactionsXClaim implements IClaim {

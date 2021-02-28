@@ -13,7 +13,6 @@ import java.util.List;
  *     This class will inherently give access to all other FactionBridge bridges.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 18:48
  */
 public interface IFactionsAPI {

@@ -9,7 +9,6 @@ import com.massivecraft.factions.Faction;
  * SaberFactions implementation of IFactionPlayer.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 10:46
  */
 public class SaberFactionsPlayer extends FactionsUUIDPlayer {

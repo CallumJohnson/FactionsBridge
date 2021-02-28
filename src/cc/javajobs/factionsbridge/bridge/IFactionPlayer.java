@@ -12,7 +12,6 @@ import java.util.UUID;
  *     who desire to use FPlayers.
  * </p>
  * @author Callum Johnson
- * @version 1.0
  * @since 25/02/2021 - 18:52
  */
 public interface IFactionPlayer {

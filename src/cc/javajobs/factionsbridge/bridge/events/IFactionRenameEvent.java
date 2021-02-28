@@ -4,8 +4,9 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import org.bukkit.event.Event;
 
 /**
+ * IFactionRenameEvent is the event which is called when an IFaction is renamed.
+ *
  * @author Callum Johnson
- * @version 1.0
  * @since 28/02/2021 - 18:01
  */
 public class IFactionRenameEvent extends IFactionEvent {

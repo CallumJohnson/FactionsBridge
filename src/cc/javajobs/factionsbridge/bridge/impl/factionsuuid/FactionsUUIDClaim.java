@@ -13,7 +13,6 @@ import java.util.UUID;
  * FactionsUUID implementation of IClaim.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 14:44
  */
 public class FactionsUUIDClaim implements IClaim {

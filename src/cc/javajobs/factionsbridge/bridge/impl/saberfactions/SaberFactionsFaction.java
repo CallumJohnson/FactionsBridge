@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  * SaberFactions implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 27/02/2021 - 10:48
  */
 public class SaberFactionsFaction extends FactionsUUIDFaction {

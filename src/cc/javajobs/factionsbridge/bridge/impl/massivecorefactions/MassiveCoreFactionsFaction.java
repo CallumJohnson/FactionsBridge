@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  * MassiveCoreFactions implementation of IFaction.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 15:21
  */
 public class MassiveCoreFactionsFaction implements IFaction {

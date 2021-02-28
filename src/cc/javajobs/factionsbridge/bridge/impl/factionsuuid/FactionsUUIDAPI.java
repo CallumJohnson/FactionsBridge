@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * FactionsUUID implementation of IFactionAPI.
  *
  * @author Callum Johnson
- * @version 1.0
  * @since 26/02/2021 - 15:01
  */
 public class FactionsUUIDAPI implements IFactionsAPI {
