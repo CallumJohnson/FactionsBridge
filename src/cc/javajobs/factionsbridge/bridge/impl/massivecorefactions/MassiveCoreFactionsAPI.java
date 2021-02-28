@@ -1,15 +1,18 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.events.MassiveCoreFactionsListener;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
 import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.MStore;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -152,7 +155,9 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
      */
     @Override
     public void register() {
-
+        if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
+        Bukkit.getPluginManager().registerEvents(new MassiveCoreFactionsListener(), FactionsBridge.get());
+        FactionsBridge.get().registered = true;
     }
 
 }
