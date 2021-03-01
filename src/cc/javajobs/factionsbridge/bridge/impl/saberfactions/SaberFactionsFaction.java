@@ -71,16 +71,6 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     }
 
     /**
-     * Method to get the bank balance of the Faction.
-     *
-     * @return in the form of Double.
-     */
-    @Override
-    public double getBank() {
-        throw new BridgeMethodUnsupportedException("SaberFactions doesn't support getBank().");
-    }
-
-    /**
      * Method to get the points of a Faction.
      *
      * @return in the form of Integer.
