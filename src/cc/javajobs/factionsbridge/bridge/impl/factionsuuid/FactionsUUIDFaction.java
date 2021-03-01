@@ -145,6 +145,16 @@ public class FactionsUUIDFaction implements IFaction {
     }
 
     /**
+     * Method to determine if the Faction is in a Peaceful State.
+     *
+     * @return {@code true} if yes, {@code false} if no.
+     */
+    @Override
+    public boolean isPeaceful() {
+        return f.isPeaceful();
+    }
+
+    /**
      * Method to get the bank balance of the Faction.
      *
      * @return in the form of Double.

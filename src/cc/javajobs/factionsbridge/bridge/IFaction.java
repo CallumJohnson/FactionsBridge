@@ -88,6 +88,12 @@ public interface IFaction {
     boolean isServerFaction();
 
     /**
+     * Method to determine if the Faction is in a Peaceful State.
+     * @return {@code true} if yes, {@code false} if no.
+     */
+    boolean isPeaceful();
+
+    /**
      * Method to get the bank balance of the Faction.
      * @return in the form of Double.
      */
