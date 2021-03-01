@@ -11,6 +11,15 @@ package cc.javajobs.factionsbridge.bridge;
  */
 public enum IRelationship {
 
-    ENEMY, TRUCE, ALLY, MEMBER, NONE
+    ENEMY, TRUCE, ALLY, MEMBER, NONE;
+
+    public static IRelationship getRelationship(String name) {
+        for (IRelationship value : IRelationship.values()) {
+            if (value.name().equalsIgnoreCase(name)) {
+                return value;
+            }
+        }
+        return NONE;
+    }
 
 }
