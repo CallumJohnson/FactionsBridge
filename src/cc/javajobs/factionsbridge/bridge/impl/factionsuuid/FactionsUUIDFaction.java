@@ -1,13 +1,15 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.integration.Econ;
-import com.massivecraft.factions.perms.Relation;
+import com.massivecraft.factions.zcore.persist.MemoryFaction;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,18 +97,22 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public IRelationship getRelationTo(IFaction other) {
-        Relation rel = f.getRelationTo((Faction) other.asObject());
-        switch (rel) {
-            case MEMBER:
-                return IRelationship.MEMBER;
-            case ALLY:
-                return IRelationship.ALLY;
-            case TRUCE:
-                return IRelationship.TRUCE;
-            case ENEMY:
-                return IRelationship.ENEMY;
-            default:
-                return IRelationship.NONE;
+        try {
+            Class.forName("com.massivecraft.factions.zcore.persist.MemoryFaction");
+            MemoryFaction faction = (MemoryFaction) f;
+            MemoryFaction otherFaction = (MemoryFaction) other.asObject();
+            return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
+        } catch (ClassNotFoundException ex) {
+            FactionsBridge.get().error("Failed to find 'persist mfac'");
+            try {
+                Class.forName("com.massivecraft.factions.data.MemoryFaction");
+                com.massivecraft.factions.data.MemoryFaction faction = (com.massivecraft.factions.data.MemoryFaction) f;
+                com.massivecraft.factions.data.MemoryFaction otherFaction = (com.massivecraft.factions.data.MemoryFaction) other.asObject();
+                return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
+            } catch (ClassNotFoundException ignored) {
+                FactionsBridge.get().error("Failed to find 'data mfac'");
+                throw new BridgeMethodException(getClass(), "getRelationTo(IFaction)");
+            }
         }
     }
 
