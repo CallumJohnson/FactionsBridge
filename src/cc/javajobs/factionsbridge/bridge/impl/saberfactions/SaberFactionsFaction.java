@@ -3,7 +3,6 @@ package cc.javajobs.factionsbridge.bridge.impl.saberfactions;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.bridge.impl.atlasfactions.AtlasFactionsPlayer;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import com.massivecraft.factions.FPlayer;
