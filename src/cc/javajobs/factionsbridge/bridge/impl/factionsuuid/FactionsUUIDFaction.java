@@ -1,6 +1,5 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
-import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
@@ -103,14 +102,14 @@ public class FactionsUUIDFaction implements IFaction {
             MemoryFaction otherFaction = (MemoryFaction) other.asObject();
             return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
         } catch (ClassNotFoundException ex) {
-            FactionsBridge.get().error("Failed to find 'persist mfac'");
+            // FactionsBridge.get().error("Failed to find 'persist mfac'");
             try {
                 Class.forName("com.massivecraft.factions.data.MemoryFaction");
                 com.massivecraft.factions.data.MemoryFaction faction = (com.massivecraft.factions.data.MemoryFaction) f;
                 com.massivecraft.factions.data.MemoryFaction otherFaction = (com.massivecraft.factions.data.MemoryFaction) other.asObject();
                 return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
             } catch (ClassNotFoundException ignored) {
-                FactionsBridge.get().error("Failed to find 'data mfac'");
+                // FactionsBridge.get().error("Failed to find 'data mfac'");
                 throw new BridgeMethodException(getClass(), "getRelationTo(IFaction)");
             }
         }
@@ -124,6 +123,7 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public IRelationship getRelationTo(IFactionPlayer other) {
+        if (other.getFaction() == null) return IRelationship.NONE;
         return getRelationTo(other.getFaction());
     }
 
