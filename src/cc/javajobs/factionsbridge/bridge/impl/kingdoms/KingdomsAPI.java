@@ -70,7 +70,7 @@ public class KingdomsAPI implements IFactionsAPI {
      */
     @Override
     public IClaim getClaimAt(Chunk chunk) {
-        return new KingdomsClaim(new Land(SimpleChunkLocation.of(chunk)));
+        return new KingdomsClaim(Land.getLand(chunk));
     }
 
     /**
@@ -81,7 +81,7 @@ public class KingdomsAPI implements IFactionsAPI {
      */
     @Override
     public IFaction getFaction(String id) {
-        return new KingdomsKingdom(DataHandler.get().getKingdomManager().getData(UUID.fromString(id)));
+        return new KingdomsKingdom(Kingdom.getKingdom(UUID.fromString(id)));
     }
 
     /**
@@ -92,7 +92,7 @@ public class KingdomsAPI implements IFactionsAPI {
      */
     @Override
     public IFaction getFactionByName(String name) {
-        return new KingdomsKingdom(DataHandler.get().getKingdomManager().getData(name));
+        return new KingdomsKingdom(Kingdom.getKingdom(name));
     }
 
     /**
