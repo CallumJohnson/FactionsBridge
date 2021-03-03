@@ -24,6 +24,17 @@ public class FactionsBlueTasks implements Runnable {
     private final HashMap<IFaction, Set<IClaim>> claimCount = new HashMap<>();
     private final HashMap<IFaction, String> nameChangeTrack = new HashMap<>();
 
+    /**
+     * Constructor to initialise {@link FactionsBlueTasks#claimCount}
+     * and {@link FactionsBlueTasks#nameChangeTrack}.
+     */
+    public FactionsBlueTasks() {
+        for (IFaction fac : FactionsBridge.getFactionsAPI().getAllFactions()) {
+            claimCount.put(fac, new HashSet<>(fac.getAllClaims().size()));
+            nameChangeTrack.put(fac, fac.getName());
+        }
+    }
+
     @Override
     public void run() {
         for (IFaction faction : FactionsBridge.getFactionsAPI().getAllFactions()) {
