@@ -33,6 +33,26 @@ public class FactionsUUIDListener implements Listener {
         Bukkit.getPluginManager().callEvent(bridgeEvent);
     }
 
+    @EventHandler
+    public void onJoin(FPlayerJoinEvent event) {
+        IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+                api.getFaction(event.getFaction().getId()),
+                api.getFactionPlayer(event.getfPlayer().getPlayer()),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onLeave(FPlayerLeaveEvent event) {
+        IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+                api.getFaction(event.getFaction().getId()),
+                api.getFactionPlayer(event.getfPlayer().getPlayer()),
+                IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
 
     @SuppressWarnings("deprecation")
     @EventHandler

@@ -3,14 +3,13 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.events.IClaimUnclaimAllEvent;
-import cc.javajobs.factionsbridge.bridge.events.IClaimUnclaimEvent;
-import cc.javajobs.factionsbridge.bridge.events.IFactionCreateEvent;
-import cc.javajobs.factionsbridge.bridge.events.IFactionRenameEvent;
+import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import cc.javajobs.factionsbridge.bridge.events.*;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +22,7 @@ public class FactionsBlueTasks implements Runnable {
 
     private final HashMap<IFaction, Set<IClaim>> claimCount = new HashMap<>();
     private final HashMap<IFaction, String> nameChangeTrack = new HashMap<>();
+    private final HashMap<IFaction, List<IFactionPlayer>> memberTrack = new HashMap<>();
 
     /**
      * Constructor to initialise {@link FactionsBlueTasks#claimCount}
@@ -32,6 +32,7 @@ public class FactionsBlueTasks implements Runnable {
         for (IFaction fac : FactionsBridge.getFactionsAPI().getAllFactions()) {
             claimCount.put(fac, new HashSet<>(fac.getAllClaims().size()));
             nameChangeTrack.put(fac, fac.getName());
+            memberTrack.put(fac, fac.getMembers());
         }
     }
 
@@ -79,6 +80,38 @@ public class FactionsBlueTasks implements Runnable {
                             faction.getName(),
                             null
                     );
+                    Bukkit.getPluginManager().callEvent(bridgeEvent);
+                }
+            }
+
+            if (memberTrack.containsKey(faction)) {
+                List<IFactionPlayer> old = memberTrack.get(faction);
+                List<IFactionPlayer> current = faction.getMembers();
+                if (old.size() != current.size()) {
+                    if (old.size() > current.size()) { // leave/kick
+                        for (IFactionPlayer iFactionPlayer : old) {
+                            if (!current.contains(iFactionPlayer)) {
+                                IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+                                        faction,
+                                        iFactionPlayer,
+                                        IFactionPlayerLeaveIFactionEvent.LeaveReason.UNKNOWN,
+                                        null
+                                );
+                                Bukkit.getPluginManager().callEvent(bridgeEvent);
+                            }
+                        }
+                    } else { // join
+                        for (IFactionPlayer iFactionPlayer : current) {
+                            if (!old.contains(iFactionPlayer)) {
+                                IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+                                        faction,
+                                        iFactionPlayer,
+                                        null
+                                );
+                                Bukkit.getPluginManager().callEvent(bridgeEvent);
+                            }
+                        }
+                    }
                 }
             }
 

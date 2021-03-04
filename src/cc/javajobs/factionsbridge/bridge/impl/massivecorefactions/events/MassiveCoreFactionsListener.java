@@ -4,10 +4,7 @@ import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
 import com.massivecraft.factions.entity.Faction;
-import com.massivecraft.factions.event.EventFactionsChunksChange;
-import com.massivecraft.factions.event.EventFactionsCreate;
-import com.massivecraft.factions.event.EventFactionsDisband;
-import com.massivecraft.factions.event.EventFactionsNameChange;
+import com.massivecraft.factions.event.*;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -85,6 +82,32 @@ public class MassiveCoreFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onJoin(EventFactionsMembershipChange event) {
+        switch (event.getReason()) {
+            case JOIN:
+                IFactionPlayerJoinIFactionEvent joinEvent = new IFactionPlayerJoinIFactionEvent(
+                        api.getFaction(event.getNewFaction().getId()),
+                        api.getFactionPlayer(event.getMPlayer().getPlayer()),
+                        event
+                );
+                Bukkit.getPluginManager().callEvent(joinEvent);
+                return;
+            case LEAVE:
+            case KICK:
+                IFactionPlayerLeaveIFactionEvent leaveEvent = new IFactionPlayerLeaveIFactionEvent(
+                        api.getFaction(event.getMPlayer().getFaction().getId()),
+                        api.getFactionPlayer(event.getMPlayer().getPlayer()),
+                        IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
+                        event
+                );
+                Bukkit.getPluginManager().callEvent(leaveEvent);
+                return;
+            default:
+                break;
+        }
     }
 
 }

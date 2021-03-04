@@ -81,4 +81,25 @@ public class FactionsXListener implements Listener {
         Bukkit.getPluginManager().callEvent(bridgeEvent);
     }
 
+    @EventHandler
+    public void onJoin(FPlayerFactionJoinEvent event) {
+        IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+                api.getFaction(String.valueOf(event.getFaction().getId())),
+                api.getFactionPlayer(event.getFPlayer().getPlayer()),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onLeave(FPlayerFactionJoinEvent event) {
+        IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+                api.getFaction(String.valueOf(event.getFaction().getId())),
+                api.getFactionPlayer(event.getFPlayer().getPlayer()),
+                (event.isAdmin() ? IFactionPlayerLeaveIFactionEvent.LeaveReason.KICK : IFactionPlayerLeaveIFactionEvent.LeaveReason.LEAVE),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
 }

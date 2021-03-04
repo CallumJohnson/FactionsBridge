@@ -11,6 +11,8 @@ import org.kingdoms.events.general.KingdomDisbandEvent;
 import org.kingdoms.events.general.KingdomRenameEvent;
 import org.kingdoms.events.lands.ClaimLandEvent;
 import org.kingdoms.events.lands.UnclaimLandEvent;
+import org.kingdoms.events.members.KingdomJoinEvent;
+import org.kingdoms.events.members.KingdomLeaveEvent;
 
 /**
  * Kingdoms implementation of the Bridges needed to handle all Custom Events.
@@ -79,6 +81,27 @@ public class KingdomsListener implements Listener {
         IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
                 api.getFaction(event.getKingdom().getId().toString()),
                 event.getName(),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onJoin(KingdomJoinEvent event) {
+        IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+                api.getFaction(event.getKingdom().getId().toString()),
+                api.getFactionPlayer(event.getPlayer().getPlayer()),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+    }
+
+    @EventHandler
+    public void onLeave(KingdomLeaveEvent event) {
+        IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+                api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
+                api.getFactionPlayer(event.getKingdomPlayer().getPlayer()),
+                IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

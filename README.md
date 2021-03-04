@@ -39,12 +39,14 @@ IFactionAPI api = FactionsBridge.getFactionAPI();
 
 There are also events which are bridged, these events are listened to within FactionsBridge and then ported into the API so you can use them at the same time.
 ```YML
-IClaimClaimEvent            # When a Faction claims land.
-IClaimUnclaimAllEvent       # When a Faction unclaims all their land.
-IClaimUnclaimEvent          # When a Faction unclaims land.
-IFactionCreateEvent         # When a Faction is created.
-IFactionDisbandEvent        # When a Faction is disbanded.
-IFactionRenameEvent         # When a Faction is renamed.
+IClaimClaimEvent            		# When a Faction claims land. 							(1.0)
+IClaimUnclaimAllEvent       		# When a Faction unclaims all their land. 				(1.0)
+IClaimUnclaimEvent          		# When a Faction unclaims land. 						(1.0)
+IFactionCreateEvent         		# When a Faction is created. 							(1.0)
+IFactionDisbandEvent        		# When a Faction is disbanded. 							(1.0)
+IFactionRenameEvent         		# When a Faction is renamed. 							(1.0)
+IFactionPlayerLeaveIFactionEvent	# When a Player Leaves or is Kicked from a Faction. 	(1.0.2)
+IFactionPlayerJoinIFactionEvent		# When a Player Joins a Faction. 						(1.0.2)
 ```
 
 

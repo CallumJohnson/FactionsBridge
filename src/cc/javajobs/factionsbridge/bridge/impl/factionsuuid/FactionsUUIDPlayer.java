@@ -30,7 +30,7 @@ public class FactionsUUIDPlayer implements IFactionPlayer {
      */
     @Override
     public UUID getUniqueId() {
-        return fpl.getOfflinePlayer().getUniqueId();
+        return UUID.fromString(fpl.getId());
     }
 
     /**
