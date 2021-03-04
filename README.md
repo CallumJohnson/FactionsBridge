@@ -46,7 +46,7 @@ IFactionCreateEvent         		# When a Faction is created. (1.0)
 IFactionDisbandEvent        		# When a Faction is disbanded. (1.0)
 IFactionRenameEvent         		# When a Faction is renamed. (1.0)
 IFactionPlayerLeaveIFactionEvent	# When a Player Leaves or is Kicked from a Faction. (1.0.2)
-IFactionPlayerJoinIFactionEvent	# When a Player Joins a Faction. (1.0.2)
+IFactionPlayerJoinIFactionEvent		# When a Player Joins a Faction. (1.0.2)
 ```
 
 
