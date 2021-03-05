@@ -9,6 +9,8 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedExcep
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.zcore.persist.MemoryFaction;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,6 +88,26 @@ public class FactionsUUIDFaction implements IFaction {
     @Override
     public List<IFactionPlayer> getMembers() {
         return f.getFPlayers().stream().map(FactionsUUIDPlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     *
+     * @param location to set as the new home.
+     */
+    @Override
+    public void setHome(Location location) {
+        f.setHome(location);
+    }
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     *
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    @Override
+    public Location getHome() {
+        return f.getHome();
     }
 
     /**

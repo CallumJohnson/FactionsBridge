@@ -26,8 +26,7 @@ import java.util.stream.Collectors;
  */
 public class FactionsBridge extends JavaPlugin implements Communicator {
 
-    // As of 25/02/2021
-    private static final long serialVersionUID = 1L;
+    private static final String version = "1.0.3";
 
     private static FactionsBridge instance;
     private static IFactionsAPI factionapi;
@@ -90,7 +89,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         warn("Bukkit Version§7:\t§f" + Bukkit.getVersion() + "/" + Bukkit.getBukkitVersion());
         PluginManager manager = Bukkit.getPluginManager();
         int pluginCount = manager.getPlugins().length;
-        warn("FactionsBridge Version§7:\t§f" + serialVersionUID);
+        warn("FactionsBridge Version§7:\t§f" + version);
         warn("Plugins§7:");
         int width = Math.min(5, pluginCount);
         int rows = ((int) Math.ceil(((double) pluginCount / width)));

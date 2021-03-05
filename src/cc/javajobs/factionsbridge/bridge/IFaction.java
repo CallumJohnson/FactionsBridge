@@ -1,5 +1,8 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +52,18 @@ public interface IFaction {
      * @return List of IFactionPlayer
      */
     List<IFactionPlayer> getMembers();
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     * @param location to set as the new home.
+     */
+    void setHome(Location location);
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    Location getHome();
 
     /**
      * Method to get all of the Members for the Faction who are currently online.

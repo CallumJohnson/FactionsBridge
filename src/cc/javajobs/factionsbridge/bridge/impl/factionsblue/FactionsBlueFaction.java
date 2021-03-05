@@ -8,6 +8,9 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedExcep
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.faction.Faction;
 import me.zysea.factions.faction.role.Role;
+import me.zysea.factions.objects.ProtectedLocation;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -94,6 +97,26 @@ public class FactionsBlueFaction implements IFaction {
         return faction.getAllMembers()
                 .stream().map(allMember -> FPlugin.getInstance().getFPlayers().getFPlayer(allMember))
                 .map(FactionsBluePlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     *
+     * @param location to set as the new home.
+     */
+    @Override
+    public void setHome(Location location) {
+        faction.setHome(new ProtectedLocation("home", location));
+    }
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     *
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    @Override
+    public Location getHome() {
+        return faction.getHome().getLocation();
     }
 
     /**

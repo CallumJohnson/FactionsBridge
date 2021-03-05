@@ -85,4 +85,5 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             throw new BridgeMethodException(getClass(), "getPoints()");
         }
     }
+
 }

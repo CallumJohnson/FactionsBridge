@@ -8,7 +8,10 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedExcep
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.massivecore.ps.PS;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,6 +90,26 @@ public class MassiveCoreFactionsFaction implements IFaction {
     @Override
     public List<IFactionPlayer> getMembers() {
         return f.getMPlayers().stream().map(MassiveCoreFactionsPlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     *
+     * @param location to set as the new home.
+     */
+    @Override
+    public void setHome(Location location) {
+        f.setHome(PS.valueOf(location));
+    }
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     *
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    @Override
+    public Location getHome() {
+        return f.getHome().asBukkitLocation();
     }
 
     /**

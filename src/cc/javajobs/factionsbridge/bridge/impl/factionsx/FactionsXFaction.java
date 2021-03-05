@@ -7,7 +7,10 @@ import cc.javajobs.factionsbridge.bridge.IRelationship;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
+import net.prosavage.factionsx.persist.data.wrappers.DataLocation;
 import net.prosavage.factionsx.util.Relation;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,6 +89,32 @@ public class FactionsXFaction implements IFaction {
     @Override
     public List<IFactionPlayer> getMembers() {
         return faction.getMembers().stream().map(FactionsXPlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     *
+     * @param location to set as the new home.
+     */
+    @Override
+    public void setHome(Location location) {
+        if (location == null || location.getWorld() == null) return;
+        faction.setHome(new DataLocation(
+                location.getWorld().getName(),
+                location.getX(),
+                location.getY(),
+                location.getZ()
+        ));
+    }
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     *
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    @Override
+    public Location getHome() {
+        return faction.getHome().getLocation();
     }
 
     /**

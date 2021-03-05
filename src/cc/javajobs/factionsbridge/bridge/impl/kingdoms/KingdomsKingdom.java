@@ -5,6 +5,8 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.kingdom.model.KingdomRelation;
 
@@ -84,6 +86,26 @@ public class KingdomsKingdom implements IFaction {
     @Override
     public List<IFactionPlayer> getMembers() {
         return k.getKingdomPlayers().stream().map(KingdomsPlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the 'Home' of a Faction.
+     *
+     * @param location to set as the new home.
+     */
+    @Override
+    public void setHome(Location location) {
+        k.setHome(location);
+    }
+
+    /**
+     * Method to retrieve the 'Home' of the Faction.
+     *
+     * @return {@link Bukkit}, {@link Location}.
+     */
+    @Override
+    public Location getHome() {
+        return k.getHome();
     }
 
     /**
