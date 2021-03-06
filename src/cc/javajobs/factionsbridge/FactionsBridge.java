@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class FactionsBridge extends JavaPlugin implements Communicator {
 
-    private static final String version = "1.0.3";
+    private static String version;
 
     private static FactionsBridge instance;
     private static IFactionsAPI factionapi;
@@ -45,6 +46,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         ProviderManager manager = new ProviderManager();
         this.provider = manager.discover(false);
         factionapi = manager.getAPI();
+        version = getDescription().getVersion();
         String status = "without";
         long diff = System.currentTimeMillis()-start;
         if (provider == null) {
@@ -65,15 +67,13 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
                 warn(fac.asString());
                 try {
                     warn("Points:\t" + fac.getPoints());
-                } catch (BridgeMethodException ex) {
+                } catch (BridgeMethodUnsupportedException | BridgeMethodException ex) {
                     warn("Points:\tN/A (Not Supported)");
-                    ex.printStackTrace();
                 }
                 try {
                     warn("F-Balance:\t" + fac.getBank());
-                } catch (BridgeMethodException ex) {
+                } catch (BridgeMethodUnsupportedException | BridgeMethodException ex) {
                     warn("F-Balance:\tN/A (Not Supported)");
-                    ex.printStackTrace();
                 }
             }
         }
