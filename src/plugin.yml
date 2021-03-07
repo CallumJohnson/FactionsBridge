@@ -1,5 +1,4 @@
 name: FactionsBridge
 main: cc.javajobs.factionsbridge.FactionsBridge
-version: 1.0.4
-api-version: 1.16
+version: 1.0.5
 softdepend: [Factions, FactionsX, FactionsBlue, Kingdoms]
