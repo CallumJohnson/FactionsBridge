@@ -189,6 +189,7 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public double getBank() {
+        if (!Econ.hasAccount(f.getAccountId())) return 0.0;
         return Econ.getBalance(f.getAccountId());
     }
 
