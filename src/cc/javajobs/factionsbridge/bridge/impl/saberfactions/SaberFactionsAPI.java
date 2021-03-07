@@ -31,7 +31,7 @@ public class SaberFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Location location) {
-        return new SaberFactionsClaim((FLocation) super.getClaimAt(location).asObject());
+        return new SaberFactionsClaim(new FLocation(location));
     }
 
     /**
@@ -42,7 +42,7 @@ public class SaberFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Chunk chunk) {
-        return new SaberFactionsClaim((FLocation) super.getClaimAt(chunk).asObject());
+        return getClaimAt(chunk.getBlock(0, 0, 0).getLocation());
     }
 
     /**

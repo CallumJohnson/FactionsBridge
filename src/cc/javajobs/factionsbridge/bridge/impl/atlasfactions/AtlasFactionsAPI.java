@@ -31,7 +31,7 @@ public class AtlasFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Location location) {
-        return new AtlasFactionsClaim((FLocation) super.getClaimAt(location).asObject());
+        return new AtlasFactionsClaim(new FLocation(location));
     }
 
     /**
@@ -42,7 +42,7 @@ public class AtlasFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Chunk chunk) {
-        return new AtlasFactionsClaim((FLocation) super.getClaimAt(chunk).asObject());
+        return getClaimAt(chunk.getBlock(0,0,0).getLocation());
     }
 
     /**

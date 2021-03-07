@@ -30,7 +30,7 @@ public class SupremeFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Location location) {
-        return new SupremeFactionsClaim((FLocation) super.getClaimAt(location).asObject());
+        return new SupremeFactionsClaim(new FLocation(location));
     }
 
     /**
@@ -41,7 +41,7 @@ public class SupremeFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IClaim getClaimAt(Chunk chunk) {
-        return new SupremeFactionsClaim((FLocation) super.getClaimAt(chunk).asObject());
+        return getClaimAt(chunk.getBlock(0, 0, 0).getLocation());
     }
 
     /**
