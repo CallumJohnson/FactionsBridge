@@ -189,8 +189,12 @@ public class FactionsUUIDFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        if (!Econ.hasAccount(f.getAccountId())) return 0.0;
-        return Econ.getBalance(f.getAccountId());
+        try {
+            if (!Econ.hasAccount(f.getAccountId())) return 0.0;
+            return Econ.getBalance(f.getAccountId());
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "getBank()", "Economy Potentially Disabled.");
+        }
     }
 
     /**
