@@ -62,20 +62,6 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
             factionapi.register();
             int loaded = factionapi.getAllFactions().size();
             warn(loaded + " factions have been loaded.");
-            if (loaded != 0) {
-                IFaction fac = factionapi.getAllFactions().get(0);
-                warn(fac.asString());
-                try {
-                    warn("Points:\t" + fac.getPoints());
-                } catch (BridgeMethodUnsupportedException | BridgeMethodException ex) {
-                    warn("Points:\tN/A (Not Supported)");
-                }
-                try {
-                    warn("F-Balance:\t" + fac.getBank());
-                } catch (BridgeMethodUnsupportedException | BridgeMethodException ex) {
-                    warn("F-Balance:\tN/A (Not Supported)");
-                }
-            }
         }
     }
 
