@@ -10,10 +10,18 @@ public class BridgeMethodException extends RuntimeException {
 
     /**
      * Constructor to initialise a BridgeMethodException to be identifiable as a FactionsBridge fault.
-     * @param message to print to console.
      */
     public BridgeMethodException(Class<?> location, String method) {
         super("Reflection failed for " + location.getSimpleName() + ". Method:\t" + method);
+    }
+
+
+    /**
+     * Constructor to initialise a BridgeMethodException to be identifiable as a FactionsBridge fault.
+     * @param message to print to console.
+     */
+    public BridgeMethodException(Class<?> location, String method, String message) {
+        super("Method failed for " + location.getSimpleName() + ". Method:\t" + method + ".\t" + message);
     }
 
 }
