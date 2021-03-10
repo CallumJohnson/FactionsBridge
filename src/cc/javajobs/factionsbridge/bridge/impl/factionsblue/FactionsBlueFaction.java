@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -199,6 +200,56 @@ public class FactionsBlueFaction implements IFaction {
     @Override
     public int getPoints() {
         throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support getPoints().");
+    }
+
+    /**
+     * Method to get the Location of a Faction Warp by Name.
+     *
+     * @param name of the warp
+     * @return {@link Location} of the warp.
+     */
+    @Override
+    public Location getWarp(String name) {
+        return faction.getWarp(name).getLocation();
+    }
+
+    /**
+     * Method to retrieve all warps.
+     * <p>
+     * This method returns a hashmap of String names and Locations.
+     * </p>
+     *
+     * @return hashmap of all warps.
+     */
+    @Override
+    public HashMap<String, Location> getWarps() {
+        return faction.getWarps().stream()
+                .collect(Collectors.toMap(
+                        ProtectedLocation::getName, // k
+                        ProtectedLocation::getLocation, // v
+                        (a, b) -> b, HashMap::new // assign
+                ));
+    }
+
+    /**
+     * Method to create a warp for the Faction.
+     *
+     * @param name     of the warp.
+     * @param location of the warp.
+     */
+    @Override
+    public void createWarp(String name, Location location) {
+        faction.setWarp(new ProtectedLocation(name, location));
+    }
+
+    /**
+     * Method to manually remove a Warp using its name.
+     *
+     * @param name of the warp to be deleted.
+     */
+    @Override
+    public void deleteWarp(String name) {
+        faction.delWarp(name);
     }
 
 }

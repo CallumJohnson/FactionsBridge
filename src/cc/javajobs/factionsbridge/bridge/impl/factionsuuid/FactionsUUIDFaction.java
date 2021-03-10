@@ -8,10 +8,12 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.integration.Econ;
+import com.massivecraft.factions.util.LazyLocation;
 import com.massivecraft.factions.zcore.persist.MemoryFaction;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -205,6 +207,53 @@ public class FactionsUUIDFaction implements IFaction {
     @Override
     public int getPoints() {
         throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support getPoints().");
+    }
+
+    /**
+     * Method to get the Location of a Faction Warp by Name.
+     *
+     * @param name of the warp
+     * @return {@link Location} of the warp.
+     */
+    @Override
+    public Location getWarp(String name) {
+        return f.getWarp(name).getLocation();
+    }
+
+    /**
+     * Method to retrieve all warps.
+     * <p>
+     * This method returns a hashmap of String names and Locations.
+     * </p>
+     *
+     * @return hashmap of all warps.
+     */
+    @Override
+    public HashMap<String, Location> getWarps() {
+        HashMap<String, Location> data = new HashMap<>();
+        f.getWarps().forEach((key, value) -> data.put(key, value.getLocation()));
+        return data;
+    }
+
+    /**
+     * Method to create a warp for the Faction.
+     *
+     * @param name     of the warp.
+     * @param location of the warp.
+     */
+    @Override
+    public void createWarp(String name, Location location) {
+        f.setWarp(name, new LazyLocation(location));
+    }
+
+    /**
+     * Method to manually remove a Warp using its name.
+     *
+     * @param name of the warp to be deleted.
+     */
+    @Override
+    public void deleteWarp(String name) {
+        f.removeWarp(name);
     }
 
 }

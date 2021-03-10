@@ -4,15 +4,19 @@ import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.persist.data.wrappers.DataLocation;
+import net.prosavage.factionsx.persist.data.wrappers.Warp;
 import net.prosavage.factionsx.util.Relation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -201,6 +205,64 @@ public class FactionsXFaction implements IFaction {
     @Override
     public int getPoints() {
         throw new BridgeMethodUnsupportedException("FactionsX doesn't support getPoints().");
+    }
+
+    /**
+     * Method to get the Location of a Faction Warp by Name.
+     *
+     * @param name of the warp
+     * @return {@link Location} of the warp.
+     */
+    @Override
+    public Location getWarp(String name) {
+        return faction.getWarp(name).getDataLocation().getLocation();
+    }
+
+    /**
+     * Method to retrieve all warps.
+     * <p>
+     * This method returns a hashmap of String names and Locations.
+     * </p>
+     *
+     * @return hashmap of all warps.
+     */
+    @Override
+    public HashMap<String, Location> getWarps() {
+        return faction.getWarps().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey, // k
+                        stringWarpEntry -> stringWarpEntry.getValue().getDataLocation().getLocation(), // v
+                        (a, b) -> b, HashMap::new) //assign
+                );
+    }
+
+    /**
+     * Method to create a warp for the Faction.
+     *
+     * @param name     of the warp.
+     * @param location of the warp.
+     */
+    @Override
+    public void createWarp(String name, Location location) {
+        if (location == null || location.getWorld() == null) {
+            throw new BridgeMethodException(getClass(), "createWarp(String name, null)");
+        }
+        faction.setWarp(name, null, new DataLocation(
+                location.getWorld().getName(),
+                location.getX(),
+                location.getY(),
+                location.getZ()
+        ));
+    }
+
+    /**
+     * Method to manually remove a Warp using its name.
+     *
+     * @param name of the warp to be deleted.
+     */
+    @Override
+    public void deleteWarp(String name) {
+        faction.removeWarp(name);
     }
 
 }

@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -119,6 +120,35 @@ public interface IFaction {
      * @return in the form of Integer.
      */
     int getPoints();
+
+    /**
+     * Method to get the Location of a Faction Warp by Name.
+     * @param name of the warp
+     * @return {@link Location} of the warp.
+     */
+    Location getWarp(String name);
+
+    /**
+     * Method to retrieve all warps.
+     * <p>
+     *     This method returns a hashmap of String names and Locations.
+     * </p>
+     * @return hashmap of all warps.
+     */
+    HashMap<String, Location> getWarps();
+
+    /**
+     * Method to create a warp for the Faction.
+     * @param name of the warp.
+     * @param location of the warp.
+     */
+    void createWarp(String name, Location location);
+
+    /**
+     * Method to manually remove a Warp using its name.
+     * @param name of the warp to be deleted.
+     */
+    void deleteWarp(String name);
 
     /**
      * Added a Default Method to display faction to console.
