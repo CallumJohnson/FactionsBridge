@@ -64,7 +64,7 @@ public class AtlasFactionsAPI extends FactionsUUIDAPI {
      */
     @Override
     public IFaction getFactionAt(Location location) {
-        return new AtlasFactionsFaction((Faction) super.getFactionAt(location));
+        return new AtlasFactionsFaction((Faction) super.getFactionAt(location).asObject());
     }
 
     /**
