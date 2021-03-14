@@ -4,7 +4,6 @@ import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
-import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsFaction;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
@@ -52,7 +51,7 @@ public class SupremeFactionsAPI extends FactionsUUIDAPI {
     @Override
     public List<IFaction> getAllFactions() {
         return Factions.getInstance().getAllFactions()
-                .stream().map(SavageFactionsFaction::new).collect(Collectors.toList());
+                .stream().map(SupremeFactionsFaction::new).collect(Collectors.toList());
     }
 
     /**

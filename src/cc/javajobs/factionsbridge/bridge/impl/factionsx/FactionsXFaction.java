@@ -9,7 +9,6 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedExcep
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.persist.data.wrappers.DataLocation;
-import net.prosavage.factionsx.persist.data.wrappers.Warp;
 import net.prosavage.factionsx.util.Relation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

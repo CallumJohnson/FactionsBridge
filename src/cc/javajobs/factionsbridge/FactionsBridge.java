@@ -1,10 +1,7 @@
 package cc.javajobs.factionsbridge;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,7 +46,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
         version = getDescription().getVersion();
         String status = "without";
         long diff = System.currentTimeMillis()-start;
-        if (provider == null) {
+        if (provider == null || factionapi == null) {
             spacer(ChatColor.RED);
             warn("-> Failed to find Provider for the Server.");
             generateReport();
