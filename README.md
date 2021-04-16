@@ -1,3 +1,4 @@
+
 # FactionsBridge
 
 A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
@@ -6,7 +7,7 @@ Due to the nature of Factions and their individualised implementations, it can b
 
 ### Plugins which are supported.
 
-As of Version 1.0, 9 different versions of Factions are supported.
+As of Version 1.0.0, 9 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://www.spigotmc.org/resources/factionsx.83459/ |
@@ -19,7 +20,7 @@ As of Version 1.0, 9 different versions of Factions are supported.
 | MassiveFactions | https://www.spigotmc.org/resources/factions.1900/ |
 | KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
 
-### How to use the API
+## How to use the API
 
 To begin, you need to remove Factions from your dependancies, this will hopefully be a full replacement and if it is not, please create an issue/contact me to get your desired functionality added into this project.
 Added FactionsBridge into your plugin.yml dependancies to ensure that your plugin is hooked correctly.
@@ -30,7 +31,14 @@ version: 1.0-Snapshot-of-the-century
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
 ```
 
-Now, the nitty gritty side of the project, how to actually use the API.
+If you are shading the project into your plugin, please make sure to 'connect' to the FactionsBridge class when you do.
+#### How do I connect for Shading?
+```JAVA
+// This will create all methodology using the Plugin Object you provide.
+FactionsBridge.connect(yourPluginObject);
+// FactionsBridge will bridge the APIs and then allow you to use the following methods for access to the API methods.
+```
+#### How do I get access to the API?
 ```JAVA
 // This is how to obtain the API.
 IFactionAPI api = FactionsBridge.getFactionAPI(); 
@@ -50,5 +58,5 @@ IFactionPlayerJoinIFactionEvent		# When a Player Joins a Faction. (1.0.2)
 ```
 
 
-#### side-note:
+## side-note:
 This API is very unstable and is a very basic implementation of the concept, updates will come to increase stability and fix issues if they arise.
