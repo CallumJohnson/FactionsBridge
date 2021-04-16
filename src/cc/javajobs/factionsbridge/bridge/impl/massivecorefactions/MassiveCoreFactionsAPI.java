@@ -155,7 +155,10 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
     @Override
     public void register() {
         if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
-        Bukkit.getPluginManager().registerEvents(new MassiveCoreFactionsListener(), FactionsBridge.get());
+        Bukkit.getPluginManager().registerEvents(
+                new MassiveCoreFactionsListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
         FactionsBridge.get().registered = true;
     }
 

@@ -46,7 +46,7 @@ public class FactionsBlueTasks implements Runnable {
 
                 // create
                 IFactionCreateEvent createEvent = new IFactionCreateEvent(
-                        faction.getId(), faction.getLeader(), null
+                        faction, faction.getLeader(), null
                 );
                 Bukkit.getPluginManager().callEvent(createEvent);
 

@@ -6,12 +6,15 @@ import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.elapsed.objects.StrikeInfo;
 import com.massivecraft.factions.elapsed.objects.Warp;
 import org.bukkit.Location;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +47,9 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             Class<?> factionClass = f.getClass();
             Method getLeader = factionClass.getMethod("getFPlayerLeader");
             FPlayer leader = (FPlayer) getLeader.invoke(f);
+            if (leader == null) {
+                return new AtlasFactionsPlayer((FPlayer) super.getLeader().asObject());
+            }
             return new AtlasFactionsPlayer(leader);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getLeader()");
@@ -68,19 +74,6 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     @Override
     public List<IFactionPlayer> getMembers() {
         return f.getFPlayers().stream().map(AtlasFactionsPlayer::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to test if this Faction is a Server Faction
-     * <p>
-     * Server Factions: Wilderness, SafeZone, WarZone.
-     * </p>
-     *
-     * @return {@code true} if yes, {@code false} if no.
-     */
-    @Override
-    public boolean isServerFaction() {
-        return super.isServerFaction();
     }
 
     /**
@@ -192,6 +185,106 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     @Override
     public void deleteWarp(String name) {
         f.removeWarp(name);
+    }
+
+    /**
+     * Add strikes to a Faction.
+     *
+     * @param sender who desires to Strike the Faction.
+     * @param reason for the Strike.
+     */
+    @Override
+    public void addStrike(String sender, String reason) {
+        try {
+
+            StrikeInfo info = new StrikeInfo();
+            Field officer = info.getClass().getField("officer");
+            Field faction = info.getClass().getField("faction");
+            Field freason = info.getClass().getField("reason");
+            Field time = info.getClass().getField("time");
+            if (!officer.isAccessible()) officer.setAccessible(true);
+            if (!faction.isAccessible()) faction.setAccessible(true);
+            if (!freason.isAccessible()) freason.setAccessible(true);
+            if (!time.isAccessible()) time.setAccessible(true);
+
+            officer.set(info, sender);
+            faction.set(info, getName());
+            freason.set(info, reason);
+            time.set(info, System.currentTimeMillis());
+
+            Method add = f.getClass().getMethod("addStrike", StrikeInfo.class);
+            add.invoke(f, info);
+
+        } catch (Exception e) {
+            throw new BridgeMethodException(getClass(), "addStrike(Sender, String)");
+        }
+    }
+
+    /**
+     * Remove strike from a Faction.
+     *
+     * @param sender who desires to remove the Strike from the Faction.
+     * @param reason of the original Strike.
+     */
+    @Override
+    public void removeStrike(String sender, String reason) {
+        try {
+
+            StrikeInfo removeMe = null;
+            Method get = f.getClass().getMethod("getStrikes");
+            Object strikeObj = get.invoke(f);
+            if (Set.class.isAssignableFrom(strikeObj.getClass())) {
+                Set<?> strikesData = (Set<?>) strikeObj;
+                removeMe = strikesData.stream()
+                        .filter(strikesDatum -> strikesDatum instanceof StrikeInfo)
+                        .map(strikesDatum -> (StrikeInfo) strikesDatum)
+                        .filter(info -> info.getOfficer().equalsIgnoreCase(sender))
+                        .filter(info -> info.getReason().equalsIgnoreCase(reason))
+                        .findFirst().orElse(null);
+            }
+            if (removeMe == null) {
+                throw new BridgeMethodException(getClass(), "removeStrike(Sender, String){2}");
+            }
+
+            Method remove = f.getClass().getMethod("removeStrike", StrikeInfo.class);
+            remove.invoke(f, removeMe);
+
+        } catch (Exception e) {
+            throw new BridgeMethodException(getClass(), "removeStrike(Sender, String){1}");
+        }
+    }
+
+    /**
+     * Method to obtain the Total Strikes a Faction has.
+     *
+     * @return integer amount of Strikes.
+     */
+    @Override
+    public int getTotalStrikes() {
+        try {
+            Method get = f.getClass().getMethod("getStrikes");
+            Object strikeObj = get.invoke(f);
+            if (Set.class.isAssignableFrom(strikeObj.getClass())) {
+                return ((Set<?>) strikeObj).size();
+            } else {
+                throw new BridgeMethodException(getClass(), "getStrikes(){2}");
+            }
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "getStrikes(){1}");
+        }
+    }
+
+    /**
+     * Method to clear all Strikes.
+     */
+    @Override
+    public void clearStrikes() {
+        try {
+            Method clear = f.getClass().getMethod("clearStrikes");
+            clear.invoke(f);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "clearStrikes()");
+        }
     }
 
 }

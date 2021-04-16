@@ -151,16 +151,42 @@ public interface IFaction {
     void deleteWarp(String name);
 
     /**
+     * Add strikes to a Faction.
+     * @param sender who desires to Strike the Faction.
+     * @param reason for the Strike.
+     */
+    void addStrike(String sender, String reason);
+
+    /**
+     * Remove strike from a Faction.
+     * @param sender who desires to remove the Strike from the Faction.
+     * @param reason of the original Strike.
+     */
+    void removeStrike(String sender, String reason);
+
+    /**
+     * Method to obtain the Total Strikes a Faction has.
+     * @return integer amount of Strikes.
+     */
+    int getTotalStrikes();
+
+    /**
+     * Method to clear all Strikes.
+     */
+    void clearStrikes();
+
+    /**
      * Added a Default Method to display faction to console.
      * @return String (id, name, isserver, object, claimcount)
      */
     default String asString() {
         return "Faction{" +
-                "id=" + getId() +
-                ", name=" + getName() +
-                ", isServerFaction?=" + isServerFaction() +
-                ", obj=" + asObject() +
-                ", claimcount=" + getAllClaims().size() +
+                    "id=" + getId() +
+                    ", name=" + getName() +
+                    ", isServerFaction?=" + isServerFaction() +
+                    ", obj=" + asObject() +
+                    ", claimcount=" + getAllClaims().size() +
+                    ", leader='" + getLeader().asString() + "'" +
                 "}";
     }
 

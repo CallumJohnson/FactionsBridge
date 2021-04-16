@@ -83,4 +83,17 @@ public interface IFactionPlayer {
      */
     Object asObject();
 
+    /**
+     * Method to return IFactionPlayer as a String.
+     * @return string details about faction-player.
+     */
+    default String asString() {
+        return "FactionsPlayer{" +
+                    "name=" + getName() + "," +
+                    "uuid=" + getUniqueId() + "," +
+                    "isOnline=" + isOnline() + "," +
+                    "factionName=" + (getFaction() == null ? "N/A" : getFaction().getName()) +
+                "}";
+    }
+
 }

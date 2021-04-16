@@ -58,8 +58,8 @@ public class KingdomsListener implements Listener {
     @EventHandler
     public void onCreate(KingdomCreateEvent event) {
         IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                api.getFactionPlayer(event.getKingdom().getKing().getPlayer()),
                 api.getFaction(event.getKingdom().getId().toString()),
+                api.getFactionPlayer(event.getKingdom().getKing().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

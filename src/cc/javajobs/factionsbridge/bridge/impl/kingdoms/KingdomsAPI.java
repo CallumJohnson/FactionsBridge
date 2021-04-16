@@ -148,7 +148,10 @@ public class KingdomsAPI implements IFactionsAPI {
     @Override
     public void register() {
         if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
-        Bukkit.getPluginManager().registerEvents(new KingdomsListener(), FactionsBridge.get());
+        Bukkit.getPluginManager().registerEvents(
+                new KingdomsListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
         FactionsBridge.get().registered = true;
     }
 

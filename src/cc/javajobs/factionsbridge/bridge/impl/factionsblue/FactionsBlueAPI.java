@@ -160,8 +160,16 @@ public class FactionsBlueAPI implements IFactionsAPI {
     @Override
     public void register() {
         if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
-        Bukkit.getPluginManager().registerEvents(new FactionsBlueListener(), FactionsBridge.get());
-        Bukkit.getScheduler().runTaskTimer(FactionsBridge.get(), new FactionsBlueTasks(), 0, 12000);
+        Bukkit.getPluginManager().registerEvents(
+                new FactionsBlueListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
+        Bukkit.getScheduler().runTaskTimer(
+                FactionsBridge.get().getDevelopmentPlugin(),
+                new FactionsBlueTasks(),
+                0,
+                12000
+        );
         FactionsBridge.get().registered = true;
     }
 

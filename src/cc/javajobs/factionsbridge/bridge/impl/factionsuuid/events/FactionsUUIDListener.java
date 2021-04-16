@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDPlayer;
 import com.massivecraft.factions.event.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -80,12 +81,14 @@ public class FactionsUUIDListener implements Listener {
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onFactionCreate(FactionCreateEvent event) {
-        IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                event.getFactionTag(),
-                event.getFPlayer().getPlayer(),
-                event
-        );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        Bukkit.getScheduler().runTaskLater(FactionsBridge.get().getDevelopmentPlugin(), () -> {
+            IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
+                    api.getFactionByName(event.getFactionTag()),
+                    new FactionsUUIDPlayer(event.getFPlayer()),
+                    event
+            );
+            Bukkit.getPluginManager().callEvent(bridgeEvent);
+        }, 20);
     }
 
     @EventHandler

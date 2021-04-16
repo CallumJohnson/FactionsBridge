@@ -3,6 +3,8 @@ package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.events;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
+import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsFaction;
+import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsPlayer;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.*;
 import com.massivecraft.massivecore.ps.PS;
@@ -56,8 +58,8 @@ public class MassiveCoreFactionsListener implements Listener {
     @EventHandler
     public void onCreate(EventFactionsCreate event) {
         IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                event.getFactionId(),
-                event.getMPlayer().getPlayer(),
+                new MassiveCoreFactionsFaction(event.getMPlayer().getFaction()),
+                new MassiveCoreFactionsPlayer(event.getMPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

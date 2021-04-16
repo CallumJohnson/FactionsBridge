@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * FactionsX implementation of IFaction.
@@ -262,6 +263,53 @@ public class FactionsXFaction implements IFaction {
     @Override
     public void deleteWarp(String name) {
         faction.removeWarp(name);
+    }
+
+    /**
+     * Add strikes to a Faction.
+     *
+     * @param sender who desires to Strike the Faction.
+     * @param reason for the Strike.
+     */
+    @Override
+    public void addStrike(String sender, String reason) {
+        // This is the only one that requires this :/
+        faction.addStrike(Bukkit.getConsoleSender(), reason);
+    }
+
+    /**
+     * Remove strike from a Faction.
+     *
+     * @param sender who desires to remove the Strike from the Faction.
+     * @param reason of the original Strike.
+     */
+    @Override
+    public void removeStrike(String sender, String reason) {
+        int removeMe = IntStream.range(0, faction.getStrikes().size())
+                .filter(i -> faction.getStrikes().get(i).equalsIgnoreCase(reason))
+                .findFirst().orElse(-1);
+        if (removeMe == -1) {
+            throw new BridgeMethodException(getClass(), "removeStrike(Sender, String)");
+        }
+    }
+
+    /**
+     * Method to obtain the Total Strikes a Faction has.
+     *
+     * @return integer amount of Strikes.
+     */
+    @Override
+    public int getTotalStrikes() {
+        return faction.getStrikes().size();
+    }
+
+    /**
+     * Method to clear all Strikes.
+     */
+    @Override
+    public void clearStrikes() {
+        // This is the only one that requires this :/
+        faction.clearStrikes(Bukkit.getConsoleSender());
     }
 
 }

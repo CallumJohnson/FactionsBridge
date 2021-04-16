@@ -3,6 +3,8 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsx.events;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
+import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXFaction;
+import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXPlayer;
 import net.prosavage.factionsx.event.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -53,8 +55,8 @@ public class FactionsXListener implements Listener {
     @EventHandler
     public void onCreate(FactionCreateEvent event) {
         IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                String.valueOf(event.getFaction().getId()),
-                event.getFPlayer().getPlayer(),
+                new FactionsXFaction(event.getFaction()),
+                new FactionsXPlayer(event.getFPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

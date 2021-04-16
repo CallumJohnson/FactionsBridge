@@ -2,6 +2,7 @@ package cc.javajobs.factionsbridge;
 
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeAlreadyConnectedException;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,12 +25,13 @@ import java.util.stream.Collectors;
  */
 public class FactionsBridge extends JavaPlugin implements Communicator {
 
-    private static String version;
-
+    private static final String version = "1.1.0";
     private static FactionsBridge instance;
+
     private static IFactionsAPI factionapi;
     public boolean registered;
-    private Plugin provider;
+    private static Plugin provider;
+    private Plugin development_plugin;
 
     /**
      * Method to 'enable' the plugin.
@@ -39,27 +41,7 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
      */
     public void onEnable() {
         instance = this;
-        long start = System.currentTimeMillis();
-        ProviderManager manager = new ProviderManager();
-        this.provider = manager.discover(false);
-        factionapi = manager.getAPI();
-        version = getDescription().getVersion();
-        String status = "without";
-        long diff = System.currentTimeMillis()-start;
-        if (provider == null || factionapi == null) {
-            spacer(ChatColor.RED);
-            warn("-> Failed to find Provider for the Server.");
-            generateReport();
-            warn("-> End of Report. (Send a Screenshot of this to 'C A L L U M#4160' on Discord)");
-            spacer(ChatColor.RED);
-            status = "with";
-        }
-        log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
-        if (factionapi != null) {
-            factionapi.register();
-            int loaded = factionapi.getAllFactions().size();
-            warn(loaded + " factions have been loaded.");
-        }
+        connect(this);
     }
 
     /**
@@ -110,7 +92,51 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
     }
 
     /**
-     * Method to obtain the Providing plugin (Factions or Kindgsoms for example).
+     * Method to 'connect' the Bridge for a plugin.
+     * @param plugin to connect for.
+     * @throws BridgeAlreadyConnectedException if the bridge is already setup.
+     */
+    public static void connect(Plugin plugin) throws BridgeAlreadyConnectedException {
+        if (instance != null) {
+            throw new BridgeAlreadyConnectedException(
+                    plugin.getName() + " has tried to connect to the already instantiated FactionsBridge"
+            );
+        }
+        instance = new FactionsBridge();
+        instance.development_plugin = plugin;
+
+        long start = System.currentTimeMillis();
+        ProviderManager manager = new ProviderManager();
+        provider = manager.discover(false);
+        factionapi = manager.getAPI();
+        String status = "without";
+        long diff = System.currentTimeMillis()-start;
+        if (provider == null || factionapi == null) {
+            instance.spacer(ChatColor.RED);
+            instance.warn("-> Failed to find Provider for the Server.");
+            instance.generateReport();
+            instance.warn("-> End of Report. (Send a Screenshot of this to 'C A L L U M#4160' on Discord)");
+            instance.spacer(ChatColor.RED);
+            status = "with";
+        }
+        instance.log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+        if (factionapi != null) {
+            factionapi.register();
+            int loaded = factionapi.getAllFactions().size();
+            instance.warn(loaded + " factions have been loaded.");
+        }
+    }
+
+    /**
+     * Method to obtain the Development plugin (FactionsBridge or ElitePets for example).
+     * @return {@link Plugin} which connected the Bridge.
+     */
+    public Plugin getDevelopmentPlugin() {
+        return development_plugin;
+    }
+
+    /**
+     * Method to obtain the Providing plugin (Factions or Kingdoms for example).
      * @return {@link Plugin} which provides {@link IFactionsAPI}.
      */
     public Plugin getProvider() {

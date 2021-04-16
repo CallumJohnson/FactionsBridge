@@ -1,8 +1,8 @@
 package cc.javajobs.factionsbridge.bridge.events;
 
-import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -19,33 +19,8 @@ public class IFactionCreateEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Event event;
-    private final String tag;
-    private final Player sender;
-
-    /**
-     * Constructor to initialise an IFactionCreateEvent using the name of the new IFaction.
-     * @param tag of the Faction.
-     * @param sender who sent the create request.
-     * @param other event object.
-     */
-    public IFactionCreateEvent(String tag, Player sender, Event other) {
-        this.tag = tag;
-        this.sender = sender;
-        this.event = other;
-    }
-
-
-    /**
-     * Constructor to initialise an IFactionCreateEvent using the name of the new IFaction.
-     * @param tag of the Faction.
-     * @param sender who sent the create request.
-     * @param other event object.
-     */
-    public IFactionCreateEvent(String tag, IFactionPlayer sender, Event other) {
-        this.tag = tag;
-        this.sender = sender.getPlayer();
-        this.event = other;
-    }
+    private final IFactionPlayer sender;
+    private final IFaction faction;
 
     /**
      * Constructor to initialise an IFactionCreateEvent using the IFaction and IFactionPlayer objects.
@@ -53,32 +28,34 @@ public class IFactionCreateEvent extends Event implements Cancellable {
      * @param faction which has been created.
      * @param other event object.
      */
-    public IFactionCreateEvent(IFactionPlayer fplayer, IFaction faction, Event other) {
-        this(fplayer.getPlayer(), faction, other);
-    }
-
-    /**
-     * Constructor to initialise an IFactionCreateEvent using an OfflinePlayer and the IFaction.
-     * @param player who sent the request.
-     * @param faction which has been created.
-     * @param other event object.
-     */
-    public IFactionCreateEvent(Player player, IFaction faction, Event other) {
-        this.tag = faction.getName();
-        this.sender = player;
+    public IFactionCreateEvent(IFaction faction, IFactionPlayer fplayer,  Event other) {
+        this.faction = faction;
+        this.sender = fplayer;
         this.event = other;
     }
 
     public IFactionPlayer getFPlayer() {
-        return FactionsBridge.getFactionsAPI().getFactionPlayer(sender);
-    }
-
-    public Player getPlayer() {
         return sender;
     }
 
+    public Player getPlayer() {
+        return sender.getPlayer();
+    }
+
+    public OfflinePlayer getOfflinePlayer() {
+        return sender.getOfflinePlayer();
+    }
+
     public String getTag() {
-        return tag;
+        return faction.getName();
+    }
+
+    public String getId() {
+        return faction.getId();
+    }
+
+    public IFaction getFaction() {
+        return faction;
     }
 
     @NotNull

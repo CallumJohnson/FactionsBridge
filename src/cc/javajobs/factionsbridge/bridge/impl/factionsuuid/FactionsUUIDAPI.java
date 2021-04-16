@@ -146,7 +146,10 @@ public class FactionsUUIDAPI implements IFactionsAPI {
     @Override
     public void register() {
         if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
-        Bukkit.getPluginManager().registerEvents(new FactionsUUIDListener(), FactionsBridge.get());
+        Bukkit.getPluginManager().registerEvents(
+                new FactionsUUIDListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
         FactionsBridge.get().registered = true;
     }
 

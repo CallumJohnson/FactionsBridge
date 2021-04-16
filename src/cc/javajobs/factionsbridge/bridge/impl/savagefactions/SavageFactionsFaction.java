@@ -86,4 +86,65 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
         }
     }
 
+    /**
+     * Add strikes to a Faction.
+     *
+     * @param sender who desires to Strike the Faction.
+     * @param reason for the Strike.
+     */
+    @Override
+    public void addStrike(String sender, String reason) {
+        try {
+            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
+            set.invoke(f, getTotalStrikes()+1, false);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "addStrike(Sender, String)");
+        }
+    }
+
+    /**
+     * Remove strike from a Faction.
+     *
+     * @param sender who desires to remove the Strike from the Faction.
+     * @param reason of the original Strike.
+     */
+    @Override
+    public void removeStrike(String sender, String reason) {
+        try {
+            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
+            int current = getTotalStrikes();
+            set.invoke(f, current <= 0 ? 0 : current-1, false);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "removeStrike(Sender, String)");
+        }
+    }
+
+    /**
+     * Method to obtain the Total Strikes a Faction has.
+     *
+     * @return integer amount of Strikes.
+     */
+    @Override
+    public int getTotalStrikes() {
+        try {
+            Method get = f.getClass().getMethod("getStrikes");
+            return (int) get.invoke(f);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "getStrikes()");
+        }
+    }
+
+    /**
+     * Method to clear all Strikes.
+     */
+    @Override
+    public void clearStrikes() {
+        try {
+            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
+            set.invoke(f, 0, false);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "clearStrikes()");
+        }
+    }
+
 }

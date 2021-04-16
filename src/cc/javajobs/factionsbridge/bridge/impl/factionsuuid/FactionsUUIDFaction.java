@@ -189,6 +189,7 @@ public class FactionsUUIDFaction implements IFaction {
      *
      * @return in the form of Double.
      */
+    @SuppressWarnings("deprecation")
     @Override
     public double getBank() {
         try {
@@ -254,6 +255,46 @@ public class FactionsUUIDFaction implements IFaction {
     @Override
     public void deleteWarp(String name) {
         f.removeWarp(name);
+    }
+
+    /**
+     * Add strikes to a Faction.
+     *
+     * @param sender who desires to Strike the Faction.
+     * @param reason for the Strike.
+     */
+    @Override
+    public void addStrike(String sender, String reason) {
+        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support addStrike(Sender, String).");
+    }
+
+    /**
+     * Remove strike from a Faction.
+     *
+     * @param sender who desires to remove the Strike from the Faction.
+     * @param reason of the original Strike.
+     */
+    @Override
+    public void removeStrike(String sender, String reason) {
+        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support removeStrike(Sender, String).");
+    }
+
+    /**
+     * Method to obtain the Total Strikes a Faction has.
+     *
+     * @return integer amount of Strikes.
+     */
+    @Override
+    public int getTotalStrikes() {
+        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support getTotalStrikes().");
+    }
+
+    /**
+     * Method to clear all Strikes.
+     */
+    @Override
+    public void clearStrikes() {
+        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support clearStrikes().");
     }
 
 }

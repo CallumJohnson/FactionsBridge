@@ -7,6 +7,7 @@ import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.bridge.impl.factionsx.events.FactionsXListener;
+
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.FactionManager;
 import net.prosavage.factionsx.manager.GridManager;
@@ -147,7 +148,10 @@ public class FactionsXAPI implements IFactionsAPI {
     @Override
     public void register() {
         if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
-        Bukkit.getPluginManager().registerEvents(new FactionsXListener(), FactionsBridge.get());
+        Bukkit.getPluginManager().registerEvents(
+                new FactionsXListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
         FactionsBridge.get().registered = true;
     }
 
