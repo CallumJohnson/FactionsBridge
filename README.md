@@ -28,6 +28,11 @@ Added FactionsBridge into your plugin.yml dependancies to ensure that your plugi
 name: YourProject
 main: com.yourname.yourproject.YourProject
 version: 1.0-Snapshot-of-the-century
+
+# If you are shading the project in, include the following:
+softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms]
+
+# If you are depending on the standalone plugin, including the following:
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
 ```
 
