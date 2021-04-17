@@ -71,8 +71,7 @@ public class FactionsBlueClaim implements IClaim {
      */
     @Override
     public IFaction getFaction() {
-        FPlugin fPlugin = (FPlugin) FactionsBridge.get().getProvider();
-        return new FactionsBlueFaction(fPlugin.getClaims().getOwner(claim));
+        return new FactionsBlueFaction(FPlugin.getInstance().getClaims().getOwner(claim));
     }
 
     /**
