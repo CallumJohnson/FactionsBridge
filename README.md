@@ -31,18 +31,24 @@ version: 1.0-Snapshot-of-the-century
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
 ```
 
-If you are shading the project into your plugin, please make sure to 'connect' to the FactionsBridge class when you do.
+If you are shading the project into your plugin, please make sure to 'connect' to the FactionsBridge class *before* you attempt to use the API.
 #### How do I connect for Shading?
 ```JAVA
-// This will create all methodology using the Plugin Object you provide.
-FactionsBridge.connect(yourPluginObject);
-// FactionsBridge will bridge the APIs and then allow you to use the following methods for access to the API methods.
+// 	This will create all methodology using the Plugin Object you provide.
+new FactionsBridge().connect(yourPluginObject);
+/*
+	FactionsBridge will bridge the APIs and then allow you to use the following 
+	methods for access to the API methods.
+*/
 ```
 #### How do I get access to the API?
 ```JAVA
-// This is how to obtain the API.
+// 	This is how to obtain the API.
 IFactionAPI api = FactionsBridge.getFactionAPI(); 
-// The API class has many methods which will hopefully add all the functionality you could ever require.
+/* 
+	The API class has many methods which will hopefully add all the 
+	functionality you could ever require.
+ */
 ```
 
 There are also events which are bridged, these events are listened to within FactionsBridge and then ported into the API so you can use them at the same time.
