@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.kingdom.model.KingdomRelation;
+import org.kingdoms.main.Kingdoms;
 
 import java.util.HashMap;
 import java.util.List;
@@ -164,6 +165,36 @@ public class KingdomsKingdom implements IFaction {
     @Override
     public boolean isServerFaction() {
         return false;
+    }
+
+    /**
+     * Method to determine if the IFaction is the WarZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWarZone() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isWarZone().");
+    }
+
+    /**
+     * Method to determine if the IFaction is a SafeZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isSafeZone() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isSafeZone().");
+    }
+
+    /**
+     * Method to determine if the IFaction is the Wilderness.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWilderness() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isWilderness().");
     }
 
     /**

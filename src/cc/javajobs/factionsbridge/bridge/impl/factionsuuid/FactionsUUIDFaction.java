@@ -175,6 +175,36 @@ public class FactionsUUIDFaction implements IFaction {
     }
 
     /**
+     * Method to determine if the IFaction is the WarZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWarZone() {
+        return f.isWarZone();
+    }
+
+    /**
+     * Method to determine if the IFaction is a SafeZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isSafeZone() {
+        return f.isSafeZone();
+    }
+
+    /**
+     * Method to determine if the IFaction is the Wilderness.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWilderness() {
+        return f.isWilderness();
+    }
+
+    /**
      * Method to determine if the Faction is in a Peaceful State.
      *
      * @return {@code true} if yes, {@code false} if no.

@@ -104,6 +104,24 @@ public interface IFaction {
     boolean isServerFaction();
 
     /**
+     * Method to determine if the IFaction is the WarZone.
+     * @return {@code true} if it is.
+     */
+    boolean isWarZone();
+
+    /**
+     * Method to determine if the IFaction is a SafeZone.
+     * @return {@code true} if it is.
+     */
+    boolean isSafeZone();
+
+    /**
+     * Method to determine if the IFaction is the Wilderness.
+     * @return {@code true} if it is.
+     */
+    boolean isWilderness();
+
+    /**
      * Method to determine if the Faction is in a Peaceful State.
      * @return {@code true} if yes, {@code false} if no.
      */

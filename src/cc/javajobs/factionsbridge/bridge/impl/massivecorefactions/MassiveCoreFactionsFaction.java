@@ -168,7 +168,40 @@ public class MassiveCoreFactionsFaction implements IFaction {
     @Override
     public boolean isServerFaction() {
         return Arrays.asList(
-                "none", "safezone", "warzone", "wilderness", ChatColor.DARK_GREEN.toString() + " wilderness"
+                "none", "safezone", "warzone", "wilderness",
+                ChatColor.DARK_GREEN + "wilderness", ChatColor.DARK_GREEN + " wilderness"
+        ).contains(getId().toLowerCase());
+    }
+
+    /**
+     * Method to determine if the IFaction is the WarZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWarZone() {
+        return getId().equalsIgnoreCase("warzone");
+    }
+
+    /**
+     * Method to determine if the IFaction is a SafeZone.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isSafeZone() {
+        return getId().equalsIgnoreCase("safezone");
+    }
+
+    /**
+     * Method to determine if the IFaction is the Wilderness.
+     *
+     * @return {@code true} if it is.
+     */
+    @Override
+    public boolean isWilderness() {
+        return Arrays.asList(
+                "none", "wilderness", ChatColor.DARK_GREEN + "wilderness", ChatColor.DARK_GREEN + " wilderness"
         ).contains(getId().toLowerCase());
     }
 
