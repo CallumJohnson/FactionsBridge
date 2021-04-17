@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,26 +23,14 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 25/02/2021 - 09:05
  */
-public class FactionsBridge extends JavaPlugin implements Communicator {
+public class FactionsBridge implements Communicator {
 
-    private static final String version = "1.1.0";
-    private static FactionsBridge instance;
+    private static final String version = "1.1.1";
+    private static FactionsBridge instance = null;
 
-    private static IFactionsAPI factionapi;
-    public boolean registered;
-    private static Plugin provider;
-    private Plugin development_plugin;
-
-    /**
-     * Method to 'enable' the plugin.
-     * <p>
-     *     This method finds the API provider and links it to {@link FactionsBridge#factionapi}.
-     * </p>
-     */
-    public void onEnable() {
-        instance = this;
-        connect(this);
-    }
+    private static IFactionsAPI factionapi = null;
+    public boolean registered = false;
+    private Plugin development_plugin = null;
 
     /**
      * Method to generate the report for debugging or error checking when the Plugin to be linked to isn't found.
@@ -96,34 +84,31 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
      * @param plugin to connect for.
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
-    public static void connect(Plugin plugin) throws BridgeAlreadyConnectedException {
-        if (instance != null) {
+    public void connect(@NotNull Plugin plugin) throws BridgeAlreadyConnectedException {
+        if (instance != null && instance.development_plugin != null) {
             throw new BridgeAlreadyConnectedException(
                     plugin.getName() + " has tried to connect to the already instantiated FactionsBridge"
             );
         }
-        instance = new FactionsBridge();
-        instance.development_plugin = plugin;
-
         long start = System.currentTimeMillis();
+        if (instance == null) instance = new FactionsBridge();
+        instance.development_plugin = plugin;
         ProviderManager manager = new ProviderManager();
-        provider = manager.discover(false);
+        Plugin provider = manager.discover(false);
         factionapi = manager.getAPI();
         String status = "without";
         long diff = System.currentTimeMillis()-start;
         if (provider == null || factionapi == null) {
-            instance.spacer(ChatColor.RED);
-            instance.warn("-> Failed to find Provider for the Server.");
-            instance.generateReport();
-            instance.warn("-> End of Report. (Send a Screenshot of this to 'C A L L U M#4160' on Discord)");
-            instance.spacer(ChatColor.RED);
+            spacer(ChatColor.RED);
+            warn("-> Failed to find Provider for the Server.");
+            generateReport();
+            warn("-> End of Report. (Send a Screenshot of this to 'C A L L U M#4160' on Discord)");
+            spacer(ChatColor.RED);
             status = "with";
         }
-        instance.log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+        log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
         if (factionapi != null) {
             factionapi.register();
-            int loaded = factionapi.getAllFactions().size();
-            instance.warn(loaded + " factions have been loaded.");
         }
     }
 
@@ -133,14 +118,6 @@ public class FactionsBridge extends JavaPlugin implements Communicator {
      */
     public Plugin getDevelopmentPlugin() {
         return development_plugin;
-    }
-
-    /**
-     * Method to obtain the Providing plugin (Factions or Kingdoms for example).
-     * @return {@link Plugin} which provides {@link IFactionsAPI}.
-     */
-    public Plugin getProvider() {
-        return provider;
     }
 
     /**

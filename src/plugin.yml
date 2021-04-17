@@ -1,4 +1,4 @@
 name: FactionsBridge
-main: cc.javajobs.factionsbridge.FactionsBridge
-version: 1.1.0
+main: cc.javajobs.factionsbridge.BridgePlugin
+version: 1.1.1
 softdepend: [Factions, FactionsX, FactionsBlue, Kingdoms]
