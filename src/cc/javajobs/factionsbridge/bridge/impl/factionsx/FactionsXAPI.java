@@ -155,4 +155,34 @@ public class FactionsXAPI implements IFactionsAPI {
         FactionsBridge.get().registered = true;
     }
 
+    /**
+     * Method to obtain WarZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWarZone() {
+        return new FactionsXFaction(FactionManager.INSTANCE.getFaction(FactionManager.WARZONE_ID));
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getSafeZone() {
+        return new FactionsXFaction(FactionManager.INSTANCE.getFaction(FactionManager.SAFEZONE_ID));
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWilderness() {
+        return new FactionsXFaction(FactionManager.INSTANCE.getWilderness());
+    }
+
 }

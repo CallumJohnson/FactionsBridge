@@ -173,4 +173,34 @@ public class FactionsBlueAPI implements IFactionsAPI {
         FactionsBridge.get().registered = true;
     }
 
+    /**
+     * Method to obtain WarZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWarZone() {
+        return getFaction("-1");
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getSafeZone() {
+        return getFaction("0");
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWilderness() {
+        return getFaction("-2");
+    }
+
 }

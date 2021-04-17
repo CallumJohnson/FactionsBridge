@@ -162,4 +162,34 @@ public class MassiveCoreFactionsAPI implements IFactionsAPI {
         FactionsBridge.get().registered = true;
     }
 
+    /**
+     * Method to obtain WarZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWarZone() {
+        return new MassiveCoreFactionsFaction(FactionColl.get().getWarzone());
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getSafeZone() {
+        return new MassiveCoreFactionsFaction(FactionColl.get().getSafezone());
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWilderness() {
+        return new MassiveCoreFactionsFaction(FactionColl.get().getNone());
+    }
+
 }

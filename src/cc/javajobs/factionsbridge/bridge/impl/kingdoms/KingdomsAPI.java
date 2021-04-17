@@ -155,4 +155,34 @@ public class KingdomsAPI implements IFactionsAPI {
         FactionsBridge.get().registered = true;
     }
 
+    /**
+     * Method to obtain WarZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWarZone() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWarZone().");
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getSafeZone() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getSafeZone().");
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWilderness() {
+        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWilderness().");
+    }
+
 }

@@ -153,4 +153,34 @@ public class FactionsUUIDAPI implements IFactionsAPI {
         FactionsBridge.get().registered = true;
     }
 
+    /**
+     * Method to obtain WarZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWarZone() {
+        return new FactionsUUIDFaction(Factions.getInstance().getWarZone());
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getSafeZone() {
+        return new FactionsUUIDFaction(Factions.getInstance().getSafeZone());
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link IFaction}
+     */
+    @Override
+    public IFaction getWilderness() {
+        return new FactionsUUIDFaction(Factions.getInstance().getWilderness());
+    }
+
 }

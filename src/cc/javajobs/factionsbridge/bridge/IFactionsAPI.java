@@ -100,4 +100,22 @@ public interface IFactionsAPI {
      */
     void register();
 
+    /**
+     * Method to obtain WarZone.
+     * @return {@link IFaction}
+     */
+    IFaction getWarZone();
+
+    /**
+     * Method to obtain SafeZone.
+     * @return {@link IFaction}
+     */
+    IFaction getSafeZone();
+
+    /**
+     * Method to obtain the Wilderness.
+     * @return {@link IFaction}
+     */
+    IFaction getWilderness();
+
 }
