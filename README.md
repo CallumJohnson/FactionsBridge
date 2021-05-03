@@ -39,13 +39,20 @@ softdepend/depend: [FactionsBridge] # depending on your preference or requiremen
 If you are shading the project into your plugin, please make sure to 'connect' to the FactionsBridge class *before* you attempt to use the API.
 #### How do I connect for Shading?
 ```JAVA
+FactionsBridge bridge = new FactionsBridge();
 // 	This will create all methodology using the Plugin Object you provide.
-new FactionsBridge().connect(yourPluginObject);
+bridge.connect(yourPluginObject); // 1.0.0->Present.
+
+// If you do not require factions but you want console output, use these parameters. 
+bridge.connect(yourPluginObject, true,          false           ); // 1.1.2->Present.
+// ->> connect(plugin,           consoleOutput, requiresFactions)
 /*
 	FactionsBridge will bridge the APIs and then allow you to use the following 
 	methods for access to the API methods.
 */
 ```
+See more about the newest connection methods:
+[connect(plugin, boolean, boolean) - Information](%22https://github.com/CallumJohnson/FactionsBridge/commit/fd49ce4a3dce1231445f667d224e6bdccd65c78f%22)
 #### How do I get access to the API?
 ```JAVA
 // 	This is how to obtain the API.
