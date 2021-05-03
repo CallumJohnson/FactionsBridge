@@ -13,6 +13,10 @@ public class BridgePlugin extends JavaPlugin implements Communicator {
         FactionsBridge bridge = new FactionsBridge();
         bridge.connect(this);
 
+        if (!FactionsBridge.get().connected()) {
+            log("FactionsBridge didn't connect.");
+            return;
+        }
         // API test.
         int loaded = FactionsBridge.getFactionsAPI().getAllFactions().size();
         warn(loaded + " factions have been loaded.");

@@ -85,10 +85,43 @@ public class FactionsBridge implements Communicator {
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
     public void connect(@NotNull Plugin plugin) throws BridgeAlreadyConnectedException {
+        connect(plugin, true, true);
+    }
+
+    /**
+     * Method to 'connect' the Bridge for a plugin.
+     * <p>
+     *     Specifying "requiresFactions", throws exceptions.<br>
+     *     If "requiresFactions" is false, then console output is down based on "consoleOutput".
+     * </p>
+     * @param plugin to connect for.
+     * @param consoleOutput {@code true} if console output should be shown.
+     * @param requiresFactions {@code true} if your plugin needs factions to work.
+     * @throws BridgeAlreadyConnectedException if the bridge is already setup.
+     */
+    public void connect(Plugin plugin, boolean consoleOutput, boolean requiresFactions) throws BridgeAlreadyConnectedException {
+        if (plugin == null) {
+            if (requiresFactions) {
+                throw new IllegalStateException("Plugin cannot be null.");
+            } else {
+                if (consoleOutput) {
+                    error("Plugin cannot be null.");
+                }
+            }
+            return;
+        }
         if (instance != null && instance.development_plugin != null) {
-            throw new BridgeAlreadyConnectedException(
-                    plugin.getName() + " has tried to connect to the already instantiated FactionsBridge"
-            );
+            if (requiresFactions) {
+                throw new BridgeAlreadyConnectedException(
+                        plugin.getName() + " has tried to connect to the already instantiated FactionsBridge"
+                );
+            } else {
+                if (consoleOutput) {
+                    error(
+                            plugin.getName() + " has tried to connect to the already instantiated FactionsBridge"
+                    );
+                }
+            }
         }
         long start = System.currentTimeMillis();
         if (instance == null) instance = new FactionsBridge();
@@ -98,7 +131,7 @@ public class FactionsBridge implements Communicator {
         factionapi = manager.getAPI();
         String status = "without";
         long diff = System.currentTimeMillis()-start;
-        if (provider == null || factionapi == null) {
+        if ((provider == null || factionapi == null) && consoleOutput) {
             spacer(ChatColor.RED);
             warn("-> Failed to find Provider for the Server.");
             generateReport();
@@ -106,7 +139,7 @@ public class FactionsBridge implements Communicator {
             spacer(ChatColor.RED);
             status = "with";
         }
-        log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+        if (consoleOutput) log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
         if (factionapi != null) {
             factionapi.register();
         }
@@ -118,6 +151,14 @@ public class FactionsBridge implements Communicator {
      */
     public Plugin getDevelopmentPlugin() {
         return development_plugin;
+    }
+
+    /**
+     * Method to determine if the Bridge has successfully connected or not.
+     * @return {@code true} it it has.
+     */
+    public boolean connected() {
+        return factionapi != null && development_plugin != null && registered;
     }
 
     /**
