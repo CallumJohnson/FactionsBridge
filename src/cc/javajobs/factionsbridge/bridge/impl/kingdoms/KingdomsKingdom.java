@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.kingdom.model.KingdomRelation;
-import org.kingdoms.main.Kingdoms;
 
 import java.util.HashMap;
 import java.util.List;

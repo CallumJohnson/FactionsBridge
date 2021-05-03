@@ -1,6 +1,5 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
-import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IClaim;
 import cc.javajobs.factionsbridge.bridge.IFaction;
 import me.zysea.factions.FPlugin;
