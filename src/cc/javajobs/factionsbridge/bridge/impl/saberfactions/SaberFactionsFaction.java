@@ -86,6 +86,20 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     }
 
     /**
+     * Method to get the bank balance of the Faction.
+     * @return in the form of Double.
+     */
+    @Override
+    public double getBank() {
+        try {
+            Method getBalance = f.getClass().getMethod("getFactionBalance");
+            return (double) getBalance.invoke(f);
+        } catch (Exception ex) {
+            throw new BridgeMethodException(getClass(), "getBank()");
+        }
+    }
+
+    /**
      * Add strikes to a Faction.
      *
      * @param sender who desires to Strike the Faction.
