@@ -52,7 +52,7 @@ bridge.connect(yourPluginObject, true,          false           ); // 1.1.2->Pre
 */
 ```
 See more about the newest connection methods:
-[connect(plugin, boolean, boolean) - Information](%22https://github.com/CallumJohnson/FactionsBridge/commit/fd49ce4a3dce1231445f667d224e6bdccd65c78f%22)
+[connect(plugin, boolean, boolean) - Information](https://github.com/CallumJohnson/FactionsBridge/commit/fd49ce4a3dce1231445f667d224e6bdccd65c78f)
 #### How do I get access to the API?
 ```JAVA
 // 	This is how to obtain the API.
