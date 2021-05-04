@@ -1,4 +1,5 @@
 
+
 # FactionsBridge
 
 A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
@@ -7,7 +8,7 @@ Due to the nature of Factions and their individualised implementations, it can b
 
 ### Plugins which are supported.
 
-As of Version 1.0.0, 9 different versions of Factions are supported.
+As of Version 1.1.4, 11 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://www.spigotmc.org/resources/factionsx.83459/ |
@@ -19,6 +20,8 @@ As of Version 1.0.0, 9 different versions of Factions are supported.
 | FactionsBlue | https://www.spigotmc.org/resources/factions-blue.66627/ | 
 | MassiveFactions | https://www.spigotmc.org/resources/factions.1900/ |
 | KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
+| MedievalFactions | https://www.spigotmc.org/resources/medieval-factions-sovereign-nation-simulator.79941/ |
+| LegacyFactions | https://github.com/redstone/LegacyFactions/releases/tag/1.4.7 |
 
 ## How to use the API
 
@@ -30,7 +33,7 @@ main: com.yourname.yourproject.YourProject
 version: 1.0-Snapshot-of-the-century
 
 # If you are shading the project in, include the following:
-softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms]
+softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions]
 
 # If you are depending on the standalone plugin, including the following:
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
