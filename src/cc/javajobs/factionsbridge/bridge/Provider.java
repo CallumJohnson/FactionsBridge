@@ -5,7 +5,9 @@ import cc.javajobs.factionsbridge.bridge.impl.factionsblue.FactionsBlueAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXAPI;
 import cc.javajobs.factionsbridge.bridge.impl.kingdoms.KingdomsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.legacyfactions.LegacyFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.medievalfactions.MedievalFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.saberfactions.SaberFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.supremefactions.SupremeFactionsAPI;
@@ -36,7 +38,9 @@ public enum Provider {
     Factions_MassiveCoreFactions("Factions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan"), new MassiveCoreFactionsAPI()),
     Factions_SaberFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"), new SaberFactionsAPI()),
     Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life"), new SavageFactionsAPI()),
-    Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), new SupremeFactionsAPI());
+    Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), new SupremeFactionsAPI()),
+    Factions_LegacyFactions("LegacyFactions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan", "drtshoc"), new LegacyFactionsAPI()),
+    Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), new MedievalFactionsAPI());
 
     private final String pluginName;
     private final List<String> authors;

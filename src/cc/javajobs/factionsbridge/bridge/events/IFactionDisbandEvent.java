@@ -71,7 +71,17 @@ public class IFactionDisbandEvent extends IFactionEvent {
      */
     public enum DisbandReason {
 
-        COMMAND, PLUGIN, INACTIVITY, LEAVE, UNKNOWN;
+        COMMAND("DISBAND_COMMAND"), PLUGIN, INACTIVITY, LEAVE, UNKNOWN;
+
+        private final String other;
+
+        DisbandReason() {
+            this.other = null;
+        }
+
+        DisbandReason(String other_key) {
+            this.other = other_key;
+        }
 
         /**
          * Method to return a DisbandReason from a String.
@@ -86,6 +96,11 @@ public class IFactionDisbandEvent extends IFactionEvent {
             for (DisbandReason value : DisbandReason.values()) {
                 if (value.name().equalsIgnoreCase(key)) {
                     return value;
+                }
+                if (value.other != null) {
+                    if (value.other.equalsIgnoreCase(key)) {
+                        return value;
+                    }
                 }
             }
             return DisbandReason.UNKNOWN;
