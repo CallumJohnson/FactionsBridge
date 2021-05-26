@@ -7,7 +7,6 @@ import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXFaction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXPlayer;
 import net.prosavage.factionsx.event.*;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
