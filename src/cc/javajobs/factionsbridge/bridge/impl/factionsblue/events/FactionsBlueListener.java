@@ -33,6 +33,7 @@ public class FactionsBlueListener implements Listener, Communicator {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -49,6 +50,7 @@ public class FactionsBlueListener implements Listener, Communicator {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
 }

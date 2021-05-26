@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.kingdoms.events.general.KingdomCreateEvent;
@@ -33,6 +34,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -44,6 +46,7 @@ public class KingdomsListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
+            event.setCancelled(bridgeEvent.isCancelled());
             return;
         }
         IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
@@ -53,6 +56,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -63,6 +67,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        if (event instanceof Cancellable) ((Cancellable)event).setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -74,6 +79,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -84,6 +90,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -94,6 +101,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -105,6 +113,7 @@ public class KingdomsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
 }

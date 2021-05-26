@@ -3,9 +3,11 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDPlayer;
 import com.massivecraft.factions.event.*;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -22,60 +24,62 @@ public class FactionsUUIDListener implements Listener {
     private static final String PlayerDisbandReason = "com.massivecraft.factions.event.FactionDisbandEvent.PlayerDisbandReason";
     private final IFactionsAPI api = FactionsBridge.getFactionsAPI();
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onClaim(LandClaimEvent event) {
         IClaimClaimEvent bridgeEvent = new IClaimClaimEvent(
                 api.getClaimAt(event.getLocation().getChunk()),
-                api.getFaction(event.getFaction().getId()),
-                api.getFactionPlayer(event.getPlayer()),
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDPlayer(event.getfPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
     public void onJoin(FPlayerJoinEvent event) {
         IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
-                api.getFaction(event.getFaction().getId()),
-                api.getFactionPlayer(event.getfPlayer().getPlayer()),
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDPlayer(event.getfPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
     public void onLeave(FPlayerLeaveEvent event) {
         IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
-                api.getFaction(event.getFaction().getId()),
-                api.getFactionPlayer(event.getfPlayer().getPlayer()),
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDPlayer(event.getfPlayer()),
                 IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onUnclaimAll(LandUnclaimAllEvent event) {
         IClaimUnclaimAllEvent bridgeEvent = new IClaimUnclaimAllEvent(
-                api.getFaction(event.getFaction().getId()),
-                api.getFactionPlayer(event.getPlayer()),
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDPlayer(event.getfPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler
     public void onUnclaim(LandUnclaimEvent event) {
         IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
                 api.getClaimAt(event.getLocation().getChunk()),
-                api.getFaction(event.getFaction().getId()),
-                api.getFactionPlayer(event.getPlayer()),
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDPlayer(event.getfPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @SuppressWarnings("deprecation")
@@ -88,6 +92,7 @@ public class FactionsUUIDListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
+            if (event instanceof Cancellable) ((Cancellable) event).setCancelled(bridgeEvent.isCancelled());
         }, 20);
     }
 
@@ -111,21 +116,23 @@ public class FactionsUUIDListener implements Listener {
 
         IFactionDisbandEvent bridgeEvent = new IFactionDisbandEvent(
                 event.getPlayer(),
-                api.getFaction(event.getFaction().getId()),
+                new FactionsUUIDFaction(event.getFaction()),
                 reason,
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
     public void onRename(FactionRenameEvent event) {
         IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
-                api.getFaction(event.getFaction().getId()),
+                new FactionsUUIDFaction(event.getFaction()),
                 event.getFactionTag(),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
 }

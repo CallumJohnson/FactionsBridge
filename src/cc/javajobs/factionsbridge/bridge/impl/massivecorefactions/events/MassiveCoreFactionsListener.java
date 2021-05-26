@@ -33,6 +33,7 @@ public class MassiveCoreFactionsListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
+            event.setCancelled(bridgeEvent.isCancelled());
             return;
         }
         for (PS chunk : event.getChunks()) {
@@ -43,6 +44,7 @@ public class MassiveCoreFactionsListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
+            event.setCancelled(bridgeEvent.isCancelled());
         }
         for (Map.Entry<PS, Faction> entry : event.getOldChunkFaction().entrySet()) {
             IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
@@ -52,6 +54,7 @@ public class MassiveCoreFactionsListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
+            event.setCancelled(bridgeEvent.isCancelled());
         }
     }
 
@@ -63,6 +66,7 @@ public class MassiveCoreFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -74,6 +78,7 @@ public class MassiveCoreFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -84,6 +89,7 @@ public class MassiveCoreFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -96,6 +102,7 @@ public class MassiveCoreFactionsListener implements Listener {
                         event
                 );
                 Bukkit.getPluginManager().callEvent(joinEvent);
+                event.setCancelled(joinEvent.isCancelled());
                 return;
             case LEAVE:
             case KICK:
@@ -106,6 +113,7 @@ public class MassiveCoreFactionsListener implements Listener {
                         event
                 );
                 Bukkit.getPluginManager().callEvent(leaveEvent);
+                event.setCancelled(leaveEvent.isCancelled());
                 return;
             default:
                 break;

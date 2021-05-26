@@ -34,7 +34,7 @@ public class LegacyFactionsListener implements Listener {
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
-            if (bridgeEvent.isCancelled()) event.setCancelled(true);
+            event.setCancelled(bridgeEvent.isCancelled());
         }, 20L);
     }
 
@@ -47,7 +47,7 @@ public class LegacyFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
-        if (bridgeEvent.isCancelled()) event.setCancelled(true);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
     @EventHandler
@@ -88,8 +88,11 @@ public class LegacyFactionsListener implements Listener {
         }
         eventList.forEach(bridgeEvent -> {
             Bukkit.getPluginManager().callEvent(bridgeEvent);
-            if (bridgeEvent.isCancelled()) event.setCancelled(true);
         });
+        if (eventList.stream().anyMatch(IFactionEvent::isCancelled)) {
+            event.setCancelled(true);
+            eventList.forEach(ev -> ev.setCancelled(true));
+        }
     }
 
     @EventHandler
@@ -106,15 +109,10 @@ public class LegacyFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent_1);
-        if (bridgeEvent_1.isCancelled()) {
-            event.setCancelled(true);
-            return;
-        }
+        event.setCancelled(bridgeEvent_1.isCancelled());
         Bukkit.getPluginManager().callEvent(bridgeEvent_2);
-        if (bridgeEvent_2.isCancelled()) {
-            event.setCancelled(true);
-            bridgeEvent_1.setCancelled(true);
-        }
+        event.setCancelled(bridgeEvent_2.isCancelled());
+        bridgeEvent_1.setCancelled(bridgeEvent_2.isCancelled());
     }
 
     @EventHandler
@@ -125,7 +123,7 @@ public class LegacyFactionsListener implements Listener {
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
-        if (bridgeEvent.isCancelled()) event.setCancelled(true);
+        event.setCancelled(bridgeEvent.isCancelled());
     }
 
 }
