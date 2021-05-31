@@ -219,12 +219,11 @@ public class FactionsUUIDFaction implements IFaction {
      *
      * @return in the form of Double.
      */
-    @SuppressWarnings("deprecation")
     @Override
     public double getBank() {
         try {
-            if (!Econ.hasAccount(f.getAccountId())) return 0.0;
-            return Econ.getBalance(f.getAccountId());
+            if (!Econ.hasAccount(f)) return 0.0;
+            return Econ.getBalance(f);
         } catch (Exception ex) {
             throw new BridgeMethodException(getClass(), "getBank()", "Economy Potentially Disabled.");
         }
