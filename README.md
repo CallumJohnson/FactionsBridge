@@ -16,7 +16,7 @@ As of Version 1.1.4, 11 different versions of Factions are supported.
 | SavageFactions (Abandoned) | https://www.spigotmc.org/resources/savagefactions-the-ultimate-factions-experience-abandoned.52891/ |
 | SaberFactions | https://www.spigotmc.org/resources/saberfactions-1-8-1-16-x-discord-saber-pw-the-complete-factions-solution.69771/ |
 | SupremeFactions | https://docs.supremedev.us/supreme-dev-supreme-factions |
-| Atlas Factions | https://elapsed.dev/ | 
+| Atlas Factions | https://factions.atlas-studios.net | 
 | FactionsBlue | https://www.spigotmc.org/resources/factions-blue.66627/ | 
 | MassiveFactions | https://www.spigotmc.org/resources/factions.1900/ |
 | KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
