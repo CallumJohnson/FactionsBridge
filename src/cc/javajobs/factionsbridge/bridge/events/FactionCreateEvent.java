@@ -1,43 +1,67 @@
 package cc.javajobs.factionsbridge.bridge.events;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * IFactionEvent is the baseline for all Faction-Related Events.
+ * FactionCreateEvent is the Event which is called when an FPlayer creates a new Faction.
  *
  * @author Callum Johnson
- * @since 28/02/2021 - 08:24
+ * @since 28/02/2021 - 08:29
  */
-public class IFactionEvent extends Event implements Cancellable {
+public class FactionCreateEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final IFaction faction;
     private final Event event;
+    private final FPlayer sender;
+    private final Faction faction;
 
     /**
-     * IFactionEvent is an event of the type relating to an IFaction.
-     * <p>
-     *     This is the base for many events Bridged with FactionsBridge.
-     * </p>
-     * @param faction related to the event.
+     * Constructor to initialise an FactionCreateEvent using the Faction and FPlayer objects.
+     *
+     * @param fplayer who sent the create request.
+     * @param faction which has been created.
      * @param other event object.
      */
-    public IFactionEvent(IFaction faction, Event other) {
+    public FactionCreateEvent(Faction faction, FPlayer fplayer, Event other) {
         this.faction = faction;
+        this.sender = fplayer;
         this.event = other;
     }
 
-    public IFaction getFaction() {
+    public FPlayer getFPlayer() {
+        return sender;
+    }
+
+    public Player getPlayer() {
+        return sender.getPlayer();
+    }
+
+    public OfflinePlayer getOfflinePlayer() {
+        return sender.getOfflinePlayer();
+    }
+
+    public String getTag() {
+        return faction.getName();
+    }
+
+    public String getId() {
+        return faction.getId();
+    }
+
+    public Faction getFaction() {
         return faction;
     }
 
     @NotNull
     public HandlerList getHandlers() {
-        return IFactionEvent.handlers;
+        return FactionCreateEvent.handlers;
     }
 
     public static HandlerList getHandlerList() {

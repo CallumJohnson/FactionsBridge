@@ -1,33 +1,34 @@
 package cc.javajobs.factionsbridge.bridge.events;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import cc.javajobs.factionsbridge.bridge.events.infrastructure.FPlayerEvent;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.event.Event;
 
 /**
- * IFactionPlayerLeaveIFactionEvent is called when an IFactionPlayer
- * leaves an IFaction.
+ * FactionLeaveEvent is called when an FPlayer leaves a Faction.
  *
  * @author Callum Johnson
  * @since 04/03/2021 - 19:21
  */
-public class IFactionPlayerLeaveIFactionEvent extends IFactionPlayerEvent {
+public class FactionLeaveEvent extends FPlayerEvent {
 
     private final LeaveReason reason;
 
     /**
-     * Constructor to initialise an IFactionPlayerLeaveIFactionEvent.
+     * Constructor to initialise an FactionLeaveEvent.
+     *
      * @param faction which was left.
      * @param fplayer which left.
      * @param other   event object.
      */
-    public IFactionPlayerLeaveIFactionEvent(IFaction faction, IFactionPlayer fplayer, LeaveReason reason, Event other) {
+    public FactionLeaveEvent(Faction faction, FPlayer fplayer, LeaveReason reason, Event other) {
         super(faction, fplayer, other);
         this.reason = reason;
     }
 
     /**
-     * @see IFactionPlayerLeaveIFactionEvent.LeaveReason
+     * @see FactionLeaveEvent.LeaveReason
      * @return reason for leaving.
      */
     public LeaveReason getReason() {
@@ -58,7 +59,7 @@ public class IFactionPlayerLeaveIFactionEvent extends IFactionPlayerEvent {
         /**
          * Method to return a LeaveReason from a String.
          * <p>
-         *     This method will return {@link IFactionPlayerLeaveIFactionEvent.LeaveReason#UNKNOWN} if
+         *     This method will return {@link FactionLeaveEvent.LeaveReason#UNKNOWN} if
          *     the method cannot find a suitable match.
          * </p>
          * @param key to get a LeaveReason for.

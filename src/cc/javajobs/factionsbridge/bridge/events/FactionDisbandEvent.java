@@ -1,41 +1,44 @@
 package cc.javajobs.factionsbridge.bridge.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import cc.javajobs.factionsbridge.bridge.events.infrastructure.FactionEvent;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 /**
- * IFactionDisbandEvent is called when an IFaction is disbanded.
+ * FactionDisbandEvent is called when an Faction is disbanded.
  *
  * @author Callum Johnson
  * @since 28/02/2021 - 08:33
  */
-public class IFactionDisbandEvent extends IFactionEvent {
+public class FactionDisbandEvent extends FactionEvent {
 
     private final DisbandReason reason;
     private final Player player;
 
     /**
-     * Constructor to initialise an IFactionDisbandEvent.
-     * @param fpl who disbanded the IFaction.
+     * Constructor to initialise an FactionDisbandEvent.
+     *
+     * @param fpl who disbanded the Faction.
      * @param faction which was disbanded.
      * @param reason for the disbandment.
      * @param other event object.
      */
-    public IFactionDisbandEvent(IFactionPlayer fpl, IFaction faction, DisbandReason reason, Event other) {
+    public FactionDisbandEvent(FPlayer fpl, Faction faction, DisbandReason reason, Event other) {
         this(fpl.getPlayer(), faction, reason, other);
     }
 
     /**
-     * Constructor to initialise an IFactionDisbandEvent
-     * @param player who disbanded the IFaction.
+     * Constructor to initialise an FactionDisbandEvent
+     *
+     * @param player who disbanded the Faction.
      * @param faction which was disbanded.
      * @param reason for the disbandment.
      * @param other event object.
      */
-    public IFactionDisbandEvent(Player player, IFaction faction, DisbandReason reason, Event other) {
+    public FactionDisbandEvent(Player player, Faction faction, DisbandReason reason, Event other) {
         super(faction, other);
         this.reason = reason;
         this.player = player;
@@ -53,8 +56,8 @@ public class IFactionDisbandEvent extends IFactionEvent {
         return player;
     }
 
-    public IFactionPlayer getFPlayer() {
-        return FactionsBridge.getFactionsAPI().getFactionPlayer(player);
+    public FPlayer getFPlayer() {
+        return FactionsBridge.getFactionsAPI().getFPlayer(player);
     }
 
     /**
