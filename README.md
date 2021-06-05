@@ -57,8 +57,6 @@ bridge.connect(yourPluginObject, true,          false           , true          
 	methods for access to the API methods.
 */
 ```
-See more about the newest connection methods:
-[connect(plugin, boolean, boolean) - Information](https://github.com/CallumJohnson/FactionsBridge/commit/fd49ce4a3dce1231445f667d224e6bdccd65c78f)
 #### How do I get access to the API?
 ```JAVA
 // 	This is how to obtain the API.
@@ -84,3 +82,9 @@ FactionJoinEvent			# When a Player Joins a Faction. (1.2.0)
 
 ## side-note:
 This API is very unstable and is a very basic implementation of the concept, updates will come to increase stability and fix issues if they arise.
+
+
+## Contact Me
+```JAVA
+Discord: 	C A L L U M#4160
+```
