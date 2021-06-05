@@ -74,11 +74,11 @@ There are also events which are bridged, these events are listened to within Fac
 FactionClaimEvent            		# When a Faction claims land. (1.2.0)
 FactionUnclaimAllEvent       		# When a Faction unclaims all their land. (1.2.0)
 FactionUnclaimEvent          		# When a Faction unclaims land. (1.2.0)
-FactionCreateEvent         			# When a Faction is created. (1.2.0)
-FactionDisbandEvent        			# When a Faction is disbanded. (1.2.0)
-FactionRenameEvent         			# When a Faction is renamed. (1.2.0)
-FactionLeaveEvent					# When a Player Leaves or is Kicked from a Faction. (1.2.0)
-FactionJoinEvent					# When a Player Joins a Faction. (1.2.0)
+FactionCreateEvent         		# When a Faction is created. (1.2.0)
+FactionDisbandEvent        		# When a Faction is disbanded. (1.2.0)
+FactionRenameEvent         		# When a Faction is renamed. (1.2.0)
+FactionLeaveEvent			# When a Player Leaves or is Kicked from a Faction. (1.2.0)
+FactionJoinEvent			# When a Player Joins a Faction. (1.2.0)
 ```
 
 
