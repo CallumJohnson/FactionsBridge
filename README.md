@@ -1,5 +1,6 @@
 
 
+
 # FactionsBridge
 
 A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
@@ -46,9 +47,11 @@ FactionsBridge bridge = new FactionsBridge();
 // 	This will create all methodology using the Plugin Object you provide.
 bridge.connect(yourPluginObject); // 1.0.0->Present.
 
-// If you do not require factions but you want console output, use these parameters. 
-bridge.connect(yourPluginObject, true,          false           ); // 1.1.2->Present.
-// ->> connect(plugin,           consoleOutput, requiresFactions)
+// If you do not require factions but you want console output, use these parameters.
+// The catch exceptions parameter is a completely new variable which should be used when you
+// want to develop against FactionsBridge without worrying about the try/catch blocks. 
+bridge.connect(yourPluginObject, true,          false           , true           ); 
+// ->> connect(plugin,           consoleOutput, requiresFactions, catchExceptions)
 /*
 	FactionsBridge will bridge the APIs and then allow you to use the following 
 	methods for access to the API methods.
@@ -68,14 +71,14 @@ IFactionAPI api = FactionsBridge.getFactionAPI();
 
 There are also events which are bridged, these events are listened to within FactionsBridge and then ported into the API so you can use them at the same time.
 ```YML
-IClaimClaimEvent            		# When a Faction claims land. (1.0)
-IClaimUnclaimAllEvent       		# When a Faction unclaims all their land. (1.0)
-IClaimUnclaimEvent          		# When a Faction unclaims land. (1.0)
-IFactionCreateEvent         		# When a Faction is created. (1.0)
-IFactionDisbandEvent        		# When a Faction is disbanded. (1.0)
-IFactionRenameEvent         		# When a Faction is renamed. (1.0)
-IFactionPlayerLeaveIFactionEvent	# When a Player Leaves or is Kicked from a Faction. (1.0.2)
-IFactionPlayerJoinIFactionEvent		# When a Player Joins a Faction. (1.0.2)
+FactionClaimEvent            		# When a Faction claims land. (1.2.0)
+FactionUnclaimAllEvent       		# When a Faction unclaims all their land. (1.2.0)
+FactionUnclaimEvent          		# When a Faction unclaims land. (1.2.0)
+FactionCreateEvent         			# When a Faction is created. (1.2.0)
+FactionDisbandEvent        			# When a Faction is disbanded. (1.2.0)
+FactionRenameEvent         			# When a Faction is renamed. (1.2.0)
+FactionLeaveEvent					# When a Player Leaves or is Kicked from a Faction. (1.2.0)
+FactionJoinEvent					# When a Player Joins a Faction. (1.2.0)
 ```
 
 
