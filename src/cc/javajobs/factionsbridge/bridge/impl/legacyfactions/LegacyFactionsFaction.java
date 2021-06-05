@@ -1,15 +1,16 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.RelationParticipator;
 import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.warp.FactionWarp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +20,18 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 04/05/2021 - 09:59
  */
-public class LegacyFactionsFaction implements IFaction {
+public class LegacyFactionsFaction extends AbstractFaction<Faction> {
 
-    private final Faction f;
-
-    public LegacyFactionsFaction(Faction faction) {
-        this.f = faction;
+    /**
+     * Constructor to create an AbstractFaction.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public LegacyFactionsFaction(@NotNull Faction faction) {
+        super(faction);
     }
 
     /**
@@ -32,9 +39,10 @@ public class LegacyFactionsFaction implements IFaction {
      *
      * @return Id in the form of String.
      */
+    @NotNull
     @Override
     public String getId() {
-        return f.getId();
+        return faction.getId();
     }
 
     /**
@@ -42,9 +50,10 @@ public class LegacyFactionsFaction implements IFaction {
      *
      * @return name of the Faction.
      */
+    @NotNull
     @Override
     public String getName() {
-        return f.getTag();
+        return faction.getTag();
     }
 
     /**
@@ -53,29 +62,19 @@ public class LegacyFactionsFaction implements IFaction {
      * @return the person who created the Faction.
      */
     @Override
-    public IFactionPlayer getLeader() {
-        return new LegacyFactionsPlayer(f.getOwner());
-    }
-
-    /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
+    public FPlayer getLeader() {
+        return new LegacyFactionsPlayer(faction.getOwner());
     }
 
     /**
      * Method to get all Claims related to the Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return Claims in the form List of {@link Claim}
      */
+    @NotNull
     @Override
-    public List<IClaim> getAllClaims() {
-        return f.getAllClaims().stream().map(LegacyFactionsClaim::new).collect(Collectors.toList());
+    public List<Claim> getAllClaims() {
+        return faction.getAllClaims().stream().map(LegacyFactionsClaim::new).collect(Collectors.toList());
     }
 
     /**
@@ -83,9 +82,10 @@ public class LegacyFactionsFaction implements IFaction {
      *
      * @return List of IFactionPlayer
      */
+    @NotNull
     @Override
-    public List<IFactionPlayer> getMembers() {
-        return f.getMembers().stream().map(LegacyFactionsPlayer::new).collect(Collectors.toList());
+    public List<FPlayer> getMembers() {
+        return faction.getMembers().stream().map(LegacyFactionsPlayer::new).collect(Collectors.toList());
     }
 
     /**
@@ -94,8 +94,8 @@ public class LegacyFactionsFaction implements IFaction {
      * @param location to set as the new home.
      */
     @Override
-    public void setHome(Location location) {
-        f.setHome(location);
+    public void setHome(@NotNull Location location) {
+        faction.setHome(location);
     }
 
     /**
@@ -105,43 +105,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public Location getHome() {
-        return f.getHome();
-    }
-
-    /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        Relation relation = f.getRelationTo((Faction) other.asObject());
-        if (relation == Relation.NEUTRAL) {
-            return IRelationship.NONE;
-        }
-        return IRelationship.getRelationship(relation.name());
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return f;
+        return faction.getHome();
     }
 
     /**
@@ -154,7 +118,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public boolean isServerFaction() {
-        return f.isSafeZone() || f.isWarZone() || f.isWilderness();
+        return isSafeZone() || isWarZone() || isWilderness();
     }
 
     /**
@@ -164,7 +128,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public boolean isWarZone() {
-        return f.isWarZone();
+        return faction.isWarZone();
     }
 
     /**
@@ -174,7 +138,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public boolean isSafeZone() {
-        return f.isSafeZone();
+        return faction.isSafeZone();
     }
 
     /**
@@ -184,7 +148,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public boolean isWilderness() {
-        return f.isWilderness();
+        return faction.isWilderness();
     }
 
     /**
@@ -194,7 +158,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public boolean isPeaceful() {
-        return f.isPeaceful();
+        return faction.isPeaceful();
     }
 
     /**
@@ -204,7 +168,7 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        return f.getVaultAccount().getBalance();
+        return faction.getVaultAccount().getBalance();
     }
 
     /**
@@ -214,7 +178,20 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public int getPoints() {
-        throw new BridgeMethodUnsupportedException("LegacyFactions doesn't support getPoints()");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints(points)");
     }
 
     /**
@@ -224,8 +201,8 @@ public class LegacyFactionsFaction implements IFaction {
      * @return {@link Location} of the warp.
      */
     @Override
-    public Location getWarp(String name) {
-        return f.warps().get(name).map(FactionWarp::getLocation).orElse(null);
+    public Location getWarp(@NotNull String name) {
+        return faction.warps().get(name).map(FactionWarp::getLocation).orElse(null);
     }
 
     /**
@@ -236,9 +213,10 @@ public class LegacyFactionsFaction implements IFaction {
      *
      * @return hashmap of all warps.
      */
+    @NotNull
     @Override
     public HashMap<String, Location> getWarps() {
-        return f.warps().getAll().stream()
+        return faction.warps().getAll().stream()
                 .collect(Collectors.toMap(FactionWarp::getName, FactionWarp::getLocation, (a, b) -> b, HashMap::new));
     }
 
@@ -249,8 +227,8 @@ public class LegacyFactionsFaction implements IFaction {
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
-        f.warps().setWarp(name, location);
+    public void createWarp(@NotNull String name, @NotNull Location location) {
+        faction.warps().setWarp(name, location);
     }
 
     /**
@@ -259,8 +237,8 @@ public class LegacyFactionsFaction implements IFaction {
      * @param name of the warp to be deleted.
      */
     @Override
-    public void deleteWarp(String name) {
-        f.warps().delete(name);
+    public void deleteWarp(@NotNull String name) {
+        faction.warps().delete(name);
     }
 
     /**
@@ -271,7 +249,8 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("LegacyFactions doesn't support addStrike(String, String)");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(String, String)");
     }
 
     /**
@@ -282,7 +261,8 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("LegacyFactions doesn't support removeStrike(String, String)");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(String, String)");
     }
 
     /**
@@ -292,7 +272,8 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("LegacyFactions doesn't support getTotalStrikes()");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "addStrike(String, String)");
     }
 
     /**
@@ -300,7 +281,32 @@ public class LegacyFactionsFaction implements IFaction {
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("LegacyFactions doesn't support clearStrikes()");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        Relation relation = this.faction.getRelationTo((RelationParticipator) faction.getFaction());
+        return Relationship.getRelationship(relation.name());
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "LegacyFactions";
     }
 
 }

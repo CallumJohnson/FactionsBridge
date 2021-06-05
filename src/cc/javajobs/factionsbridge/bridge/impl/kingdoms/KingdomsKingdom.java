@@ -1,12 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.kingdom.model.KingdomRelation;
 
@@ -20,12 +20,18 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 17:11
  */
-public class KingdomsKingdom implements IFaction {
+public class KingdomsKingdom extends AbstractFaction<Kingdom> {
 
-    private final Kingdom k;
-
-    public KingdomsKingdom(Kingdom kingdom) {
-        this.k = kingdom;
+    /**
+     * Constructor to create an KingdomsKingdom.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public KingdomsKingdom(@NotNull Kingdom faction) {
+        super(faction);
     }
 
     /**
@@ -33,9 +39,10 @@ public class KingdomsKingdom implements IFaction {
      *
      * @return Id in the form of String.
      */
+    @NotNull
     @Override
     public String getId() {
-        return k.getId().toString();
+        return faction.getId().toString();
     }
 
     /**
@@ -43,9 +50,10 @@ public class KingdomsKingdom implements IFaction {
      *
      * @return name of the Faction.
      */
+    @NotNull
     @Override
     public String getName() {
-        return k.getName();
+        return faction.getName();
     }
 
     /**
@@ -54,29 +62,19 @@ public class KingdomsKingdom implements IFaction {
      * @return the person who created the Faction.
      */
     @Override
-    public IFactionPlayer getLeader() {
-        return new KingdomsPlayer(k.getKing());
-    }
-
-    /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
+    public FPlayer getLeader() {
+        return new KingdomsPlayer(faction.getKing());
     }
 
     /**
      * Method to get all Claims related to the Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return Claims in the form List of {@link Claim}
      */
+    @NotNull
     @Override
-    public List<IClaim> getAllClaims() {
-        return k.getLands().stream().map(KingdomsClaim::new).collect(Collectors.toList());
+    public List<Claim> getAllClaims() {
+        return faction.getLands().stream().map(KingdomsClaim::new).collect(Collectors.toList());
     }
 
     /**
@@ -84,9 +82,10 @@ public class KingdomsKingdom implements IFaction {
      *
      * @return List of IFactionPlayer
      */
+    @NotNull
     @Override
-    public List<IFactionPlayer> getMembers() {
-        return k.getKingdomPlayers().stream().map(KingdomsPlayer::new).collect(Collectors.toList());
+    public List<FPlayer> getMembers() {
+        return faction.getKingdomPlayers().stream().map(KingdomsPlayer::new).collect(Collectors.toList());
     }
 
     /**
@@ -95,8 +94,8 @@ public class KingdomsKingdom implements IFaction {
      * @param location to set as the new home.
      */
     @Override
-    public void setHome(Location location) {
-        k.setHome(location);
+    public void setHome(@NotNull Location location) {
+        faction.setHome(location);
     }
 
     /**
@@ -106,51 +105,7 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public Location getHome() {
-        return k.getHome();
-    }
-
-    /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        KingdomRelation relationWith = k.getRelationWith((Kingdom) other.asObject());
-        switch (relationWith) {
-            case NEUTRAL:
-                return IRelationship.NONE;
-            case TRUCE:
-                return IRelationship.TRUCE;
-            case ALLY:
-                return IRelationship.ALLY;
-            case ENEMY:
-                return IRelationship.ENEMY;
-            default:
-                return IRelationship.MEMBER;
-        }
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return k;
+        return faction.getHome();
     }
 
     /**
@@ -163,7 +118,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public boolean isServerFaction() {
-        return false;
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isServerFaction()");
     }
 
     /**
@@ -173,7 +129,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public boolean isWarZone() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isWarZone().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isWarZone()");
     }
 
     /**
@@ -183,7 +140,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public boolean isSafeZone() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isSafeZone().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isSafeZone()");
     }
 
     /**
@@ -193,7 +151,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public boolean isWilderness() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support isWilderness().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isWilderness()");
     }
 
     /**
@@ -203,7 +162,7 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public boolean isPeaceful() {
-        return k.isPacifist();
+        return faction.isPacifist();
     }
 
     /**
@@ -213,7 +172,7 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public double getBank() {
-        return k.getBank();
+        return faction.getBank();
     }
 
     /**
@@ -223,7 +182,20 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public int getPoints() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getPoints().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints(points)");
     }
 
     /**
@@ -233,8 +205,9 @@ public class KingdomsKingdom implements IFaction {
      * @return {@link Location} of the warp.
      */
     @Override
-    public Location getWarp(String name) {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWarp(name).");
+    public Location getWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return null;
+        return (Location) unsupported(getProvider(), "getWarp(name)");
     }
 
     /**
@@ -245,9 +218,12 @@ public class KingdomsKingdom implements IFaction {
      *
      * @return hashmap of all warps.
      */
+    @NotNull
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public HashMap<String, Location> getWarps() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWarps().");
+        if (bridge.catch_exceptions) return new HashMap<>();
+        return (HashMap) unsupported(getProvider(), "setPoints(points)");
     }
 
     /**
@@ -257,8 +233,9 @@ public class KingdomsKingdom implements IFaction {
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support createWarp(name, location).");
+    public void createWarp(@NotNull String name, @NotNull Location location) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "createWarp(name, location)");
     }
 
     /**
@@ -267,8 +244,9 @@ public class KingdomsKingdom implements IFaction {
      * @param name of the warp to be deleted.
      */
     @Override
-    public void deleteWarp(String name) {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support deleteWarp(name).");
+    public void deleteWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "deleteWarp(name)");
     }
 
     /**
@@ -279,7 +257,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support addStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(Sender, String)");
     }
 
     /**
@@ -290,7 +269,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support removeStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "removeStrike(Sender, String)");
     }
 
     /**
@@ -300,7 +280,8 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getTotalStrikes().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getTotalStrikes()");
     }
 
     /**
@@ -308,7 +289,43 @@ public class KingdomsKingdom implements IFaction {
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("Kingdoms doesn't support clearStrikes().");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        KingdomRelation relationWith = this.faction.getRelationWith((Kingdom) faction.getFaction());
+        switch (relationWith) {
+            case NEUTRAL:
+                return Relationship.NONE;
+            case TRUCE:
+                return Relationship.TRUCE;
+            case ALLY:
+                return Relationship.ALLY;
+            case ENEMY:
+                return Relationship.ENEMY;
+            default:
+                return Relationship.MEMBER;
+        }
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "KingdomsX";
     }
 
 }

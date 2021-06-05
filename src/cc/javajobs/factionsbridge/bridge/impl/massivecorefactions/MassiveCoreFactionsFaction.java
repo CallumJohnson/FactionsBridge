@@ -1,17 +1,18 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import com.massivecraft.factions.Rel;
+import com.massivecraft.factions.RelationParticipator;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,12 +25,18 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 15:21
  */
-public class MassiveCoreFactionsFaction implements IFaction {
+public class MassiveCoreFactionsFaction extends AbstractFaction<Faction> {
 
-    private final Faction f;
-
-    public MassiveCoreFactionsFaction(Faction faction) {
-        this.f = faction;
+    /**
+     * Constructor to create an MassiveCoreFactionsFaction.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public MassiveCoreFactionsFaction(@NotNull Faction faction) {
+        super(faction);
     }
 
     /**
@@ -37,9 +44,10 @@ public class MassiveCoreFactionsFaction implements IFaction {
      *
      * @return Id in the form of String.
      */
+    @NotNull
     @Override
     public String getId() {
-        return f.getId();
+        return faction.getId();
     }
 
     /**
@@ -47,9 +55,10 @@ public class MassiveCoreFactionsFaction implements IFaction {
      *
      * @return name of the Faction.
      */
+    @NotNull
     @Override
     public String getName() {
-        return f.getName();
+        return faction.getName();
     }
 
     /**
@@ -58,29 +67,19 @@ public class MassiveCoreFactionsFaction implements IFaction {
      * @return the person who created the Faction.
      */
     @Override
-    public IFactionPlayer getLeader() {
-        return new MassiveCoreFactionsPlayer(f.getLeader());
-    }
-
-    /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
+    public FPlayer getLeader() {
+        return new MassiveCoreFactionsPlayer(faction.getLeader());
     }
 
     /**
      * Method to get all Claims related to the Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return Claims in the form List of {@link Claim}
      */
     @Override
-    public List<IClaim> getAllClaims() {
-        return BoardColl.get().getChunks(f).stream().map(MassiveCoreFactionsClaim::new).collect(Collectors.toList());
+    public List<Claim> getAllClaims() {
+        return BoardColl.get().getChunks(faction).stream().map(MassiveCoreFactionsClaim::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -88,9 +87,10 @@ public class MassiveCoreFactionsFaction implements IFaction {
      *
      * @return List of IFactionPlayer
      */
+    @NotNull
     @Override
-    public List<IFactionPlayer> getMembers() {
-        return f.getMPlayers().stream().map(MassiveCoreFactionsPlayer::new).collect(Collectors.toList());
+    public List<FPlayer> getMembers() {
+        return faction.getMPlayers().stream().map(MassiveCoreFactionsPlayer::new).collect(Collectors.toList());
     }
 
     /**
@@ -99,8 +99,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      * @param location to set as the new home.
      */
     @Override
-    public void setHome(Location location) {
-        f.setHome(PS.valueOf(location));
+    public void setHome(@NotNull Location location) {
+        faction.setHome(PS.valueOf(location));
     }
 
     /**
@@ -110,51 +110,7 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public Location getHome() {
-        return f.getHome().asBukkitLocation();
-    }
-
-    /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        Rel rel =  f.getRelationTo((Faction) other.asObject());
-        switch (rel) {
-            case ENEMY:
-                return IRelationship.ENEMY;
-            case NEUTRAL:
-                return IRelationship.NONE;
-            case TRUCE:
-                return IRelationship.TRUCE;
-            case ALLY:
-                return IRelationship.ALLY;
-            default:
-                return IRelationship.MEMBER;
-        }
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return f;
+        return faction.getHome().asBukkitLocation();
     }
 
     /**
@@ -167,10 +123,7 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public boolean isServerFaction() {
-        return Arrays.asList(
-                "none", "safezone", "warzone", "wilderness",
-                ChatColor.DARK_GREEN + "wilderness", ChatColor.DARK_GREEN + " wilderness"
-        ).contains(getId().toLowerCase());
+        return (isSafeZone()||isWarZone()||isWilderness());
     }
 
     /**
@@ -212,7 +165,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public boolean isPeaceful() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support isPeaceful().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isPeaceful()");
     }
 
     /**
@@ -222,7 +176,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getBank().");
+        if (bridge.catch_exceptions) return 0.0;
+        return (double) unsupported(getProvider(), "getBank()");
     }
 
     /**
@@ -232,7 +187,20 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public int getPoints() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getPoints().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints(points)");
     }
 
     /**
@@ -242,8 +210,9 @@ public class MassiveCoreFactionsFaction implements IFaction {
      * @return {@link Location} of the warp.
      */
     @Override
-    public Location getWarp(String name) {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getWarp(name).");
+    public Location getWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return null;
+        return (Location) unsupported(getProvider(), "getWarp(name)");
     }
 
     /**
@@ -254,9 +223,12 @@ public class MassiveCoreFactionsFaction implements IFaction {
      *
      * @return hashmap of all warps.
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @NotNull
     @Override
     public HashMap<String, Location> getWarps() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getWarps().");
+        if (bridge.catch_exceptions) return new HashMap<>();
+        return (HashMap) unsupported(getProvider(), "getWarps()");
     }
 
     /**
@@ -266,8 +238,9 @@ public class MassiveCoreFactionsFaction implements IFaction {
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support createWarp(name, location).");
+    public void createWarp(@NotNull String name, @NotNull Location location) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "createWarp(String name, Location location)");
     }
 
     /**
@@ -276,8 +249,9 @@ public class MassiveCoreFactionsFaction implements IFaction {
      * @param name of the warp to be deleted.
      */
     @Override
-    public void deleteWarp(String name) {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support deleteWarp(name).");
+    public void deleteWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "deleteWarp(name)");
     }
 
     /**
@@ -288,7 +262,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support addStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(String sender, String reason)");
     }
 
     /**
@@ -299,7 +274,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support removeStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "removeStrike(String sender, String reason)");
     }
 
     /**
@@ -309,7 +285,8 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support getTotalStrikes().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getTotalStrikes()");
     }
 
     /**
@@ -317,7 +294,44 @@ public class MassiveCoreFactionsFaction implements IFaction {
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("MassiveCore doesn't support clearStrikes().");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
     }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        Rel rel =  this.faction.getRelationTo((RelationParticipator) faction.getFaction());
+        switch (rel) {
+            case ENEMY:
+                return Relationship.ENEMY;
+            case NEUTRAL:
+                return Relationship.NONE;
+            case TRUCE:
+                return Relationship.TRUCE;
+            case ALLY:
+                return Relationship.ALLY;
+            default:
+                return Relationship.MEMBER;
+        }
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "MassiveCoreFactions";
+    }
+
 
 }

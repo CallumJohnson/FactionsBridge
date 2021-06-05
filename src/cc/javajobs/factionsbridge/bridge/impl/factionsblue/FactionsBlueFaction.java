@@ -1,10 +1,9 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.faction.Faction;
 import me.zysea.factions.faction.role.Role;
@@ -12,6 +11,7 @@ import me.zysea.factions.objects.ProtectedLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +23,18 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 14:05
  */
-public class FactionsBlueFaction implements IFaction {
+public class FactionsBlueFaction extends AbstractFaction<Faction> {
 
-    private final Faction faction;
-
-    public FactionsBlueFaction(Faction faction) {
-        this.faction = faction;
+    /**
+     * Constructor to create an AbstractFaction.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public FactionsBlueFaction(@NotNull Faction faction) {
+        super(faction);
     }
 
     /**
@@ -36,6 +42,7 @@ public class FactionsBlueFaction implements IFaction {
      *
      * @return Id in the form of String.
      */
+    @NotNull
     @Override
     public String getId() {
         return faction.getId().toString();
@@ -46,6 +53,7 @@ public class FactionsBlueFaction implements IFaction {
      *
      * @return name of the Faction.
      */
+    @NotNull
     @Override
     public String getName() {
         return faction.getName();
@@ -57,7 +65,7 @@ public class FactionsBlueFaction implements IFaction {
      * @return the person who created the Faction.
      */
     @Override
-    public IFactionPlayer getLeader() {
+    public FPlayer getLeader() {
         for (OfflinePlayer allMember : faction.getMembers().getAllMembers()) {
             Role role = faction.getRoles().getMemberRole(allMember.getUniqueId());
             if (role.getId() == 4) {
@@ -68,23 +76,13 @@ public class FactionsBlueFaction implements IFaction {
     }
 
     /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
-    }
-
-    /**
      * Method to get all Claims related to the Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return Claims in the form List of {@link Claim}
      */
+    @NotNull
     @Override
-    public List<IClaim> getAllClaims() {
+    public List<Claim> getAllClaims() {
         return faction.getAllClaims().stream().map(FactionsBlueClaim::new).collect(Collectors.toList());
     }
 
@@ -93,8 +91,9 @@ public class FactionsBlueFaction implements IFaction {
      *
      * @return List of IFactionPlayer
      */
+    @NotNull
     @Override
-    public List<IFactionPlayer> getMembers() {
+    public List<FPlayer> getMembers() {
         return faction.getAllMembers()
                 .stream().map(allMember -> FPlugin.getInstance().getFPlayers().getFPlayer(allMember))
                 .map(FactionsBluePlayer::new).collect(Collectors.toList());
@@ -106,7 +105,7 @@ public class FactionsBlueFaction implements IFaction {
      * @param location to set as the new home.
      */
     @Override
-    public void setHome(Location location) {
+    public void setHome(@NotNull Location location) {
         faction.setHome(new ProtectedLocation("home", location));
     }
 
@@ -118,45 +117,6 @@ public class FactionsBlueFaction implements IFaction {
     @Override
     public Location getHome() {
         return faction.getHome().getLocation();
-    }
-
-    /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        if (faction.isAlliedTo((Faction) other.asObject())) {
-            return IRelationship.ALLY;
-        } else if (getId().equals(other.getId())) {
-            return IRelationship.MEMBER;
-        } else {
-            return IRelationship.ENEMY;
-        }
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        if (other.getFaction() == null) return IRelationship.ENEMY;
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return faction;
     }
 
     /**
@@ -209,7 +169,8 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public boolean isPeaceful() {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support isPeaceful().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isPeaceful()");
     }
 
     /**
@@ -219,7 +180,8 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support getBank().");
+        if (bridge.catch_exceptions) return 0.0;
+        return (double) unsupported(getProvider(), "getBank()");
     }
 
     /**
@@ -229,7 +191,20 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public int getPoints() {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support getPoints().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints(points)");
     }
 
     /**
@@ -239,7 +214,7 @@ public class FactionsBlueFaction implements IFaction {
      * @return {@link Location} of the warp.
      */
     @Override
-    public Location getWarp(String name) {
+    public Location getWarp(@NotNull String name) {
         return faction.getWarp(name).getLocation();
     }
 
@@ -251,6 +226,7 @@ public class FactionsBlueFaction implements IFaction {
      *
      * @return hashmap of all warps.
      */
+    @NotNull
     @Override
     public HashMap<String, Location> getWarps() {
         return faction.getWarps().stream()
@@ -268,7 +244,7 @@ public class FactionsBlueFaction implements IFaction {
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
+    public void createWarp(@NotNull String name, @NotNull Location location) {
         faction.setWarp(new ProtectedLocation(name, location));
     }
 
@@ -278,7 +254,7 @@ public class FactionsBlueFaction implements IFaction {
      * @param name of the warp to be deleted.
      */
     @Override
-    public void deleteWarp(String name) {
+    public void deleteWarp(@NotNull String name) {
         faction.delWarp(name);
     }
 
@@ -290,7 +266,8 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support addStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(sender, reason)");
     }
 
     /**
@@ -301,7 +278,8 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support removeStrike(Sender, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "removeStrike(sender, reason)");
     }
 
     /**
@@ -311,7 +289,8 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support getTotalStrikes().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getTotalStrikes()");
     }
 
     /**
@@ -319,7 +298,37 @@ public class FactionsBlueFaction implements IFaction {
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("FactionsBlue doesn't support clearStrikes().");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        if (this.faction.isAlliedTo((Faction) faction.getFaction())) {
+            return Relationship.ALLY;
+        } else if (getId().equals(faction.getId())) {
+            return Relationship.MEMBER;
+        } else {
+            return Relationship.ENEMY;
+        }
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "FactionsBlue";
     }
 
 }

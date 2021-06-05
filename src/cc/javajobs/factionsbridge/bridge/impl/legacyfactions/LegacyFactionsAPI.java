@@ -1,19 +1,19 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.legacyfactions.events.LegacyFactionsListener;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.FPlayerColl;
-import net.redstoneore.legacyfactions.entity.Faction;
 import net.redstoneore.legacyfactions.entity.FactionColl;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,38 +22,17 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 04/05/2021 - 10:09
  */
-public class LegacyFactionsAPI implements IFactionsAPI {
+public class LegacyFactionsAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
      * @return IFactions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
+    public List<Faction> getFactions() {
         return FactionColl.all().stream().map(LegacyFactionsFaction::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to obtain a Faction from Location.
-     *
-     * @param location of the faction.
-     * @return IFaction at that location
-     */
-    @Override
-    public IFaction getFactionAt(Location location) {
-        return getClaimAt(location).getFaction();
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
     }
 
     /**
@@ -62,8 +41,9 @@ public class LegacyFactionsAPI implements IFactionsAPI {
      * @param chunk to convert
      * @return IClaim object.
      */
+    @NotNull
     @Override
-    public IClaim getClaimAt(Chunk chunk) {
+    public Claim getClaim(@NotNull Chunk chunk) {
         return new LegacyFactionsClaim(new FLocation(chunk));
     }
 
@@ -74,42 +54,37 @@ public class LegacyFactionsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         return new LegacyFactionsFaction(FactionColl.get().getFactionById(id));
     }
 
     /**
-     * Method to retrive an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return new LegacyFactionsFaction(FactionColl.get().getByTag(name));
+    public Faction getFactionByTag(@NotNull String tag) {
+        return new LegacyFactionsFaction(FactionColl.get().getByTag(tag));
     }
 
     /**
-     * Method to retrieve an IFaction from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player in the IFaction.
-     * @return IFaction implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
-        return getFactionPlayer(player).getFaction();
-    }
-
-    /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
-     *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
-     */
-    @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
         return new LegacyFactionsPlayer(FPlayerColl.get(player));
     }
+
 
     /**
      * Method to create a new Faction with the given name.
@@ -118,9 +93,10 @@ public class LegacyFactionsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
-        Faction faction = FactionColl.get().createFaction();
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        net.redstoneore.legacyfactions.entity.Faction faction = FactionColl.get().createFaction();
         faction.setTag(name);
         return new LegacyFactionsFaction(faction);
     }
@@ -132,7 +108,7 @@ public class LegacyFactionsAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
         FactionColl.get().removeFaction(faction.getId());
     }
 
@@ -148,30 +124,33 @@ public class LegacyFactionsAPI implements IFactionsAPI {
     /**
      * Method to obtain WarZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWarZone() {
+    public Faction getWarZone() {
         return new LegacyFactionsFaction(FactionColl.get().getWarZone());
     }
 
     /**
      * Method to obtain SafeZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getSafeZone() {
+    public Faction getSafeZone() {
         return new LegacyFactionsFaction(FactionColl.get().getSafeZone());
     }
 
     /**
      * Method to obtain the Wilderness.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWilderness() {
+    public Faction getWilderness() {
         return new LegacyFactionsFaction(FactionColl.get().getWilderness());
     }
 

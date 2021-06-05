@@ -1,13 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
-import cc.javajobs.factionsbridge.bridge.events.IClaimClaimEvent;
-import cc.javajobs.factionsbridge.bridge.events.IFactionDisbandEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionClaimEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionDisbandEvent;
 import cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks.FactionsBlueTasks;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import me.zysea.factions.events.FPlayerClaimEvent;
-import me.zysea.factions.events.FactionDisbandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,14 +21,14 @@ import org.bukkit.event.Listener;
  */
 public class FactionsBlueListener implements Listener, Communicator {
 
-    private final IFactionsAPI api = FactionsBridge.getFactionsAPI();
+    private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
     @EventHandler
     public void onClaim(FPlayerClaimEvent event) {
-        IClaimClaimEvent bridgeEvent = new IClaimClaimEvent(
-                api.getClaimAt(event.getClaim().asChunk()),
+        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+                api.getClaim(event.getClaim().asChunk()),
                 api.getFaction(String.valueOf(event.getFaction().getId())),
-                api.getFactionPlayer(event.getPlayer()),
+                api.getFPlayer(event.getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -37,16 +36,16 @@ public class FactionsBlueListener implements Listener, Communicator {
     }
 
     @EventHandler
-    public void onDisband(FactionDisbandEvent event) {
+    public void onDisband(me.zysea.factions.events.FactionDisbandEvent event) {
         if (!(event.getSender() instanceof Player)) {
             warn("A Faction has been deleted by something other than a Player.");
             warn("This is not supported behaviour and will therefore cause issues.");
             return;
         }
-        IFactionDisbandEvent bridgeEvent = new IFactionDisbandEvent(
+        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
                 (Player) event.getSender(),
                 api.getFaction(event.getFaction().getId().toString()),
-                IFactionDisbandEvent.DisbandReason.UNKNOWN,
+                FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

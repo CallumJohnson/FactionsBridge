@@ -1,20 +1,20 @@
 package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import dansplugins.factionsystem.ChunkManager;
 import dansplugins.factionsystem.MedievalFactions;
 import dansplugins.factionsystem.commands.DisbandCommand;
 import dansplugins.factionsystem.data.PersistentData;
-import dansplugins.factionsystem.objects.Faction;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -25,41 +25,19 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 03/05/2021 - 09:26
  */
-public class MedievalFactionsAPI implements IFactionsAPI {
+public class MedievalFactionsAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
      * @return IFactions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
+    public List<Faction> getFactions() {
         return PersistentData.getInstance().getFactions().stream()
                 .map(MedievalFactionsFaction::new)
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Method to obtain a Faction from Location.
-     *
-     * @param location of the faction.
-     * @return IFaction at that location
-     */
-    @Override
-    public IFaction getFactionAt(Location location) {
-        MedievalFactionsClaim claim = (MedievalFactionsClaim) getClaimAt(location);
-        return claim == null ? null : claim.getFaction();
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
     }
 
     /**
@@ -68,8 +46,9 @@ public class MedievalFactionsAPI implements IFactionsAPI {
      * @param chunk to convert
      * @return IClaim object.
      */
+    @NotNull
     @Override
-    public IClaim getClaimAt(Chunk chunk) {
+    public Claim getClaim(@NotNull Chunk chunk) {
         return new MedievalFactionsClaim(ChunkManager.getInstance().getClaimedChunk(
                 chunk.getX(), chunk.getZ(), chunk.getWorld().getName(),
                 PersistentData.getInstance().getClaimedChunks()
@@ -82,20 +61,22 @@ public class MedievalFactionsAPI implements IFactionsAPI {
      * @param id of the IFaction
      * @return IFaction implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         return new MedievalFactionsFaction(PersistentData.getInstance().getFaction(id));
     }
 
     /**
-     * Method to retrieve an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return getFaction(name);
+    public Faction getFactionByTag(@NotNull String tag) {
+        return getFaction(tag);
     }
 
     /**
@@ -105,18 +86,22 @@ public class MedievalFactionsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
+    public Faction getFaction(OfflinePlayer player) {
         return new MedievalFactionsFaction(PersistentData.getInstance().getPlayersFaction(player.getUniqueId()));
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
         return new MedievalFactionsPlayer(player);
     }
 
@@ -127,9 +112,11 @@ public class MedievalFactionsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
-        Faction faction = new Faction(name, UUID.randomUUID(), MedievalFactions.getInstance().getConfig().getInt("initialMaxPowerLevel"));
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        dansplugins.factionsystem.objects.Faction faction = new dansplugins.factionsystem.objects.Faction
+                (name, UUID.randomUUID(), MedievalFactions.getInstance().getConfig().getInt("initialMaxPowerLevel"));
         PersistentData.getInstance().getFactions().add(faction);
         return new MedievalFactionsFaction(faction);
     }
@@ -141,14 +128,16 @@ public class MedievalFactionsAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
         try {
-            int index = PersistentData.getInstance().getFactions().indexOf((Faction) faction.asObject());
+            MedievalFactionsFaction fac = (MedievalFactionsFaction) faction;
+            int index = PersistentData.getInstance().getFactions().indexOf(fac.getFaction());
             Class<?> disbandCommandClass = DisbandCommand.class;
-            Method method = disbandCommandClass.getDeclaredMethod("removeFaction", Integer.TYPE);
+            Method method = disbandCommandClass.getDeclaredMethod("removeFaction", Integer.TYPE, OfflinePlayer.class);
             method.setAccessible(true);
-            method.invoke(this, index);
+            method.invoke(this, index, null);
         } catch (Exception ex) {
+            if (FactionsBridge.get().catch_exceptions) return;
             throw new BridgeMethodException(getClass(), "deleteFaction()");
         }
     }
@@ -164,31 +153,43 @@ public class MedievalFactionsAPI implements IFactionsAPI {
     /**
      * Method to obtain WarZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWarZone() {
+    public Faction getWarZone() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWarZone");
     }
 
     /**
      * Method to obtain SafeZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getSafeZone() {
+    public Faction getSafeZone() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getSafeZone");
     }
 
     /**
      * Method to obtain the Wilderness.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWilderness() {
-        return null;
+    public Faction getWilderness() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
+        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWilderness");
     }
 
 }

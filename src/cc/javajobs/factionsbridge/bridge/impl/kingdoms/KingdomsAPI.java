@@ -1,21 +1,25 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.bridge.impl.kingdoms.events.KingdomsListener;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.kingdoms.constants.kingdom.Kingdom;
 import org.kingdoms.constants.land.Land;
 import org.kingdoms.constants.player.KingdomPlayer;
 import org.kingdoms.data.DataHandler;
+import org.kingdoms.data.managers.KingdomManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,39 +30,36 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 17:17
  */
-public class KingdomsAPI implements IFactionsAPI {
+public class KingdomsAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
-     * @return IFactions in the form of a List.
+     * @return Factions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
-        return DataHandler.get().getKingdomManager().getKingdoms()
-                .stream().map(KingdomsKingdom::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to obtain a Faction from Location.
-     *
-     * @param location of the faction.
-     * @return IFaction at that location
-     */
-    @Override
-    public IFaction getFactionAt(Location location) {
-        return new KingdomsKingdom(Land.getLand(location).getKingdom());
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
+    public List<Faction> getFactions() {
+        DataHandler dataHandler;
+        KingdomManager manager;
+        try {
+            dataHandler = DataHandler.get();
+        } catch (Exception exception) {
+            FactionsBridge.get().exception(exception, "Kingdoms DataHandler is null.");
+            return new ArrayList<>();
+        }
+        try {
+            manager = dataHandler.getKingdomManager();
+        } catch (Exception exception) {
+            FactionsBridge.get().exception(exception, "Kingdoms KingdomManager is null.");
+            return new ArrayList<>();
+        }
+        try {
+            return manager.getKingdoms().stream().map(KingdomsKingdom::new).collect(Collectors.toList());
+        } catch (Exception ex) {
+            FactionsBridge.get().exception(ex, "Cannot convert Kingdoms to FactionsBridge Factions.");
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -67,8 +68,9 @@ public class KingdomsAPI implements IFactionsAPI {
      * @param chunk to convert
      * @return IClaim object.
      */
+    @NotNull
     @Override
-    public IClaim getClaimAt(Chunk chunk) {
+    public Claim getClaim(@NotNull Chunk chunk) {
         return new KingdomsClaim(Land.getLand(chunk));
     }
 
@@ -79,19 +81,20 @@ public class KingdomsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         return new KingdomsKingdom(Kingdom.getKingdom(UUID.fromString(id)));
     }
 
     /**
-     * Method to retrive an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return new KingdomsKingdom(Kingdom.getKingdom(name));
+    public Faction getFactionByTag(@NotNull String tag) {
+        return new KingdomsKingdom(Kingdom.getKingdom(tag));
     }
 
     /**
@@ -101,18 +104,22 @@ public class KingdomsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
+    public Faction getFaction(@NotNull OfflinePlayer player) {
         return new KingdomsKingdom(KingdomPlayer.getKingdomPlayer(player).getKingdom());
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
         return new KingdomsPlayer(KingdomPlayer.getKingdomPlayer(player));
     }
 
@@ -123,8 +130,12 @@ public class KingdomsAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("Kingdoms doesn't support createFaction(name).");
     }
 
@@ -135,11 +146,8 @@ public class KingdomsAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
-        if (faction == null) {
-            throw new IllegalStateException("IFaction cannot be null!");
-        }
-        ((Kingdom) faction.asObject()).disband();
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
+        ((Kingdom) (((AbstractFaction<?>) faction).getFaction())).disband();
     }
 
     /**
@@ -158,30 +166,42 @@ public class KingdomsAPI implements IFactionsAPI {
     /**
      * Method to obtain WarZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWarZone() {
+    public Faction getWarZone() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWarZone().");
     }
 
     /**
      * Method to obtain SafeZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getSafeZone() {
+    public Faction getSafeZone() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getSafeZone().");
     }
 
     /**
      * Method to obtain the Wilderness.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWilderness() {
+    public Faction getWilderness() {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("Kingdoms doesn't support getWilderness().");
     }
 

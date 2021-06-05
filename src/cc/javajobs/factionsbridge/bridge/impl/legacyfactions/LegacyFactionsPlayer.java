@@ -1,12 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -14,12 +14,18 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 04/05/2021 - 09:55
  */
-public class LegacyFactionsPlayer implements IFactionPlayer {
+public class LegacyFactionsPlayer extends AbstractFPlayer<FPlayer> {
 
-    private final FPlayer fpl;
-
-    public LegacyFactionsPlayer(FPlayer fPlayer) {
-        this.fpl = fPlayer;
+    /**
+     * Constructor to create an LegacyFactionsPlayer.
+     * <p>
+     * This class will be used to create each implementation of an 'FPlayer'.
+     * </p>
+     *
+     * @param fPlayer object which will be bridged using the FactionsBridge.
+     */
+    public LegacyFactionsPlayer(@NotNull FPlayer fPlayer) {
+        super(fPlayer);
     }
 
     /**
@@ -27,9 +33,10 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      *
      * @return UUID (UniqueId).
      */
+    @NotNull
     @Override
     public UUID getUniqueId() {
-        return UUID.fromString(fpl.getId());
+        return UUID.fromString(fPlayer.getId());
     }
 
     /**
@@ -37,9 +44,10 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      *
      * @return name of the Player.
      */
+    @NotNull
     @Override
     public String getName() {
-        return fpl.getName();
+        return fPlayer.getName();
     }
 
     /**
@@ -48,8 +56,8 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      * @return faction of the player.
      */
     @Override
-    public IFaction getFaction() {
-        return new LegacyFactionsFaction(fpl.getFaction());
+    public Faction getFaction() {
+        return new LegacyFactionsFaction(fPlayer.getFaction());
     }
 
     /**
@@ -63,7 +71,7 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean hasFaction() {
-        return fpl.hasFaction();
+        return fPlayer.hasFaction();
     }
 
     /**
@@ -71,21 +79,22 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      *
      * @return {@link OfflinePlayer}
      */
+    @NotNull
     @SuppressWarnings("deprecation")
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(fpl.getId());
+        return Bukkit.getOfflinePlayer(fPlayer.getId());
     }
 
     /**
      * Method to get the Online form of the Player.
      *
      * @return {@link Player}
-     * @see IFactionPlayer#isOnline()
+     * @see FPlayer#isOnline()
      */
     @Override
     public Player getPlayer() {
-        return fpl.getPlayer();
+        return fPlayer.getPlayer();
     }
 
     /**
@@ -95,39 +104,7 @@ public class LegacyFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean isOnline() {
-        return fpl.isOnline();
-    }
-
-    /**
-     * Method to get the relationship from a Player to a Faction.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        return getFaction().getRelationTo(other);
-    }
-
-    /**
-     * Method to get the relationship from a Player to another Player.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFactionPlayer as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return fpl;
+        return fPlayer.isOnline();
     }
 
 }

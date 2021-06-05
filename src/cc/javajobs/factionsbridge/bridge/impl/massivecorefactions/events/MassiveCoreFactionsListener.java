@@ -1,10 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
-import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsFaction;
-import cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.MassiveCoreFactionsPlayer;
+import cc.javajobs.factionsbridge.bridge.events.FactionCreateEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionDisbandEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionRenameEvent;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.*;
 import com.massivecraft.massivecore.ps.PS;
@@ -22,14 +23,14 @@ import java.util.Map;
  */
 public class MassiveCoreFactionsListener implements Listener {
 
-    private final IFactionsAPI api = FactionsBridge.getFactionsAPI();
+    private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
     @EventHandler
     public void onBunchOfEvents(EventFactionsChunksChange event) {
         if (event.getMPlayer().getFaction().getLandCount() == 0) {
-            IClaimUnclaimAllEvent bridgeEvent = new IClaimUnclaimAllEvent(
+            FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                     api.getFaction(event.getMPlayer().getFaction().getId()),
-                    api.getFactionPlayer(event.getMPlayer().getPlayer()),
+                    api.getFPlayer(event.getMPlayer().getPlayer()),
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -37,20 +38,20 @@ public class MassiveCoreFactionsListener implements Listener {
             return;
         }
         for (PS chunk : event.getChunks()) {
-            IClaimClaimEvent bridgeEvent = new IClaimClaimEvent(
-                    api.getClaimAt(chunk.asBukkitChunk()),
-                    api.getClaimAt(chunk.asBukkitChunk()).getFaction(),
-                    api.getFactionPlayer(event.getMPlayer().getPlayer()),
+            FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+                    api.getClaim(chunk.asBukkitChunk()),
+                    api.getClaim(chunk.asBukkitChunk()).getFaction(),
+                    api.getFPlayer(event.getMPlayer().getPlayer()),
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
             event.setCancelled(bridgeEvent.isCancelled());
         }
         for (Map.Entry<PS, Faction> entry : event.getOldChunkFaction().entrySet()) {
-            IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
-                    api.getClaimAt(entry.getKey().asBukkitChunk()),
+            FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
+                    api.getClaim(entry.getKey().asBukkitChunk()),
                     api.getFaction(entry.getValue().getId()),
-                    api.getFactionPlayer(event.getMPlayer().getPlayer()),
+                    api.getFPlayer(event.getMPlayer().getPlayer()),
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -60,9 +61,9 @@ public class MassiveCoreFactionsListener implements Listener {
 
     @EventHandler
     public void onCreate(EventFactionsCreate event) {
-        IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                new MassiveCoreFactionsFaction(event.getMPlayer().getFaction()),
-                new MassiveCoreFactionsPlayer(event.getMPlayer()),
+        FactionCreateEvent bridgeEvent = new FactionCreateEvent(
+                api.getFaction(event.getFactionId()),
+                api.getFPlayer(event.getMPlayer().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -71,10 +72,10 @@ public class MassiveCoreFactionsListener implements Listener {
 
     @EventHandler
     public void onDisband(EventFactionsDisband event) {
-        IFactionDisbandEvent bridgeEvent = new IFactionDisbandEvent(
-                api.getFactionPlayer(event.getMPlayer().getPlayer()),
+        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
+                api.getFPlayer(event.getMPlayer().getPlayer()),
                 api.getFaction(event.getFactionId()),
-                IFactionDisbandEvent.DisbandReason.UNKNOWN,
+                FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -83,7 +84,7 @@ public class MassiveCoreFactionsListener implements Listener {
 
     @EventHandler
     public void onRename(EventFactionsNameChange event) {
-        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+        FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                 api.getFaction(event.getFaction().getId()),
                 event.getNewName(),
                 event
@@ -96,9 +97,9 @@ public class MassiveCoreFactionsListener implements Listener {
     public void onJoin(EventFactionsMembershipChange event) {
         switch (event.getReason()) {
             case JOIN:
-                IFactionPlayerJoinIFactionEvent joinEvent = new IFactionPlayerJoinIFactionEvent(
+                FactionJoinEvent joinEvent = new FactionJoinEvent(
                         api.getFaction(event.getNewFaction().getId()),
-                        api.getFactionPlayer(event.getMPlayer().getPlayer()),
+                        api.getFPlayer(event.getMPlayer().getPlayer()),
                         event
                 );
                 Bukkit.getPluginManager().callEvent(joinEvent);
@@ -106,10 +107,10 @@ public class MassiveCoreFactionsListener implements Listener {
                 return;
             case LEAVE:
             case KICK:
-                IFactionPlayerLeaveIFactionEvent leaveEvent = new IFactionPlayerLeaveIFactionEvent(
+                FactionLeaveEvent leaveEvent = new FactionLeaveEvent(
                         api.getFaction(event.getMPlayer().getFaction().getId()),
-                        api.getFactionPlayer(event.getMPlayer().getPlayer()),
-                        IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
+                        api.getFPlayer(event.getMPlayer().getPlayer()),
+                        FactionLeaveEvent.LeaveReason.fromString(event.getReason().name()),
                         event
                 );
                 Bukkit.getPluginManager().callEvent(leaveEvent);

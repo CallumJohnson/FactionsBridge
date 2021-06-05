@@ -1,10 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.kingdoms.constants.player.KingdomPlayer;
 
 import java.util.UUID;
@@ -15,12 +16,18 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 17:08
  */
-public class KingdomsPlayer implements IFactionPlayer {
+public class KingdomsPlayer extends AbstractFPlayer<KingdomPlayer> {
 
-    private final KingdomPlayer player;
-
-    public KingdomsPlayer(KingdomPlayer player) {
-        this.player = player;
+    /**
+     * Constructor to create an KingdomsPlayer.
+     * <p>
+     * This class will be used to create each implementation of an 'FPlayer'.
+     * </p>
+     *
+     * @param fPlayer object which will be bridged using the FactionsBridge.
+     */
+    public KingdomsPlayer(@NotNull KingdomPlayer fPlayer) {
+        super(fPlayer);
     }
 
     /**
@@ -28,9 +35,10 @@ public class KingdomsPlayer implements IFactionPlayer {
      *
      * @return UUID (UniqueId).
      */
+    @NotNull
     @Override
     public UUID getUniqueId() {
-        return player.getId();
+        return fPlayer.getId();
     }
 
     /**
@@ -38,9 +46,10 @@ public class KingdomsPlayer implements IFactionPlayer {
      *
      * @return name of the Player.
      */
+    @NotNull
     @Override
     public String getName() {
-        return player.getOfflinePlayer().getName();
+        return getOfflinePlayer().getName() == null ? "Robot_" + Math.random() : getOfflinePlayer().getName();
     }
 
     /**
@@ -49,8 +58,8 @@ public class KingdomsPlayer implements IFactionPlayer {
      * @return faction of the player.
      */
     @Override
-    public IFaction getFaction() {
-        return new KingdomsKingdom(player.getKingdom());
+    public Faction getFaction() {
+        return new KingdomsKingdom(fPlayer.getKingdom());
     }
 
     /**
@@ -64,7 +73,7 @@ public class KingdomsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean hasFaction() {
-        return player.hasKingdom();
+        return fPlayer.hasKingdom();
     }
 
     /**
@@ -72,20 +81,25 @@ public class KingdomsPlayer implements IFactionPlayer {
      *
      * @return {@link OfflinePlayer}
      */
+    @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return player.getOfflinePlayer();
+        return fPlayer.getOfflinePlayer();
     }
 
     /**
-     * Method to get the Online form of the Player.
+     * Method to get the Player related to the FPlayer.
+     * <p>
+     * Please use {@link #isOnline()} before relying on this method as it can return null if the player isn't online.
+     * </p>
      *
-     * @return {@link Player}
-     * @see IFactionPlayer#isOnline()
+     * @return {@link Player} or {@code null}.
+     * @see #isOnline()
      */
+    @Nullable
     @Override
     public Player getPlayer() {
-        return player.getPlayer();
+        return fPlayer.getPlayer();
     }
 
     /**
@@ -95,39 +109,7 @@ public class KingdomsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean isOnline() {
-        return player.getOfflinePlayer().isOnline();
-    }
-
-    /**
-     * Method to get the relationship from a Player to a Faction.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        return getFaction().getRelationTo(other);
-    }
-
-    /**
-     * Method to get the relationship from a Player to another Player.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getFaction().getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFactionPlayer as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return player;
+        return fPlayer.getOfflinePlayer().isOnline();
     }
 
 }

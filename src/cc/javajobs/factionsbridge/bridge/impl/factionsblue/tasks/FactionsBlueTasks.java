@@ -1,10 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
 import cc.javajobs.factionsbridge.bridge.events.*;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -20,16 +20,12 @@ import java.util.Set;
  */
 public class FactionsBlueTasks implements Runnable {
 
-    private final HashMap<IFaction, Set<IClaim>> claimCount = new HashMap<>();
-    private final HashMap<IFaction, String> nameChangeTrack = new HashMap<>();
-    private final HashMap<IFaction, List<IFactionPlayer>> memberTrack = new HashMap<>();
+    private final HashMap<Faction, Set<Claim>> claimCount = new HashMap<>();
+    private final HashMap<Faction, String> nameChangeTrack = new HashMap<>();
+    private final HashMap<Faction, List<FPlayer>> memberTrack = new HashMap<>();
 
-    /**
-     * Constructor to initialise {@link FactionsBlueTasks#claimCount}
-     * and {@link FactionsBlueTasks#nameChangeTrack}.
-     */
     public FactionsBlueTasks() {
-        for (IFaction fac : FactionsBridge.getFactionsAPI().getAllFactions()) {
+        for (Faction fac : FactionsBridge.getFactionsAPI().getAllFactions()) {
             claimCount.put(fac, new HashSet<>(fac.getAllClaims().size()));
             nameChangeTrack.put(fac, fac.getName());
             memberTrack.put(fac, fac.getMembers());
@@ -38,14 +34,14 @@ public class FactionsBlueTasks implements Runnable {
 
     @Override
     public void run() {
-        for (IFaction faction : FactionsBridge.getFactionsAPI().getAllFactions()) {
-            Set<IClaim> currentClaims = new HashSet<>(faction.getAllClaims());
-            Set<IClaim> oldClaims = claimCount.getOrDefault(faction, new HashSet<>());
+        for (Faction faction : FactionsBridge.getFactionsAPI().getAllFactions()) {
+            Set<Claim> currentClaims = new HashSet<>(faction.getAllClaims());
+            Set<Claim> oldClaims = claimCount.getOrDefault(faction, new HashSet<>());
 
             if (currentClaims.size() == oldClaims.size() && !claimCount.containsKey(faction)) {
 
                 // create
-                IFactionCreateEvent createEvent = new IFactionCreateEvent(
+                FactionCreateEvent createEvent = new FactionCreateEvent(
                         faction, faction.getLeader(), null
                 );
                 Bukkit.getPluginManager().callEvent(createEvent);
@@ -53,17 +49,17 @@ public class FactionsBlueTasks implements Runnable {
             } else if (currentClaims.size() == 0 && oldClaims.size() > 1) {
 
                 // unclaimall
-                IClaimUnclaimAllEvent unclaimAllEvent = new IClaimUnclaimAllEvent(
+                FactionUnclaimAllEvent unclaimAllEvent = new FactionUnclaimAllEvent(
                         faction, faction.getLeader(), null
                 );
                 Bukkit.getPluginManager().callEvent(unclaimAllEvent);
 
             } else if (currentClaims.size() < oldClaims.size()) {
                 if (oldClaims.removeAll(currentClaims)) {
-                    for (IClaim unclaimedClaim : oldClaims) {
+                    for (Claim unclaimedClaim : oldClaims) {
 
                         // unclaim
-                        IClaimUnclaimEvent unclaimEvent = new IClaimUnclaimEvent(
+                        FactionUnclaimEvent unclaimEvent = new FactionUnclaimEvent(
                                 unclaimedClaim, faction, faction.getLeader(), null
                         );
                         Bukkit.getPluginManager().callEvent(unclaimEvent);
@@ -75,7 +71,7 @@ public class FactionsBlueTasks implements Runnable {
             if (nameChangeTrack.containsKey(faction)) {
                 String oldName = nameChangeTrack.get(faction);
                 if (!faction.getName().equalsIgnoreCase(oldName)) {
-                    IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+                    FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                             faction,
                             faction.getName(),
                             null
@@ -85,27 +81,27 @@ public class FactionsBlueTasks implements Runnable {
             }
 
             if (memberTrack.containsKey(faction)) {
-                List<IFactionPlayer> old = memberTrack.get(faction);
-                List<IFactionPlayer> current = faction.getMembers();
+                List<FPlayer> old = memberTrack.get(faction);
+                List<FPlayer> current = faction.getMembers();
                 if (old.size() != current.size()) {
                     if (old.size() > current.size()) { // leave/kick
-                        for (IFactionPlayer iFactionPlayer : old) {
-                            if (!current.contains(iFactionPlayer)) {
-                                IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+                        for (FPlayer fpl : old) {
+                            if (!current.contains(fpl)) {
+                                FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                                         faction,
-                                        iFactionPlayer,
-                                        IFactionPlayerLeaveIFactionEvent.LeaveReason.UNKNOWN,
+                                        fpl,
+                                        FactionLeaveEvent.LeaveReason.UNKNOWN,
                                         null
                                 );
                                 Bukkit.getPluginManager().callEvent(bridgeEvent);
                             }
                         }
                     } else { // join
-                        for (IFactionPlayer iFactionPlayer : current) {
-                            if (!old.contains(iFactionPlayer)) {
-                                IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+                        for (FPlayer fpl : current) {
+                            if (!old.contains(fpl)) {
+                                FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                                         faction,
-                                        iFactionPlayer,
+                                        fpl,
                                         null
                                 );
                                 Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -120,5 +116,6 @@ public class FactionsBlueTasks implements Runnable {
 
         }
     }
+
 
 }

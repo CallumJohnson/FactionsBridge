@@ -1,13 +1,13 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import cc.javajobs.factionsbridge.bridge.impl.factionsx.events.FactionsXListener;
-import net.prosavage.factionsx.core.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
 import net.prosavage.factionsx.manager.FactionManager;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.manager.PlayerManager;
@@ -16,6 +16,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,15 +28,16 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 16:43
  */
-public class FactionsXAPI implements IFactionsAPI {
+public class FactionsXAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
-     * @return IFactions in the form of a List.
+     * @return Factions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
+    public List<Faction> getFactions() {
         return FactionManager.INSTANCE.getFactions().stream().map(FactionsXFaction::new).collect(Collectors.toList());
     }
 
@@ -45,19 +48,8 @@ public class FactionsXAPI implements IFactionsAPI {
      * @return IFaction at that location
      */
     @Override
-    public IFaction getFactionAt(Location location) {
+    public Faction getFactionAt(Location location) {
         return new FactionsXFaction(GridManager.INSTANCE.getFactionAt(location.getChunk()));
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
     }
 
     /**
@@ -66,8 +58,9 @@ public class FactionsXAPI implements IFactionsAPI {
      * @param chunk to convert
      * @return IClaim object.
      */
+    @NotNull
     @Override
-    public IClaim getClaimAt(Chunk chunk) {
+    public Claim getClaim(Chunk chunk) {
         return new FactionsXClaim(new FLocation(chunk.getX(), chunk.getZ(), chunk.getWorld().getName()));
     }
 
@@ -78,19 +71,20 @@ public class FactionsXAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         return new FactionsXFaction(FactionManager.INSTANCE.getFaction(Long.parseLong(id)));
     }
 
     /**
-     * Method to retrive an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return new FactionsXFaction(FactionManager.INSTANCE.getFaction(name));
+    public Faction getFactionByTag(@NotNull String tag) {
+        return new FactionsXFaction(FactionManager.INSTANCE.getFaction(tag));
     }
 
     /**
@@ -100,18 +94,22 @@ public class FactionsXAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
+    public Faction getFaction(OfflinePlayer player) {
         return new FactionsXFaction(PlayerManager.INSTANCE.getFPlayer(player.getUniqueId()).getFaction());
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
         return new FactionsXPlayer(PlayerManager.INSTANCE.getFPlayer(player.getUniqueId()));
     }
 
@@ -122,8 +120,12 @@ public class FactionsXAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        if (FactionsBridge.get().catch_exceptions) {
+            FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
+        }
         throw new BridgeMethodUnsupportedException("FactionsX doesn't support createFaction(name).");
     }
 
@@ -134,11 +136,9 @@ public class FactionsXAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
-        if (faction == null) {
-            throw new IllegalStateException("IFaction cannot be null!");
-        }
-        FactionManager.INSTANCE.deleteFaction(((Faction) faction.asObject()));
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
+        FactionManager.INSTANCE.deleteFaction(
+                (net.prosavage.factionsx.core.Faction) ((AbstractFaction<?>) faction).getFaction());
     }
 
     /**
@@ -157,30 +157,33 @@ public class FactionsXAPI implements IFactionsAPI {
     /**
      * Method to obtain WarZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWarZone() {
+    public Faction getWarZone() {
         return new FactionsXFaction(FactionManager.INSTANCE.getFaction(FactionManager.WARZONE_ID));
     }
 
     /**
      * Method to obtain SafeZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getSafeZone() {
+    public Faction getSafeZone() {
         return new FactionsXFaction(FactionManager.INSTANCE.getFaction(FactionManager.SAFEZONE_ID));
     }
 
     /**
      * Method to obtain the Wilderness.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWilderness() {
+    public Faction getWilderness() {
         return new FactionsXFaction(FactionManager.INSTANCE.getWilderness());
     }
 

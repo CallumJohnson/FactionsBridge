@@ -20,7 +20,7 @@ public class BridgePlugin extends JavaPlugin implements Communicator {
             return;
         }
         // API test.
-        int loaded = FactionsBridge.getFactionsAPI().getAllFactions().size();
+        int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
         warn(loaded + " factions have been loaded.");
 
         // Check for updates.

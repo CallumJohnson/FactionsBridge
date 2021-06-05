@@ -1,34 +1,40 @@
 package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import dansplugins.factionsystem.ChunkManager;
 import dansplugins.factionsystem.data.PersistentData;
 import dansplugins.factionsystem.objects.ClaimedChunk;
 import org.bukkit.Chunk;
-import org.bukkit.World;
-
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Callum Johnson
  * @since 03/05/2021 - 09:23
  */
-public class MedievalFactionsClaim implements IClaim {
+public class MedievalFactionsClaim extends AbstractClaim<ClaimedChunk> {
 
-    private final ClaimedChunk claimedChunk;
-
-    public MedievalFactionsClaim(ClaimedChunk claimedChunk) {
-        this.claimedChunk = claimedChunk;
+    /**
+     * Constructor to create an MedievalFactionsClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
+     */
+    public MedievalFactionsClaim(@NotNull ClaimedChunk claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Method to obtain the Chunk related to the Claim.
      *
-     * @return {@link Chunk} from Bukkit.
+     * @return {@link Chunk} represented by the 'Claim'.
      */
+    @NotNull
     @Override
-    public Chunk getBukkitChunk() {
-        return claimedChunk.getChunk();
+    public Chunk getChunk() {
+        return claim.getChunk();
     }
 
     /**
@@ -38,7 +44,7 @@ public class MedievalFactionsClaim implements IClaim {
      */
     @Override
     public int getX() {
-        return getBukkitChunk().getX();
+        return getChunk().getX();
     }
 
     /**
@@ -48,17 +54,7 @@ public class MedievalFactionsClaim implements IClaim {
      */
     @Override
     public int getZ() {
-        return getBukkitChunk().getZ();
-    }
-
-    /**
-     * Method to get the World of the Chunk.
-     *
-     * @return {@link World} from the Bukkit API.
-     */
-    @Override
-    public World getWorld() {
-        return getBukkitChunk().getWorld();
+        return getChunk().getZ();
     }
 
     /**
@@ -67,38 +63,26 @@ public class MedievalFactionsClaim implements IClaim {
      * @return IFaction linked to the IClaim.
      */
     @Override
-    public IFaction getFaction() {
-        return new MedievalFactionsFaction(PersistentData.getInstance().getFaction(claimedChunk.getHolder()));
+    public Faction getFaction() {
+        return new MedievalFactionsFaction(PersistentData.getInstance().getFaction(claim.getHolder()));
     }
 
     /**
-     * Method to get the name of the World linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return string name of the World.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public String getWorldName() {
-        return getWorld().getName();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return getWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return claimedChunk;
+    public boolean isClaimed() {
+        return getFaction() != null &&
+                ChunkManager.getInstance().isClaimed(
+                        getChunk(),
+                        PersistentData.getInstance().getClaimedChunks()
+                );
     }
 
 }

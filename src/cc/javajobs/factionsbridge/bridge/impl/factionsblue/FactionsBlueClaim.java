@@ -1,13 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.objects.Claim;
 import org.bukkit.Chunk;
-import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
 
 /**
  * FactionsBlue Implementation of the IClaim.
@@ -15,21 +14,28 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 14:01
  */
-public class FactionsBlueClaim implements IClaim {
+public class FactionsBlueClaim extends AbstractClaim<Claim> {
 
-    private final Claim claim;
-
-    public FactionsBlueClaim(Claim claim) {
-        this.claim = claim;
+    /**
+     * Constructor to create an AbstractClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
+     */
+    public FactionsBlueClaim(@NotNull Claim claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Method to obtain the Chunk related to the Claim.
      *
-     * @return {@link Chunk} from Bukkit.
+     * @return {@link Chunk} represented by the 'Claim'.
      */
+    @NotNull
     @Override
-    public Chunk getBukkitChunk() {
+    public Chunk getChunk() {
         return claim.asChunk();
     }
 
@@ -54,53 +60,27 @@ public class FactionsBlueClaim implements IClaim {
     }
 
     /**
-     * Method to get the World of the Chunk.
-     *
-     * @return {@link World} from the Bukkit API.
-     */
-    @Override
-    public World getWorld() {
-        return claim.getWorld();
-    }
-
-    /**
      * Method to get the Faction linked to the Chunk.
      *
      * @return IFaction linked to the IClaim.
      */
     @Override
-    public IFaction getFaction() {
+    public Faction getFaction() {
         return new FactionsBlueFaction(FPlugin.getInstance().getClaims().getOwner(claim));
     }
 
     /**
-     * Method to get the name of the World linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return string name of the World.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public String getWorldName() {
-        return claim.getWorld().getName();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return claim.getWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return claim;
+    public boolean isClaimed() {
+        return getFaction() != null;
     }
 
 }

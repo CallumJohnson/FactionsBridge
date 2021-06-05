@@ -1,11 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -15,12 +16,18 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 15:17
  */
-public class MassiveCoreFactionsPlayer implements IFactionPlayer {
+public class MassiveCoreFactionsPlayer extends AbstractFPlayer<MPlayer> {
 
-    private final MPlayer mpl;
-
-    public MassiveCoreFactionsPlayer(MPlayer mpl) {
-        this.mpl = mpl;
+    /**
+     * Constructor to create an MassiveCoreFactionsPlayer.
+     * <p>
+     * This class will be used to create each implementation of an 'FPlayer'.
+     * </p>
+     *
+     * @param fPlayer object which will be bridged using the FactionsBridge.
+     */
+    public MassiveCoreFactionsPlayer(@NotNull MPlayer fPlayer) {
+        super(fPlayer);
     }
 
     /**
@@ -28,9 +35,10 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      *
      * @return UUID (UniqueId).
      */
+    @NotNull
     @Override
     public UUID getUniqueId() {
-        return mpl.getUuid();
+        return fPlayer.getUuid();
     }
 
     /**
@@ -38,9 +46,10 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      *
      * @return name of the Player.
      */
+    @NotNull
     @Override
     public String getName() {
-        return mpl.getName();
+        return fPlayer.getName();
     }
 
     /**
@@ -49,8 +58,8 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      * @return faction of the player.
      */
     @Override
-    public IFaction getFaction() {
-        return new MassiveCoreFactionsFaction(mpl.getFaction());
+    public Faction getFaction() {
+        return new MassiveCoreFactionsFaction(fPlayer.getFaction());
     }
 
     /**
@@ -64,7 +73,7 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean hasFaction() {
-        return mpl.hasFaction();
+        return fPlayer.hasFaction();
     }
 
     /**
@@ -72,20 +81,21 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      *
      * @return {@link OfflinePlayer}
      */
+    @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return mpl.getPlayer();
+        return fPlayer.getPlayer();
     }
 
     /**
      * Method to get the Online form of the Player.
      *
      * @return {@link Player}
-     * @see IFactionPlayer#isOnline()
+     * @see FPlayer#isOnline()
      */
     @Override
     public Player getPlayer() {
-        return mpl.getPlayer();
+        return fPlayer.getPlayer();
     }
 
     /**
@@ -95,39 +105,7 @@ public class MassiveCoreFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean isOnline() {
-        return mpl.isOnline();
-    }
-
-    /**
-     * Method to get the relationship from a Player to a Faction.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        return getFaction().getRelationTo(other);
-    }
-
-    /**
-     * Method to get the relationship from a Player to another Player.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFactionPlayer as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return mpl;
+        return fPlayer.isOnline();
     }
 
 }

@@ -1,39 +1,52 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.locality.Locality;
 import org.bukkit.Chunk;
-import org.bukkit.World;
-
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Callum Johnson
  * @since 04/05/2021 - 09:47
  */
-public class LegacyFactionsClaim implements IClaim {
+public class LegacyFactionsClaim extends AbstractClaim<FLocation> {
 
-    private final FLocation flocation;
-
-    public LegacyFactionsClaim(FLocation fLocation) {
-        this.flocation = fLocation;
-    }
-
-    public LegacyFactionsClaim(Locality locality) {
-        this.flocation = new FLocation(locality.getLocation());
+    /**
+     * Constructor to create an LegacyFactionsClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
+     */
+    public LegacyFactionsClaim(@NotNull FLocation claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Constructor to create an LegacyFactionsClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
      *
-     * @return {@link Chunk} from Bukkit.
+     * @param locality to be converted to an FLocation.
      */
+    public LegacyFactionsClaim(Locality locality) {
+        this(new FLocation(locality.getLocation()));
+    }
+
+    /**
+     * Method to obtain the Chunk related to the Claim.
+     *
+     * @return {@link Chunk} represented by the 'Claim'.
+     */
+    @NotNull
     @Override
-    public Chunk getBukkitChunk() {
-        return flocation.getChunk();
+    public Chunk getChunk() {
+        return claim.getChunk();
     }
 
     /**
@@ -43,7 +56,7 @@ public class LegacyFactionsClaim implements IClaim {
      */
     @Override
     public int getX() {
-        return (int) flocation.getX();
+        return (int) claim.getX();
     }
 
     /**
@@ -53,17 +66,7 @@ public class LegacyFactionsClaim implements IClaim {
      */
     @Override
     public int getZ() {
-        return (int) flocation.getZ();
-    }
-
-    /**
-     * Method to get the World of the Chunk.
-     *
-     * @return {@link World} from the Bukkit API.
-     */
-    @Override
-    public World getWorld() {
-        return flocation.getWorld();
+        return (int) claim.getZ();
     }
 
     /**
@@ -72,38 +75,22 @@ public class LegacyFactionsClaim implements IClaim {
      * @return IFaction linked to the IClaim.
      */
     @Override
-    public IFaction getFaction() {
-        return new LegacyFactionsFaction(Board.get().getFactionAt(Locality.of(flocation.getChunk())));
+    public Faction getFaction() {
+        return new LegacyFactionsFaction(Board.get().getFactionAt(Locality.of(claim.getChunk())));
     }
 
     /**
-     * Method to get the name of the World linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return string name of the World.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public String getWorldName() {
-        return getWorld().getName();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return getWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return flocation;
+    public boolean isClaimed() {
+        return getFaction() != null;
     }
 
 }

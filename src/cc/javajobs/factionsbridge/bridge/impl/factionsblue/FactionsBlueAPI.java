@@ -1,25 +1,24 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsblue.events.FactionsBlueListener;
 import cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks.FactionsBlueTasks;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.api.FactionsApi;
-import me.zysea.factions.faction.Faction;
 import me.zysea.factions.interfaces.Factions;
-import me.zysea.factions.objects.Claim;
 import me.zysea.factions.persist.FactionsMemory;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,40 +27,19 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 26/02/2021 - 14:27
  */
-public class FactionsBlueAPI implements IFactionsAPI {
+public class FactionsBlueAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
      * @return IFactions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
+    public List<Faction> getFactions() {
         Factions factions = FPlugin.getInstance().getFactions();
-        Collection<Faction> facs = ((FactionsMemory) factions).getAllFactions();
+        Collection<me.zysea.factions.faction.Faction> facs = ((FactionsMemory) factions).getAllFactions();
         return facs.stream().map(FactionsBlueFaction::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to obtain a Faction from Location.
-     *
-     * @param location of the faction.
-     * @return IFaction at that location
-     */
-    @Override
-    public IFaction getFactionAt(Location location) {
-        return new FactionsBlueFaction(FactionsApi.getOwner(new Claim(location)));
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
     }
 
     /**
@@ -70,9 +48,10 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @param chunk to convert
      * @return IClaim object.
      */
+    @NotNull
     @Override
-    public IClaim getClaimAt(Chunk chunk) {
-        return new FactionsBlueClaim(new Claim(chunk));
+    public Claim getClaim(@NotNull Chunk chunk) {
+        return new FactionsBlueClaim(new me.zysea.factions.objects.Claim(chunk));
     }
 
     /**
@@ -82,7 +61,7 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         try {
             return new FactionsBlueFaction(FactionsApi.getFaction(Integer.parseInt(id)));
         } catch (NumberFormatException ex) {
@@ -97,7 +76,7 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFactionByName(String name) {
+    public Faction getFactionByTag(@NotNull String name) {
         return new FactionsBlueFaction(FactionsApi.getFaction(name));
     }
 
@@ -108,18 +87,22 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
+    public Faction getFaction(@NotNull OfflinePlayer player) {
         return new FactionsBlueFaction(FactionsApi.getFaction(player));
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
         return new FactionsBluePlayer(FactionsApi.getFPlayer(player));
     }
 
@@ -130,15 +113,16 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
-        IFaction fac = getFactionByName(name);
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        Faction fac = getFactionByName(name);
         if (fac != null && !fac.isServerFaction()) {
             throw new IllegalStateException("Faction already exists.");
         }
         Factions factions = FPlugin.getInstance().getFactions();
         int id = factions.generateFactionId();
-        Faction f = new Faction(id, name);
+        me.zysea.factions.faction.Faction f = new me.zysea.factions.faction.Faction(id, name);
         ((FactionsMemory) factions).put(f);
         return new FactionsBlueFaction(f);
     }
@@ -150,8 +134,8 @@ public class FactionsBlueAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
-        ((Faction) faction.asObject()).disband();
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
+        ((FactionsBlueFaction) faction).getFaction().disband();
     }
 
     /**
@@ -176,31 +160,34 @@ public class FactionsBlueAPI implements IFactionsAPI {
     /**
      * Method to obtain WarZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWarZone() {
-        return getFaction("-1");
+    public Faction getWarZone() {
+        return Objects.requireNonNull(getFaction("-1"));
     }
 
     /**
      * Method to obtain SafeZone.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getSafeZone() {
-        return getFaction("0");
+    public Faction getSafeZone() {
+        return Objects.requireNonNull(getFaction("0"));
     }
 
     /**
      * Method to obtain the Wilderness.
      *
-     * @return {@link IFaction}
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFaction getWilderness() {
-        return getFaction("-2");
+    public Faction getWilderness() {
+        return Objects.requireNonNull(getFaction("-2"));
     }
 
 }

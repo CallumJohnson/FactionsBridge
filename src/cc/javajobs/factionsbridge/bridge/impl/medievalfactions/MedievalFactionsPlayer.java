@@ -1,11 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import dansplugins.factionsystem.data.PersistentData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -13,12 +14,18 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 03/05/2021 - 09:16
  */
-public class MedievalFactionsPlayer implements IFactionPlayer {
+public class MedievalFactionsPlayer extends AbstractFPlayer<OfflinePlayer> {
 
-    private final OfflinePlayer player;
-
-    public MedievalFactionsPlayer(OfflinePlayer player) {
-         this.player = player;
+    /**
+     * Constructor to create an AbstractFPlayer.
+     * <p>
+     * This class will be used to create each implementation of an 'FPlayer'.
+     * </p>
+     *
+     * @param fPlayer object which will be bridged using the FactionsBridge.
+     */
+    public MedievalFactionsPlayer(@NotNull OfflinePlayer fPlayer) {
+        super(fPlayer);
     }
 
     /**
@@ -26,9 +33,10 @@ public class MedievalFactionsPlayer implements IFactionPlayer {
      *
      * @return UUID (UniqueId).
      */
+    @NotNull
     @Override
     public UUID getUniqueId() {
-        return player.getUniqueId();
+        return fPlayer.getUniqueId();
     }
 
     /**
@@ -36,9 +44,10 @@ public class MedievalFactionsPlayer implements IFactionPlayer {
      *
      * @return name of the Player.
      */
+    @NotNull
     @Override
     public String getName() {
-        return player.getName();
+        return fPlayer.getName() == null ? "Robot_" + Math.random() : fPlayer.getName();
     }
 
     /**
@@ -47,7 +56,7 @@ public class MedievalFactionsPlayer implements IFactionPlayer {
      * @return faction of the player.
      */
     @Override
-    public IFaction getFaction() {
+    public Faction getFaction() {
         return new MedievalFactionsFaction(PersistentData.getInstance().getPlayersFaction(getUniqueId()));
     }
 
@@ -70,20 +79,21 @@ public class MedievalFactionsPlayer implements IFactionPlayer {
      *
      * @return {@link OfflinePlayer}
      */
+    @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return player;
+        return fPlayer;
     }
 
     /**
      * Method to get the Online form of the Player.
      *
      * @return {@link Player}
-     * @see IFactionPlayer#isOnline()
+     * @see FPlayer#isOnline()
      */
     @Override
     public Player getPlayer() {
-        return (Player) player;
+        return (Player) fPlayer;
     }
 
     /**
@@ -93,42 +103,7 @@ public class MedievalFactionsPlayer implements IFactionPlayer {
      */
     @Override
     public boolean isOnline() {
-        return player.isOnline();
-    }
-
-    /**
-     * Method to get the relationship from a Player to a Faction.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        if (getFaction()==other) {
-            return IRelationship.MEMBER;
-        }
-        return getFaction().getRelationTo(other);
-    }
-
-    /**
-     * Method to get the relationship from a Player to another Player.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFactionPlayer as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return player;
+        return fPlayer.isOnline();
     }
 
 }

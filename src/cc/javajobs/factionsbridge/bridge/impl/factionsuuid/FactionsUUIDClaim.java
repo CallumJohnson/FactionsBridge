@@ -1,106 +1,85 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import org.bukkit.Chunk;
-import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-/**
- * FactionsUUID implementation of IClaim.
- *
- * @author Callum Johnson
- * @since 26/02/2021 - 14:44
- */
-public class FactionsUUIDClaim implements IClaim {
-
-    protected final FLocation floc;
-
-    public FactionsUUIDClaim(FLocation fLocation) {
-        this.floc = fLocation;
-    }
+public class FactionsUUIDClaim extends AbstractClaim<FLocation> {
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Constructor to create a FactionsUUIDClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
      *
-     * @return {@link Chunk} from Bukkit.
+     * @param claim object which will be bridged using the FactionsBridge.
      */
-    @Override
-    public Chunk getBukkitChunk() {
-        return floc.getChunk();
+    public FactionsUUIDClaim(@NotNull FLocation claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the X of the Chunk.
+     * Method to obtain the Chunk related to the Claim.
      *
-     * @return x coordinate.
+     * @return {@link Chunk} represented by the 'Claim'.
+     */
+    @NotNull
+    @Override
+    public Chunk getChunk() {
+        return claim.getChunk();
+    }
+
+    /**
+     * Method to obtain the 'x' coordinate of the Claim.
+     *
+     * @return integer position on the 'x' axis.
      */
     @Override
     public int getX() {
-        return (int) floc.getX();
+        return (int) claim.getX();
     }
 
     /**
-     * Method to get the Z of the Chunk.
+     * Method to obtain the 'z' coordinate of the Claim.
      *
-     * @return z coordinate.
+     * @return integer position on the 'z' axis.
      */
     @Override
     public int getZ() {
-        return (int) floc.getZ();
+        return (int) claim.getZ();
     }
 
     /**
-     * Method to get the World of the Chunk.
+     * Method to obtain the Faction related to the Claim.
+     * <p>
+     * If there is no Faction, this method will return {@code null}.
+     * </p>
      *
-     * @return {@link World} from the Bukkit API.
+     * @return {@link Faction} or {@code null}.
      */
+    @Nullable
     @Override
-    public World getWorld() {
-        return floc.getWorld();
+    public Faction getFaction() {
+        return new FactionsUUIDFaction(Board.getInstance().getFactionAt(claim));
     }
 
     /**
-     * Method to get the Faction linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return IFaction linked to the IClaim.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public IFaction getFaction() {
-        return new FactionsUUIDFaction(Board.getInstance().getFactionAt(floc));
-    }
-
-    /**
-     * Method to get the name of the World linked to the Chunk.
-     *
-     * @return string name of the World.
-     */
-    @Override
-    public String getWorldName() {
-        return floc.getWorldName();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return floc.getWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return floc;
+    public boolean isClaimed() {
+        Faction claimedBy = getFaction();
+        return claimedBy != null && !claimedBy.isWilderness();
     }
 
 }

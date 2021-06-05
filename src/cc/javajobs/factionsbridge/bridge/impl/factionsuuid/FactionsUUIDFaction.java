@@ -1,329 +1,338 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.iface.RelationParticipator;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.util.LazyLocation;
-import com.massivecraft.factions.zcore.persist.MemoryFaction;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * FactionsUUID implementation of IFaction.
- *
- * @author Callum Johnson
- * @since 26/02/2021 - 14:55
- */
-public class FactionsUUIDFaction implements IFaction {
+import static cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship.getRelationship;
 
-    protected final Faction f;
+public class FactionsUUIDFaction extends AbstractFaction<Faction> {
 
-    public FactionsUUIDFaction(Faction faction) {
-        this.f = faction;
+    /**
+     * Constructor to create a FactionsUUIDFaction.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public FactionsUUIDFaction(@NotNull Faction faction) {
+        super(faction);
     }
 
     /**
      * Method to get the Id of the Faction.
-     *
-     * @return Id in the form of String.
-     */
-    @Override
-    public String getId() {
-        return f.getId();
-    }
-
-    /**
-     * Method to get the Name of the Faction.
-     *
-     * @return name of the Faction.
-     */
-    @Override
-    public String getName() {
-        return f.getTag();
-    }
-
-    /**
-     * Method to get the IFactionPlayer Leader.
-     *
-     * @return the person who created the Faction.
-     */
-    @Override
-    public IFactionPlayer getLeader() {
-        return new FactionsUUIDPlayer(f.getFPlayerAdmin());
-    }
-
-    /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
-    }
-
-    /**
-     * Method to get all Claims related to the Faction.
-     *
-     * @return Claims in the form List of {@link IClaim}
-     */
-    @Override
-    public List<IClaim> getAllClaims() {
-        return f.getAllClaims().stream().map(FactionsUUIDClaim::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to get all of the Members for the Faction.
-     *
-     * @return List of IFactionPlayer
-     */
-    @Override
-    public List<IFactionPlayer> getMembers() {
-        return f.getFPlayers().stream().map(FactionsUUIDPlayer::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to set the 'Home' of a Faction.
-     *
-     * @param location to set as the new home.
-     */
-    @Override
-    public void setHome(Location location) {
-        f.setHome(location);
-    }
-
-    /**
-     * Method to retrieve the 'Home' of the Faction.
-     *
-     * @return {@link Bukkit}, {@link Location}.
-     */
-    @Override
-    public Location getHome() {
-        return f.getHome();
-    }
-
-    /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        try {
-            Class.forName("com.massivecraft.factions.zcore.persist.MemoryFaction");
-            MemoryFaction faction = (MemoryFaction) f;
-            MemoryFaction otherFaction = (MemoryFaction) other.asObject();
-            return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
-        } catch (ClassNotFoundException ex) {
-            // FactionsBridge.get().error("Failed to find 'persist mfac'");
-            try {
-                Class.forName("com.massivecraft.factions.data.MemoryFaction");
-                com.massivecraft.factions.data.MemoryFaction faction = (com.massivecraft.factions.data.MemoryFaction) f;
-                com.massivecraft.factions.data.MemoryFaction otherFaction = (com.massivecraft.factions.data.MemoryFaction) other.asObject();
-                return IRelationship.getRelationship(faction.getRelationTo(otherFaction).name());
-            } catch (ClassNotFoundException ignored) {
-                // FactionsBridge.get().error("Failed to find 'data mfac'");
-                throw new BridgeMethodException(getClass(), "getRelationTo(IFaction)");
-            }
-        }
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        if (other.getFaction() == null) return IRelationship.NONE;
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return f;
-    }
-
-    /**
-     * Method to test if this Faction is a Server Faction
      * <p>
-     * Server Factions: Wilderness, SafeZone, WarZone.
+     * Almost all implementations use a String for Ids so I will enforce this to reduce variety.
      * </p>
      *
-     * @return {@code true} if yes, {@code false} if no.
+     * @return Id of the Faction of type String.
+     */
+    @NotNull
+    @Override
+    public String getId() {
+        return faction.getId();
+    }
+
+    /**
+     * Method to obtain the Name or Tag of the Faction.
+     *
+     * @return Name or Tag of the Faction
+     * @see #getTag()
+     */
+    @NotNull
+    @Override
+    public String getName() {
+        return faction.getTag();
+    }
+
+    /**
+     * Method to obtain the Leader of the Faction.
+     * <p>
+     * Due to the nature of some of the implementations I will support, this can be {@code null}.
+     * </p>
+     *
+     * @return {@link FPlayer} or {@code null}.
+     */
+    @Nullable
+    @Override
+    public FPlayer getLeader() {
+        return new FactionsUUIDFPlayer(faction.getFPlayerAdmin());
+    }
+
+    /**
+     * Method to get all of the Claims linked to the Faction.
+     *
+     * @return {@link List < Claim >} related to the Faction.
+     */
+    @NotNull
+    @Override
+    public List<Claim> getAllClaims() {
+        return faction.getAllClaims().stream().map(FactionsUUIDClaim::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to get all of the Members of a Faction.
+     *
+     * @return {@link List<FPlayer>} related to the Faction.
+     */
+    @NotNull
+    @Override
+    public List<FPlayer> getMembers() {
+        return faction.getFPlayers().stream().map(FactionsUUIDFPlayer::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to set the home of the Faction.
+     *
+     * @param location to set as the home location.
+     */
+    @Override
+    public void setHome(@NotNull Location location) {
+        faction.setHome(location);
+    }
+
+    /**
+     * Method to obtain the home of the Faction.
+     *
+     * @return {@link Location} of the home for the Faction.
+     */
+    @Nullable
+    @Override
+    public Location getHome() {
+        return faction.getHome();
+    }
+
+    /**
+     * Method to determine if the Faction is any form of Server-Faction.
+     * <p>
+     * A server faction is defined as a faction which is only for server operators to control the land-claiming and
+     * PVP'ing aspect of the game.
+     * <br>For example, FactionsUUID implements SafeZone, WarZone and Wilderness as Server-Factions.
+     * </p>
+     *
+     * @return {@code true} if the Faction is a Server-Faction
      */
     @Override
     public boolean isServerFaction() {
-        return (f.isSafeZone() || f.isWarZone() || f.isWilderness());
+        return (isSafeZone() || isWarZone() || isWilderness());
     }
 
     /**
-     * Method to determine if the IFaction is the WarZone.
+     * Method to determine if the Faction is Wilderness or not.
      *
-     * @return {@code true} if it is.
-     */
-    @Override
-    public boolean isWarZone() {
-        return f.isWarZone();
-    }
-
-    /**
-     * Method to determine if the IFaction is a SafeZone.
-     *
-     * @return {@code true} if it is.
-     */
-    @Override
-    public boolean isSafeZone() {
-        return f.isSafeZone();
-    }
-
-    /**
-     * Method to determine if the IFaction is the Wilderness.
-     *
-     * @return {@code true} if it is.
+     * @return {@code true} if the Faction is Wilderness (none).
      */
     @Override
     public boolean isWilderness() {
-        return f.isWilderness();
+        return faction.isWilderness();
     }
 
     /**
-     * Method to determine if the Faction is in a Peaceful State.
+     * Method to determine if the Faction is WarZone or not.
      *
-     * @return {@code true} if yes, {@code false} if no.
+     * @return {@code true} if the Faction is WarZone.
+     */
+    @Override
+    public boolean isWarZone() {
+        return faction.isWarZone();
+    }
+
+    /**
+     * Method to determine if the Faction is SafeZone or not.
+     *
+     * @return {@code true} if the Faction is SafeZone (usually used for Spawnpoints).
+     */
+    @Override
+    public boolean isSafeZone() {
+        return faction.isSafeZone();
+    }
+
+    /**
+     * Method to determine if the Faction is in Peaceful mode.
+     *
+     * @return {@code true} if yes.
      */
     @Override
     public boolean isPeaceful() {
-        return f.isPeaceful();
+        return faction.isPeaceful();
     }
 
     /**
-     * Method to get the bank balance of the Faction.
+     * Method to get the points of the Faction.
      *
-     * @return in the form of Double.
+     * @return points of the Faction.
+     */
+    @Override
+    public int getPoints() {
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints(int points)");
+    }
+
+    /**
+     * Method to obtain the Bank Balance of the Faction.
+     * <p>
+     *     Credit goes to mbax for informing me of proper API usage.
+     * </p>
+     *
+     * @return bank balance in the form of {@link Double}.
      */
     @Override
     public double getBank() {
         try {
-            if (!Econ.hasAccount(f)) return 0.0;
-            return Econ.getBalance(f);
+            if (!Econ.hasAccount(faction)) return 0.0;
+            return Econ.getBalance(faction);
         } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "getBank()", "Economy Potentially Disabled.");
+            if (bridge.catch_exceptions) return 0.0;
+            bridge.exception(ex, "Economy Potentially Disabled.");
+            return (double) methodError(getClass(), "getBank()",
+                    ex.getMessage() == null ? "Economy Potentially Disabled." : ex.getMessage());
         }
     }
 
     /**
-     * Method to get the points of a Faction.
+     * Method to get a Warp set by the faction by its name.
      *
-     * @return in the form of Integer.
+     * @param name of the Warp to get
+     * @return {@link Location} related to that name, or {@code null}.
      */
+    @Nullable
     @Override
-    public int getPoints() {
-        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support getPoints().");
+    public Location getWarp(@NotNull String name) {
+        LazyLocation location = faction.getWarp(name);
+        return location == null ? null : location.getLocation();
     }
 
     /**
-     * Method to get the Location of a Faction Warp by Name.
+     * Method to create a Warp manually.
      *
-     * @param name of the warp
-     * @return {@link Location} of the warp.
-     */
-    @Override
-    public Location getWarp(String name) {
-        return f.getWarp(name).getLocation();
-    }
-
-    /**
-     * Method to retrieve all warps.
-     * <p>
-     * This method returns a hashmap of String names and Locations.
-     * </p>
-     *
-     * @return hashmap of all warps.
-     */
-    @Override
-    public HashMap<String, Location> getWarps() {
-        HashMap<String, Location> data = new HashMap<>();
-        f.getWarps().forEach((key, value) -> data.put(key, value.getLocation()));
-        return data;
-    }
-
-    /**
-     * Method to create a warp for the Faction.
-     *
-     * @param name     of the warp.
+     * @param name of the Warp to create.
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
-        f.setWarp(name, new LazyLocation(location));
+    public void createWarp(@NotNull String name, @NotNull Location location) {
+        faction.setWarp(name, new LazyLocation(location));
     }
 
     /**
-     * Method to manually remove a Warp using its name.
+     * Method to get all of the Warps from the Faction.
+     * <p>
+     * The HashMap returned is of the form "String:Location".
+     * </p>
      *
-     * @param name of the warp to be deleted.
+     * @return {@link HashMap} where each entry is a 'warp'.
+     */
+    @NotNull
+    @Override
+    public HashMap<String, Location> getWarps() {
+        HashMap<String, Location> map = new HashMap<>();
+        for (String s : faction.getWarps().keySet()) {
+            Location loc = getWarp(s);
+            if (loc == null) continue;
+            map.put(s, loc);
+        }
+        return map;
+    }
+
+    /**
+     * Method to delete a warp by name.
+     *
+     * @param name of the warp to delete.
      */
     @Override
-    public void deleteWarp(String name) {
-        f.removeWarp(name);
+    public void deleteWarp(@NotNull String name) {
+        faction.removeWarp(name);
     }
 
     /**
-     * Add strikes to a Faction.
-     *
-     * @param sender who desires to Strike the Faction.
-     * @param reason for the Strike.
-     */
-    @Override
-    public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support addStrike(Sender, String).");
-    }
-
-    /**
-     * Remove strike from a Faction.
-     *
-     * @param sender who desires to remove the Strike from the Faction.
-     * @param reason of the original Strike.
-     */
-    @Override
-    public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support removeStrike(Sender, String).");
-    }
-
-    /**
-     * Method to obtain the Total Strikes a Faction has.
-     *
-     * @return integer amount of Strikes.
-     */
-    @Override
-    public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support getTotalStrikes().");
-    }
-
-    /**
-     * Method to clear all Strikes.
+     * Method to clear the Strikes related to the Faction
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("FactionsUUID doesn't support clearStrikes().");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
+    }
+
+    /**
+     * Method to add a Strike to the Faction.
+     *
+     * @param sender who added the Strike
+     * @param reason for the Strike
+     */
+    @Override
+    public void addStrike(String sender, String reason) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(String sender, String reason)");
+    }
+
+    /**
+     * Method to remove a Strike from the Faction.
+     *
+     * @param sender who added the Strike
+     * @param reason for the Strike
+     */
+    @Override
+    public void removeStrike(String sender, String reason) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "removeStrike(String sender, String reason)");
+    }
+
+    /**
+     * Method to obtain the total Strikes related to a Faction.
+     *
+     * @return total strikes.
+     */
+    @Override
+    public int getTotalStrikes() {
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getTotalStrikes()");
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        return Relationship.getRelationship(this.faction.getRelationTo((RelationParticipator) faction.getFaction()));
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "FactionsUUID";
     }
 
 }

@@ -1,114 +1,119 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events.FactionsUUIDListener;
-import com.massivecraft.factions.*;
+import com.massivecraft.factions.FLocation;
+import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.Factions;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * FactionsUUID implementation of IFactionAPI.
- *
- * @author Callum Johnson
- * @since 26/02/2021 - 15:01
- */
-public class FactionsUUIDAPI implements IFactionsAPI {
+public class FactionsUUIDAPI implements FactionsAPI {
 
     /**
      * Method to obtain all Factions.
      *
-     * @return IFactions in the form of a List.
+     * @return Factions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
-        return Factions.getInstance().getAllFactions()
-                .stream().map(FactionsUUIDFaction::new).collect(Collectors.toList());
+    public List<Faction> getFactions() {
+        return Factions.getInstance().getAllFactions().stream().map(FactionsUUIDFaction::new)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Method to obtain a Faction from Location.
+     * Method to obtain a Claim by chunk.
      *
-     * @param location of the faction.
-     * @return IFaction at that location
+     * @param chunk of the claim.
+     * @return Claim implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFactionAt(Location location) {
-        return new FactionsUUIDFaction(Board.getInstance().getFactionAt(new FLocation(location)));
-    }
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return getClaimAt(location.getChunk());
-    }
-
-    /**
-     * Method to obtain an IClaim from Chunk.
-     *
-     * @param chunk to convert
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Chunk chunk) {
+    public Claim getClaim(@NotNull Chunk chunk) {
         return new FactionsUUIDClaim(new FLocation(chunk));
     }
 
     /**
-     * Method to retrieve an IFaction from Id.
+     * Method to retrieve an Faction by Id.
      *
-     * @param id of the IFaction
-     * @return IFaction implementation.
+     * @param id of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFaction(String id) {
+    public Faction getFaction(@NotNull String id) {
         return new FactionsUUIDFaction(Factions.getInstance().getFactionById(id));
     }
 
     /**
-     * Method to retrive an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return new FactionsUUIDFaction(Factions.getInstance().getByTag(name));
+    public Faction getFactionByTag(@NotNull String tag) {
+        return new FactionsUUIDFaction(Factions.getInstance().getByTag(tag));
     }
 
     /**
-     * Method to retrieve an IFaction from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player in the IFaction.
-     * @return IFaction implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
-        return getFactionPlayer(player).getFaction();
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
+        return new FactionsUUIDFPlayer(FPlayers.getInstance().getByOfflinePlayer(player));
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain WarZone.
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
-        return new FactionsUUIDPlayer(FPlayers.getInstance().getByOfflinePlayer(player));
+    public Faction getWarZone() {
+        return new FactionsUUIDFaction(Factions.getInstance().getWarZone());
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link Faction}
+     */
+    @NotNull
+    @Override
+    public Faction getSafeZone() {
+        return new FactionsUUIDFaction(Factions.getInstance().getSafeZone());
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link Faction}
+     */
+    @NotNull
+    @Override
+    public Faction getWilderness() {
+        return new FactionsUUIDFaction(Factions.getInstance().getWilderness());
     }
 
     /**
@@ -118,13 +123,12 @@ public class FactionsUUIDAPI implements IFactionsAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
-        IFaction fac = getFactionByName(name);
-        if (fac != null && !fac.isServerFaction()) {
-            throw new IllegalStateException("Faction already exists.");
-        }
-        Faction faction = Factions.getInstance().createFaction();
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        Faction fac = getFactionByName(name);
+        if (fac != null && !fac.isServerFaction()) throw new IllegalStateException("Faction already exists.");
+        com.massivecraft.factions.Faction faction = Factions.getInstance().createFaction();
         faction.setTag(name);
         return new FactionsUUIDFaction(faction);
     }
@@ -136,7 +140,7 @@ public class FactionsUUIDAPI implements IFactionsAPI {
      * @throws IllegalStateException if the Faction doesn't exist.
      */
     @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
+    public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
         Factions.getInstance().removeFaction(faction.getId());
     }
 
@@ -151,36 +155,6 @@ public class FactionsUUIDAPI implements IFactionsAPI {
                 FactionsBridge.get().getDevelopmentPlugin()
         );
         FactionsBridge.get().registered = true;
-    }
-
-    /**
-     * Method to obtain WarZone.
-     *
-     * @return {@link IFaction}
-     */
-    @Override
-    public IFaction getWarZone() {
-        return new FactionsUUIDFaction(Factions.getInstance().getWarZone());
-    }
-
-    /**
-     * Method to obtain SafeZone.
-     *
-     * @return {@link IFaction}
-     */
-    @Override
-    public IFaction getSafeZone() {
-        return new FactionsUUIDFaction(Factions.getInstance().getSafeZone());
-    }
-
-    /**
-     * Method to obtain the Wilderness.
-     *
-     * @return {@link IFaction}
-     */
-    @Override
-    public IFaction getWilderness() {
-        return new FactionsUUIDFaction(Factions.getInstance().getWilderness());
     }
 
 }

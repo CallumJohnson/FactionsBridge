@@ -1,13 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Chunk;
-import org.bukkit.World;
-
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * MassiveCoreFactions implementation of IClaim.
@@ -15,22 +13,29 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 15:11
  */
-public class MassiveCoreFactionsClaim implements IClaim {
+public class MassiveCoreFactionsClaim extends AbstractClaim<PS> {
 
-    private final PS ps;
-
-    public MassiveCoreFactionsClaim(PS ps) {
-        this.ps = ps;
+    /**
+     * Constructor to create an AbstractClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
+     */
+    public MassiveCoreFactionsClaim(@NotNull PS claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Method to obtain the Chunk related to the Claim.
      *
-     * @return {@link Chunk} from Bukkit.
+     * @return {@link Chunk} represented by the 'Claim'.
      */
+    @NotNull
     @Override
-    public Chunk getBukkitChunk() {
-        return ps.asBukkitChunk();
+    public Chunk getChunk() {
+        return claim.asBukkitChunk();
     }
 
     /**
@@ -40,7 +45,7 @@ public class MassiveCoreFactionsClaim implements IClaim {
      */
     @Override
     public int getX() {
-        return ps.getChunkX();
+        return claim.getChunkX();
     }
 
     /**
@@ -50,18 +55,9 @@ public class MassiveCoreFactionsClaim implements IClaim {
      */
     @Override
     public int getZ() {
-        return ps.getChunkZ();
+        return claim.getChunkZ();
     }
 
-    /**
-     * Method to get the World of the Chunk.
-     *
-     * @return {@link World} from the Bukkit API.
-     */
-    @Override
-    public World getWorld() {
-        return ps.asBukkitWorld();
-    }
 
     /**
      * Method to get the Faction linked to the Chunk.
@@ -69,38 +65,22 @@ public class MassiveCoreFactionsClaim implements IClaim {
      * @return IFaction linked to the IClaim.
      */
     @Override
-    public IFaction getFaction() {
-        return new MassiveCoreFactionsFaction(BoardColl.get().getFactionAt(ps));
+    public Faction getFaction() {
+        return new MassiveCoreFactionsFaction(BoardColl.get().getFactionAt(claim));
     }
 
     /**
-     * Method to get the name of the World linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return string name of the World.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public String getWorldName() {
-        return ps.getWorld();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return ps.asBukkitWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return ps;
+    public boolean isClaimed() {
+        return BoardColl.get().getFactionAt(claim) != null;
     }
 
 }

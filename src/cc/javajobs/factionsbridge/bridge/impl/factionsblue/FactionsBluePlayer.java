@@ -1,12 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import me.zysea.factions.api.FactionsApi;
 import me.zysea.factions.faction.FPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -16,12 +16,18 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 14:21
  */
-public class FactionsBluePlayer implements IFactionPlayer {
+public class FactionsBluePlayer extends AbstractFPlayer<FPlayer> {
 
-    private final FPlayer fpl;
-
-    public FactionsBluePlayer(FPlayer fpl) {
-        this.fpl = fpl;
+    /**
+     * Constructor to create an AbstractFPlayer.
+     * <p>
+     * This class will be used to create each implementation of an 'FPlayer'.
+     * </p>
+     *
+     * @param fPlayer object which will be bridged using the FactionsBridge.
+     */
+    public FactionsBluePlayer(@NotNull FPlayer fPlayer) {
+        super(fPlayer);
     }
 
     /**
@@ -29,9 +35,10 @@ public class FactionsBluePlayer implements IFactionPlayer {
      *
      * @return UUID (UniqueId).
      */
+    @NotNull
     @Override
     public UUID getUniqueId() {
-        return fpl.getId();
+        return fPlayer.getId();
     }
 
     /**
@@ -39,9 +46,10 @@ public class FactionsBluePlayer implements IFactionPlayer {
      *
      * @return name of the Player.
      */
+    @NotNull
     @Override
     public String getName() {
-        return fpl.getName();
+        return fPlayer.getName();
     }
 
     /**
@@ -50,12 +58,12 @@ public class FactionsBluePlayer implements IFactionPlayer {
      * @return faction of the player.
      */
     @Override
-    public IFaction getFaction() {
-        if (!fpl.hasFaction()) {
+    public Faction getFaction() {
+        if (!fPlayer.hasFaction()) {
             // -2 is Wilderness/Factionless
             return new FactionsBlueFaction(FactionsApi.getFaction(-2));
         }
-        return new FactionsBlueFaction(fpl.getFaction());
+        return new FactionsBlueFaction(fPlayer.getFaction());
     }
 
     /**
@@ -69,7 +77,7 @@ public class FactionsBluePlayer implements IFactionPlayer {
      */
     @Override
     public boolean hasFaction() {
-        return fpl.hasFaction();
+        return fPlayer.hasFaction();
     }
 
     /**
@@ -77,20 +85,21 @@ public class FactionsBluePlayer implements IFactionPlayer {
      *
      * @return {@link OfflinePlayer}
      */
+    @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return fpl.getOfflinePlayer();
+        return fPlayer.getOfflinePlayer();
     }
 
     /**
      * Method to get the Online form of the Player.
      *
      * @return {@link Player}
-     * @see IFactionPlayer#isOnline()
+     * @see #isOnline()
      */
     @Override
     public Player getPlayer() {
-        return fpl.getOfflinePlayer().getPlayer();
+        return fPlayer.getOfflinePlayer().getPlayer();
     }
 
     /**
@@ -100,39 +109,7 @@ public class FactionsBluePlayer implements IFactionPlayer {
      */
     @Override
     public boolean isOnline() {
-        return fpl.getOfflinePlayer().isOnline();
-    }
-
-    /**
-     * Method to get the relationship from a Player to a Faction.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        return getFaction().getRelationTo(other);
-    }
-
-    /**
-     * Method to get the relationship from a Player to another Player.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getFaction().getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFactionPlayer as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return fpl;
+        return getOfflinePlayer().isOnline();
     }
 
 }

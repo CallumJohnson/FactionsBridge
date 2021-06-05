@@ -1,11 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
-import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
-import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDPlayer;
-import com.massivecraft.factions.event.*;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
+import com.massivecraft.factions.event.LandClaimEvent;
+import com.massivecraft.factions.event.LandUnclaimAllEvent;
+import com.massivecraft.factions.event.LandUnclaimEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -22,14 +22,14 @@ import java.lang.reflect.Method;
 public class FactionsUUIDListener implements Listener {
 
     private static final String PlayerDisbandReason = "com.massivecraft.factions.event.FactionDisbandEvent.PlayerDisbandReason";
-    private final IFactionsAPI api = FactionsBridge.getFactionsAPI();
+    private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
     @EventHandler
     public void onClaim(LandClaimEvent event) {
-        IClaimClaimEvent bridgeEvent = new IClaimClaimEvent(
-                api.getClaimAt(event.getLocation().getChunk()),
-                new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDPlayer(event.getfPlayer()),
+        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+                api.getClaim(event.getLocation().getChunk()),
+                api.getFaction(event.getFaction().getId()),
+                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -37,10 +37,10 @@ public class FactionsUUIDListener implements Listener {
     }
 
     @EventHandler
-    public void onJoin(FPlayerJoinEvent event) {
-        IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
-                new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDPlayer(event.getfPlayer()),
+    public void onJoin(com.massivecraft.factions.event.FPlayerJoinEvent event) {
+        FactionJoinEvent bridgeEvent = new FactionJoinEvent(
+                api.getFaction(event.getFaction().getId()),
+                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -48,11 +48,11 @@ public class FactionsUUIDListener implements Listener {
     }
 
     @EventHandler
-    public void onLeave(FPlayerLeaveEvent event) {
-        IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
-                new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDPlayer(event.getfPlayer()),
-                IFactionPlayerLeaveIFactionEvent.LeaveReason.fromString(event.getReason().name()),
+    public void onLeave(com.massivecraft.factions.event.FPlayerLeaveEvent event) {
+        FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
+                api.getFaction(event.getFaction().getId()),
+                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                FactionLeaveEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -61,9 +61,9 @@ public class FactionsUUIDListener implements Listener {
 
     @EventHandler
     public void onUnclaimAll(LandUnclaimAllEvent event) {
-        IClaimUnclaimAllEvent bridgeEvent = new IClaimUnclaimAllEvent(
-                new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDPlayer(event.getfPlayer()),
+        FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
+                api.getFaction(event.getFaction().getId()),
+                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -72,10 +72,10 @@ public class FactionsUUIDListener implements Listener {
 
     @EventHandler
     public void onUnclaim(LandUnclaimEvent event) {
-        IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
-                api.getClaimAt(event.getLocation().getChunk()),
-                new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDPlayer(event.getfPlayer()),
+        FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
+                api.getClaim(event.getLocation().getChunk()),
+                api.getFaction(event.getFaction().getId()),
+                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -84,11 +84,11 @@ public class FactionsUUIDListener implements Listener {
 
     @SuppressWarnings("deprecation")
     @EventHandler
-    public void onFactionCreate(FactionCreateEvent event) {
+    public void onFactionCreate(com.massivecraft.factions.event.FactionCreateEvent event) {
         Bukkit.getScheduler().runTaskLater(FactionsBridge.get().getDevelopmentPlugin(), () -> {
-            IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
+            FactionCreateEvent bridgeEvent = new FactionCreateEvent(
                     api.getFactionByName(event.getFactionTag()),
-                    new FactionsUUIDPlayer(event.getFPlayer()),
+                    api.getFPlayer(event.getFPlayer().getOfflinePlayer()),
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -97,26 +97,26 @@ public class FactionsUUIDListener implements Listener {
     }
 
     @EventHandler
-    public void onFactionDisband(FactionDisbandEvent event) {
-        IFactionDisbandEvent.DisbandReason reason;
+    public void onFactionDisband(com.massivecraft.factions.event.FactionDisbandEvent event) {
+        FactionDisbandEvent.DisbandReason reason;
         try {
             Class<?> clazz = Class.forName(PlayerDisbandReason);
             if (!clazz.isEnum()) {
-                reason = IFactionDisbandEvent.DisbandReason.UNKNOWN;
+                reason = FactionDisbandEvent.DisbandReason.UNKNOWN;
             } else {
                 Method getReason = event.getClass().getMethod("getReason");
                 Object reasonObj = getReason.invoke(event);
                 Method name = clazz.getMethod("name");
                 String reasonName = (String) name.invoke(reasonObj);
-                reason = IFactionDisbandEvent.DisbandReason.fromString(reasonName);
+                reason = FactionDisbandEvent.DisbandReason.fromString(reasonName);
             }
         } catch (ReflectiveOperationException ex) {
-            reason = IFactionDisbandEvent.DisbandReason.UNKNOWN;
+            reason = FactionDisbandEvent.DisbandReason.UNKNOWN;
         }
 
-        IFactionDisbandEvent bridgeEvent = new IFactionDisbandEvent(
+        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
                 event.getPlayer(),
-                new FactionsUUIDFaction(event.getFaction()),
+                api.getFaction(event.getFaction().getId()),
                 reason,
                 event
         );
@@ -125,9 +125,9 @@ public class FactionsUUIDListener implements Listener {
     }
 
     @EventHandler
-    public void onRename(FactionRenameEvent event) {
-        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
-                new FactionsUUIDFaction(event.getFaction()),
+    public void onRename(com.massivecraft.factions.event.FactionRenameEvent event) {
+        FactionRenameEvent bridgeEvent = new FactionRenameEvent(
+                api.getFaction(event.getFaction().getId()),
                 event.getFactionTag(),
                 event
         );

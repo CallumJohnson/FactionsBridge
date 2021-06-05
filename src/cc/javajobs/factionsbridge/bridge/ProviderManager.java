@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -22,7 +23,7 @@ import java.util.stream.IntStream;
  */
 public class ProviderManager implements Communicator {
 
-    private IFactionsAPI fapi;
+    private FactionsAPI fapi;
 
     /**
      * Method to perform all functionality of the ProviderManager class.
@@ -63,10 +64,10 @@ public class ProviderManager implements Communicator {
     }
 
     /**
-     * Method to return the IFactionAPI implementation.
-     * @return IFactionAPI implementation.
+     * Method to return the FactionAPI implementation.
+     * @return FactionAPI implementation.
      */
-    public IFactionsAPI getAPI() {
+    public FactionsAPI getAPI() {
         return fapi;
     }
 

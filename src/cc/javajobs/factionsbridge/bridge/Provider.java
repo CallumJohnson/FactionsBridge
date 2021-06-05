@@ -11,6 +11,7 @@ import cc.javajobs.factionsbridge.bridge.impl.medievalfactions.MedievalFactionsA
 import cc.javajobs.factionsbridge.bridge.impl.saberfactions.SaberFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.supremefactions.SupremeFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * The Provider enumeration is a data store class for all plugins supported by this release of FactionsBridge.
  * <p>
- *     Each enum entry has a Plugin Name, Author List, {@link IFactionsAPI} implementation
+ *     Each enum entry has a Plugin Name, Author List, {@link FactionsAPI} implementation
  *     and possibilities of adding further data in the form of a String array to be more precise
  *     if ever required.
  * </p>
@@ -44,7 +45,7 @@ public enum Provider {
 
     private final String pluginName;
     private final List<String> authors;
-    private final IFactionsAPI api;
+    private final FactionsAPI api;
     private final String[] classes;
 
     /**
@@ -54,7 +55,7 @@ public enum Provider {
      * @param fapi {@link IFactionsAPI} implementation.
      * @param classes to check for to be sure the Provider is correctly identified (unused).
      */
-    Provider(String pluginName, List<String> authors, IFactionsAPI fapi, String... classes) {
+    Provider(String pluginName, List<String> authors, FactionsAPI fapi, String... classes) {
         this.pluginName = pluginName;
         this.authors = authors;
         this.api = fapi;
@@ -107,7 +108,7 @@ public enum Provider {
         return authors;
     }
 
-    public IFactionsAPI getAPI() {
+    public FactionsAPI getAPI() {
         return api;
     }
 

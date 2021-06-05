@@ -1,10 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.events.*;
-import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXFaction;
-import cc.javajobs.factionsbridge.bridge.impl.factionsx.FactionsXPlayer;
+import cc.javajobs.factionsbridge.bridge.events.FactionCreateEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionDisbandEvent;
+import cc.javajobs.factionsbridge.bridge.events.FactionRenameEvent;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import net.prosavage.factionsx.event.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -18,14 +19,14 @@ import org.bukkit.event.Listener;
  */
 public class FactionsXListener implements Listener {
 
-    private final IFactionsAPI api = FactionsBridge.getFactionsAPI();
+    private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
     @EventHandler
     public void onClaim(FactionPreClaimEvent event) {
-        IClaimClaimEvent bridgeEvent = new IClaimClaimEvent(
-                api.getClaimAt(event.getFLocation().getChunk()),
+        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+                api.getClaim(event.getFLocation().getChunk()),
                 api.getFaction(String.valueOf(event.getFactionClaiming().getId())),
-                api.getFactionPlayer(event.getFplayer().getPlayer()),
+                api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -34,9 +35,9 @@ public class FactionsXListener implements Listener {
 
     @EventHandler
     public void onUnclaimAll(FactionUnClaimAllEvent event) {
-        IClaimUnclaimAllEvent bridgeEvent = new IClaimUnclaimAllEvent(
+        FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                 api.getFaction(String.valueOf(event.getUnclaimingFaction().getId())),
-                api.getFactionPlayer(event.getFplayer().getPlayer()),
+                api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -45,10 +46,10 @@ public class FactionsXListener implements Listener {
 
     @EventHandler
     public void onUnclaim(FactionUnClaimEvent event) {
-        IClaimUnclaimEvent bridgeEvent = new IClaimUnclaimEvent(
-                api.getClaimAt(event.getFLocation().getChunk()),
+        FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
+                api.getClaim(event.getFLocation().getChunk()),
                 api.getFaction(String.valueOf(event.getFactionUnClaiming().getId())),
-                api.getFactionPlayer(event.getFplayer().getPlayer()),
+                api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -56,30 +57,30 @@ public class FactionsXListener implements Listener {
     }
 
     @EventHandler
-    public void onCreate(FactionCreateEvent event) {
-        IFactionCreateEvent bridgeEvent = new IFactionCreateEvent(
-                new FactionsXFaction(event.getFaction()),
-                new FactionsXPlayer(event.getFPlayer()),
-                event
-        );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
-
-    }
-
-    @EventHandler
-    public void onDisband(FactionDisbandEvent event) {
-        IFactionDisbandEvent bridgeEvent = new IFactionDisbandEvent(
-                api.getFactionPlayer(event.getFPlayer().getPlayer()),
+    public void onCreate(net.prosavage.factionsx.event.FactionCreateEvent event) {
+        FactionCreateEvent bridgeEvent = new FactionCreateEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
-                IFactionDisbandEvent.DisbandReason.UNKNOWN,
+                api.getFPlayer(event.getFPlayer().getOfflinePlayer()),
+                event
+        );
+        Bukkit.getPluginManager().callEvent(bridgeEvent);
+
+    }
+
+    @EventHandler
+    public void onDisband(net.prosavage.factionsx.event.FactionDisbandEvent event) {
+        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
+                api.getFPlayer(event.getFPlayer().getPlayer()),
+                api.getFaction(String.valueOf(event.getFaction().getId())),
+                FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
     }
 
     @EventHandler
-    public void onRename(FactionRenameEvent event) {
-        IFactionRenameEvent bridgeEvent = new IFactionRenameEvent(
+    public void onRename(net.prosavage.factionsx.event.FactionRenameEvent event) {
+        FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 event.getNewTag(),
                 event
@@ -89,9 +90,9 @@ public class FactionsXListener implements Listener {
 
     @EventHandler
     public void onJoin(FPlayerFactionJoinEvent event) {
-        IFactionPlayerJoinIFactionEvent bridgeEvent = new IFactionPlayerJoinIFactionEvent(
+        FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
-                api.getFactionPlayer(event.getFPlayer().getPlayer()),
+                api.getFPlayer(event.getFPlayer().getPlayer()),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -99,10 +100,10 @@ public class FactionsXListener implements Listener {
 
     @EventHandler
     public void onLeave(FPlayerFactionJoinEvent event) {
-        IFactionPlayerLeaveIFactionEvent bridgeEvent = new IFactionPlayerLeaveIFactionEvent(
+        FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
-                api.getFactionPlayer(event.getFPlayer().getPlayer()),
-                (event.isAdmin() ? IFactionPlayerLeaveIFactionEvent.LeaveReason.KICK : IFactionPlayerLeaveIFactionEvent.LeaveReason.LEAVE),
+                api.getFPlayer(event.getFPlayer().getPlayer()),
+                (event.isAdmin() ? FactionLeaveEvent.LeaveReason.KICK : FactionLeaveEvent.LeaveReason.LEAVE),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);

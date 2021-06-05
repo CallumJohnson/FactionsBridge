@@ -1,114 +1,116 @@
 package cc.javajobs.factionsbridge.bridge.impl.saberfactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Factions;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * SaberFactions implementation of IFactionsAPI.
- *
- * @author Callum Johnson
- * @since 27/02/2021 - 10:52
- */
 public class SaberFactionsAPI extends FactionsUUIDAPI {
-
-    /**
-     * Method to obtain an IClaim from Location.
-     *
-     * @param location to get IClaim from.
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Location location) {
-        return new SaberFactionsClaim(new FLocation(location));
-    }
-
-    /**
-     * Method to obtain an IClaim from Chunk.
-     *
-     * @param chunk to convert
-     * @return IClaim object.
-     */
-    @Override
-    public IClaim getClaimAt(Chunk chunk) {
-        return getClaimAt(chunk.getBlock(0, 0, 0).getLocation());
-    }
 
     /**
      * Method to obtain all Factions.
      *
-     * @return IFactions in the form of a List.
+     * @return Factions in the form of a List.
      */
+    @NotNull
     @Override
-    public List<IFaction> getAllFactions() {
-        return Factions.getInstance().getAllFactions()
-                .stream().map(SaberFactionsFaction::new).collect(Collectors.toList());
+    public List<Faction> getFactions() {
+        return Factions.getInstance().getAllFactions().stream().map(SaberFactionsFaction::new)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Method to obtain a Faction from Location.
+     * Method to obtain a Claim by chunk.
      *
-     * @param location of the faction.
-     * @return IFaction at that location
+     * @param chunk of the claim.
+     * @return Claim implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFactionAt(Location location) {
-        return new SaberFactionsFaction((Faction) super.getFactionAt(location).asObject());
+    public Claim getClaim(@NotNull Chunk chunk) {
+        return new SaberFactionsClaim(new FLocation(chunk));
     }
 
     /**
-     * Method to retrieve an IFaction from Id.
+     * Method to retrieve an Faction by Id.
      *
-     * @param id of the IFaction
-     * @return IFaction implementation.
+     * @param id of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFaction(String id) {
-        return new SaberFactionsFaction((Faction) super.getFaction(id).asObject());
+    public Faction getFaction(@NotNull String id) {
+        return new SaberFactionsFaction(Factions.getInstance().getFactionById(id));
     }
 
     /**
-     * Method to retrive an IFaction from Name.
+     * Method to retrieve an Faction from Tag.
      *
-     * @param name of the IFaction
-     * @return IFaction implementation.
+     * @param tag of the Faction
+     * @return Faction implementation.
      */
+    @Nullable
     @Override
-    public IFaction getFactionByName(String name) {
-        return new SaberFactionsFaction((Faction) super.getFactionByName(name).asObject());
+    public Faction getFactionByTag(@NotNull String tag) {
+        return new SaberFactionsFaction(Factions.getInstance().getByTag(tag));
     }
 
     /**
-     * Method to retrieve an IFaction from Player/OfflinePlayer.
+     * Method to obtain the FPlayer by a Player.
+     * <p>
+     * Due to the SpigotAPI, OfflinePlayer == Player through implementation, so you can pass both here.
+     * </p>
      *
-     * @param player in the IFaction.
-     * @return IFaction implementation.
+     * @param player to get the FPlayer equivalent for.
+     * @return FPlayer implementation.
      */
+    @NotNull
     @Override
-    public IFaction getFaction(OfflinePlayer player) {
-        return new SaberFactionsFaction((Faction) super.getFaction(player).asObject());
+    public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
+        return new SaberFactionsFPlayer(FPlayers.getInstance().getByOfflinePlayer(player));
     }
 
     /**
-     * Method to get an IFactionPlayer from Player/OfflinePlayer.
+     * Method to obtain WarZone.
      *
-     * @param player related to the IFactionPlayer.
-     * @return IFactionPlayer implementation.
+     * @return {@link Faction}
      */
+    @NotNull
     @Override
-    public IFactionPlayer getFactionPlayer(OfflinePlayer player) {
-        return new SaberFactionsPlayer((FPlayer) super.getFactionPlayer(player).asObject());
+    public Faction getWarZone() {
+        return new SaberFactionsFaction(Factions.getInstance().getWarZone());
+    }
+
+    /**
+     * Method to obtain SafeZone.
+     *
+     * @return {@link Faction}
+     */
+    @NotNull
+    @Override
+    public Faction getSafeZone() {
+        return new SaberFactionsFaction(Factions.getInstance().getSafeZone());
+    }
+
+    /**
+     * Method to obtain the Wilderness.
+     *
+     * @return {@link Faction}
+     */
+    @NotNull
+    @Override
+    public Faction getWilderness() {
+        return new SaberFactionsFaction(Factions.getInstance().getSafeZone());
     }
 
     /**
@@ -118,19 +120,13 @@ public class SaberFactionsAPI extends FactionsUUIDAPI {
      * @return IFaction implementation.
      * @throws IllegalStateException if the IFaction exists already.
      */
+    @NotNull
     @Override
-    public IFaction createFaction(String name) throws IllegalStateException {
-        return new SaberFactionsFaction((Faction) super.createFaction(name).asObject());
-    }
-
-    /**
-     * Method to delete a Faction.
-     *
-     * @param faction to delete
-     * @throws IllegalStateException if the Faction doesn't exist.
-     */
-    @Override
-    public void deleteFaction(IFaction faction) throws IllegalStateException {
-        super.deleteFaction(faction);
+    public Faction createFaction(@NotNull String name) throws IllegalStateException {
+        Faction fac = getFactionByName(name);
+        if (fac != null && !fac.isServerFaction()) throw new IllegalStateException("Faction already exists.");
+        com.massivecraft.factions.Faction faction = Factions.getInstance().createFaction();
+        faction.setTag(name);
+        return new SaberFactionsFaction(faction);
     }
 }

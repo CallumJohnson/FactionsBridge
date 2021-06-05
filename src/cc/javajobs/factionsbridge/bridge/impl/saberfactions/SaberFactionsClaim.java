@@ -1,38 +1,38 @@
 package cc.javajobs.factionsbridge.bridge.impl.saberfactions;
 
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDClaim;
+import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.Faction;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * SaberFactions implementation of IClaim.
- * 
- * @author Callum Johnson
- * @since 27/02/2021 - 10:45
- */
 public class SaberFactionsClaim extends FactionsUUIDClaim {
 
     /**
-     * Constructor to initialise a SaberFactionsClaim.
+     * Constructor to create a SaberFactionsClaim.
      * <p>
-     *     As SaberFactions was built upon FactionsUUID,
-     *     this class extends FactionUUID equivalents.
+     * This class will be used to create each implementation of a 'Claim'.
      * </p>
-     * @param fLocation to wrap.
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
      */
-    public SaberFactionsClaim(FLocation fLocation) {
-        super(fLocation);
+    public SaberFactionsClaim(@NotNull FLocation claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Faction linked to the Chunk.
+     * Method to obtain the Faction related to the Claim.
+     * <p>
+     * If there is no Faction, this method will return {@code null}.
+     * </p>
      *
-     * @return IFaction linked to the IClaim.
+     * @return {@link Faction} or {@code null}.
      */
+    @Nullable
     @Override
-    public IFaction getFaction() {
-        return new SaberFactionsFaction((Faction) super.getFaction().asObject());
+    public Faction getFaction() {
+        return new SaberFactionsFaction(Board.getInstance().getFactionAt(claim));
     }
 
 }

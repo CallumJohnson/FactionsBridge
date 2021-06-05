@@ -1,8 +1,8 @@
 package cc.javajobs.factionsbridge;
 
-import cc.javajobs.factionsbridge.bridge.IFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeAlreadyConnectedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,8 +28,9 @@ public class FactionsBridge implements Communicator {
     private static final String version = "1.2.0";
     private static FactionsBridge instance = null;
 
-    private static IFactionsAPI factionapi = null;
+    private static FactionsAPI factionapi = null;
     public boolean registered = false;
+    public boolean catch_exceptions;
     private Plugin development_plugin = null;
 
     /**
@@ -85,21 +86,23 @@ public class FactionsBridge implements Communicator {
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
     public void connect(@NotNull Plugin plugin) throws BridgeAlreadyConnectedException {
-        connect(plugin, true, true);
+        connect(plugin, true, true, true);
     }
 
     /**
      * Method to 'connect' the Bridge for a plugin.
      * <p>
      *     Specifying "requiresFactions", throws exceptions.<br>
-     *     If "requiresFactions" is false, then console output is down based on "consoleOutput".
+     *     If "requiresFactions" is false, then console output is done based on "consoleOutput".
      * </p>
      * @param plugin to connect for.
      * @param consoleOutput {@code true} if console output should be shown.
      * @param requiresFactions {@code true} if your plugin needs factions to work.
+     * @param catchExceptions {@code true} if you want to reduce exceptions when a function isn't supported.
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
-    public void connect(Plugin plugin, boolean consoleOutput, boolean requiresFactions) throws BridgeAlreadyConnectedException {
+    public void connect(Plugin plugin, boolean consoleOutput, boolean requiresFactions, boolean catchExceptions)
+            throws BridgeAlreadyConnectedException {
         if (plugin == null) {
             if (requiresFactions) {
                 throw new IllegalStateException("Plugin cannot be null.");
@@ -140,6 +143,7 @@ public class FactionsBridge implements Communicator {
             status = "with";
         }
         if (consoleOutput) log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+        this.catch_exceptions = catchExceptions;
         if (factionapi != null) {
             factionapi.register();
         }
@@ -162,10 +166,10 @@ public class FactionsBridge implements Communicator {
     }
 
     /**
-     * Method to obtain the {@link IFactionsAPI} implementation.
-     * @return {@link IFactionsAPI} implementation.
+     * Method to obtain the {@link FactionsAPI} implementation.
+     * @return {@link FactionsAPI} implementation.
      */
-    public static IFactionsAPI getFactionsAPI() {
+    public static FactionsAPI getFactionsAPI() {
         return factionapi;
     }
 

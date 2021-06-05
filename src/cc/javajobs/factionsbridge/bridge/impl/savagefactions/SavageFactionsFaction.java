@@ -1,149 +1,170 @@
 package cc.javajobs.factionsbridge.bridge.impl.savagefactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
-import cc.javajobs.factionsbridge.bridge.impl.atlasfactions.AtlasFactionsPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
-import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.zcore.persist.MemoryFaction;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * SavageFactions implementation of IFaction.
- *
- * @author Callum Johnson
- * @since 27/02/2021 - 10:34
- */
 public class SavageFactionsFaction extends FactionsUUIDFaction {
 
     /**
-     * Constructor to initialise an SavageFactionsFaction.
+     * Constructor to create a SavageFactionsFaction.
      * <p>
-     *     This builds upon the FactionsUUIDFaction class as this is what the API does.
+     * This class will be used to create each implementation of a 'Faction'.
      * </p>
-     * @param faction to wrap.
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
      */
-    public SavageFactionsFaction(Faction faction) {
+    public SavageFactionsFaction(@NotNull Faction faction) {
         super(faction);
     }
 
     /**
-     * Method to get the IFactionPlayer Leader.
+     * Method to get all of the Claims linked to the Faction.
      *
-     * @return the person who created the Faction.
+     * @return {@link List < Claim >} related to the Faction.
      */
+    @NotNull
     @Override
-    public IFactionPlayer getLeader() {
+    public List<Claim> getAllClaims() {
+        return faction.getAllClaims().stream().map(SavageFactionsClaim::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to obtain the Leader of the Faction.
+     * <p>
+     * Due to the nature of some of the implementations I will support, this can be {@code null}.
+     * </p>
+     *
+     * @return {@link FPlayer} or {@code null}.
+     */
+    @Nullable
+    @Override
+    public FPlayer getLeader() {
         try {
-            Class<?> factionClass = f.getClass();
+            Class<?> factionClass = faction.getClass();
             Method getLeader = factionClass.getMethod("getFPlayerLeader");
-            FPlayer leader = (FPlayer) getLeader.invoke(f);
-            return new AtlasFactionsPlayer(leader);
+            com.massivecraft.factions.FPlayer leader = (com.massivecraft.factions.FPlayer) getLeader.invoke(faction);
+            return new SavageFactionsFPlayer(leader);
         } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "getLeader()");
+            if (bridge.catch_exceptions) return null;
+            return (FPlayer) methodError(getClass(), "getLeader()");
         }
     }
 
     /**
-     * Method to get all Claims related to the Faction.
+     * Method to get all of the Members of a Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return {@link List<FPlayer>} related to the Faction.
      */
+    @NotNull
     @Override
-    public List<IClaim> getAllClaims() {
-        return f.getAllClaims().stream().map(SavageFactionsClaim::new).collect(Collectors.toList());
+    public List<FPlayer> getMembers() {
+        return faction.getFPlayers().stream().map(SavageFactionsFPlayer::new).collect(Collectors.toList());
     }
 
     /**
-     * Method to get all of the Members for the Faction.
+     * Method to get the points of the Faction.
      *
-     * @return List of IFactionPlayer
-     */
-    @Override
-    public List<IFactionPlayer> getMembers() {
-        return f.getFPlayers().stream().map(SavageFactionsPlayer::new).collect(Collectors.toList());
-    }
-
-    /**
-     * Method to get the points of a Faction.
-     *
-     * @return in the form of Integer.
+     * @return points of the Faction.
      */
     @Override
     public int getPoints() {
         try {
-            Class<?> factionClass = ((MemoryFaction) f).getClass();
+            Class<?> factionClass = faction.getClass();
             Method getPoints = factionClass.getMethod("getPoints");
-            return (int) getPoints.invoke(f);
+            return (int) getPoints.invoke(faction);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new BridgeMethodException(getClass(), "getPoints()");
+            if (bridge.catch_exceptions) return 0;
+            return (int) methodError(getClass(), "getPoints()");
         }
     }
 
     /**
-     * Add strikes to a Faction.
+     * Method to override the points of the Faction to the specified amount.
      *
-     * @param sender who desires to Strike the Faction.
-     * @param reason for the Strike.
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        try {
+            int difference = points - getPoints();
+            Class<?> factionClass = faction.getClass();
+            Method addPoints = factionClass.getMethod("givePoints", Integer.TYPE);
+            addPoints.invoke(faction, difference);
+        } catch (Exception ex) {
+            if (bridge.catch_exceptions) return;
+            methodError(getClass(), "setPoints(int points)");
+        }
+    }
+
+    /**
+     * Method to clear the Strikes related to the Faction
+     */
+    @Override
+    public void clearStrikes() {
+        setStrikes(0);
+    }
+
+    /**
+     * Method to add a Strike to the Faction.
+     *
+     * @param sender who added the Strike
+     * @param reason for the Strike
      */
     @Override
     public void addStrike(String sender, String reason) {
-        try {
-            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
-            set.invoke(f, getTotalStrikes()+1, false);
-        } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "addStrike(Sender, String)");
-        }
+        setStrikes(getTotalStrikes()+1);
     }
 
     /**
-     * Remove strike from a Faction.
+     * Method to remove a Strike from the Faction.
      *
-     * @param sender who desires to remove the Strike from the Faction.
-     * @param reason of the original Strike.
+     * @param sender who added the Strike
+     * @param reason for the Strike
      */
     @Override
     public void removeStrike(String sender, String reason) {
+        setStrikes(getTotalStrikes()-1);
+    }
+
+    /**
+     * Method to set the strikes for the given Faction.
+     *
+     * @param count to set.
+     * @throws IllegalStateException if count is less than 0.
+     */
+    private void setStrikes(int count) {
+        if (count < 0) throw new IllegalStateException("Count cannot be below 0.");
         try {
-            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
-            int current = getTotalStrikes();
-            set.invoke(f, current <= 0 ? 0 : current-1, false);
+            Method set = faction.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
+            set.invoke(faction, count, false);
         } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "removeStrike(Sender, String)");
+            if (bridge.catch_exceptions) return;
+            methodError(getClass(), "addStrike(Sender, String)");
         }
     }
 
     /**
-     * Method to obtain the Total Strikes a Faction has.
+     * Method to obtain the total Strikes related to a Faction.
      *
-     * @return integer amount of Strikes.
+     * @return total strikes.
      */
     @Override
     public int getTotalStrikes() {
         try {
-            Method get = f.getClass().getMethod("getStrikes");
-            return (int) get.invoke(f);
+            Method get = faction.getClass().getMethod("getStrikes");
+            return (int) get.invoke(faction);
         } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "getStrikes()");
-        }
-    }
-
-    /**
-     * Method to clear all Strikes.
-     */
-    @Override
-    public void clearStrikes() {
-        try {
-            Method set = f.getClass().getMethod("setStrikes", Integer.TYPE, Boolean.TYPE);
-            set.invoke(f, 0, false);
-        } catch (Exception ex) {
-            throw new BridgeMethodException(getClass(), "clearStrikes()");
+            if (bridge.catch_exceptions) return 0;
+            return (int) methodError(getClass(), "getTotalStrikes()");
         }
     }
 

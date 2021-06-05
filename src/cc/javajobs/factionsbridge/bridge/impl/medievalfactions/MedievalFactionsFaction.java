@@ -1,13 +1,13 @@
 package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
-import cc.javajobs.factionsbridge.bridge.IFactionPlayer;
-import cc.javajobs.factionsbridge.bridge.IRelationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import dansplugins.factionsystem.objects.Faction;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +17,18 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 03/05/2021 - 09:07
  */
-public class MedievalFactionsFaction implements IFaction {
+public class MedievalFactionsFaction extends AbstractFaction<Faction> {
 
-    private final Faction faction;
-
-    public MedievalFactionsFaction(Faction faction) {
-        this.faction = faction;
+    /**
+     * Constructor to create an AbstractFaction.
+     * <p>
+     * This class will be used to create each implementation of a 'Faction'.
+     * </p>
+     *
+     * @param faction object which will be bridged using the FactionsBridge.
+     */
+    public MedievalFactionsFaction(@NotNull Faction faction) {
+        super(faction);
     }
 
     /**
@@ -30,6 +36,7 @@ public class MedievalFactionsFaction implements IFaction {
      *
      * @return Id in the form of String.
      */
+    @NotNull
     @Override
     public String getId() {
         return faction.getName();
@@ -40,6 +47,7 @@ public class MedievalFactionsFaction implements IFaction {
      *
      * @return name of the Faction.
      */
+    @NotNull
     @Override
     public String getName() {
         return getId();
@@ -51,28 +59,18 @@ public class MedievalFactionsFaction implements IFaction {
      * @return the person who created the Faction.
      */
     @Override
-    public IFactionPlayer getLeader() {
+    public FPlayer getLeader() {
         return new MedievalFactionsPlayer(Bukkit.getOfflinePlayer(faction.getOwner()));
-    }
-
-    /**
-     * Method to get the name of the Leader.
-     *
-     * @return name of the person who created the Faction.
-     * @see IFaction#getLeader()
-     */
-    @Override
-    public String getLeaderName() {
-        return getLeader().getName();
     }
 
     /**
      * Method to get all Claims related to the Faction.
      *
-     * @return Claims in the form List of {@link IClaim}
+     * @return Claims in the form List of {@link Claim}
      */
+    @NotNull
     @Override
-    public List<IClaim> getAllClaims() {
+    public List<Claim> getAllClaims() {
         return faction.getClaimedChunks().stream()
                 .map(MedievalFactionsClaim::new)
                 .collect(Collectors.toList());
@@ -83,8 +81,9 @@ public class MedievalFactionsFaction implements IFaction {
      *
      * @return List of IFactionPlayer
      */
+    @NotNull
     @Override
-    public List<IFactionPlayer> getMembers() {
+    public List<FPlayer> getMembers() {
         return faction.getMemberList().stream()
                 .map(Bukkit::getOfflinePlayer)
                 .map(MedievalFactionsPlayer::new)
@@ -97,7 +96,7 @@ public class MedievalFactionsFaction implements IFaction {
      * @param location to set as the new home.
      */
     @Override
-    public void setHome(Location location) {
+    public void setHome(@NotNull Location location) {
         faction.setFactionHome(location);
     }
 
@@ -112,47 +111,6 @@ public class MedievalFactionsFaction implements IFaction {
     }
 
     /**
-     * Method to get the relationship between two Factions.
-     *
-     * @param other faction to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFaction other) {
-        if (faction.isEnemy(other.getName())) {
-            return IRelationship.ENEMY;
-        }
-        if (faction.isAlly(other.getName())) {
-            return IRelationship.ALLY;
-        }
-        if (faction.isTruceRequested(other.getName())) {
-            return IRelationship.TRUCE;
-        }
-        return IRelationship.NONE;
-    }
-
-    /**
-     * Method to get the relationship between an IFaction and an IFactionPlayer.
-     *
-     * @param other IFactionPlayer to test
-     * @return {@link IRelationship}
-     */
-    @Override
-    public IRelationship getRelationTo(IFactionPlayer other) {
-        return getRelationTo(other.getFaction());
-    }
-
-    /**
-     * Method to return the IFaction as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return faction;
-    }
-
-    /**
      * Method to test if this Faction is a Server Faction
      * <p>
      * Server Factions: Wilderness, SafeZone, WarZone.
@@ -162,7 +120,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public boolean isServerFaction() {
-        return false;
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isServerFaction()");
     }
 
     /**
@@ -172,7 +131,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public boolean isWarZone() {
-        return false;
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isWarZone()");
     }
 
     /**
@@ -182,7 +142,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public boolean isSafeZone() {
-        return false;
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isSafeZone()");
     }
 
     /**
@@ -192,7 +153,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public boolean isWilderness() {
-        return false;
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isWilderness()");
     }
 
     /**
@@ -202,7 +164,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public boolean isPeaceful() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support isPeaceful().");
+        if (bridge.catch_exceptions) return false;
+        return (boolean) unsupported(getProvider(), "isPeaceful()");
     }
 
     /**
@@ -212,7 +175,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public double getBank() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getBank().");
+        if (bridge.catch_exceptions) return 0.0;
+        return (double) unsupported(getProvider(), "getBank()");
     }
 
     /**
@@ -222,7 +186,20 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public int getPoints() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getPoints().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getPoints()");
+    }
+
+    /**
+     * Method to override the points of the Faction to the specified amount.
+     *
+     * @param points to set for the Faction.
+     * @see #getPoints()
+     */
+    @Override
+    public void setPoints(int points) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPoints()");
     }
 
     /**
@@ -232,8 +209,9 @@ public class MedievalFactionsFaction implements IFaction {
      * @return {@link Location} of the warp.
      */
     @Override
-    public Location getWarp(String name) {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWarp(String).");
+    public Location getWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return null;
+        return (Location) unsupported(getProvider(), "getWarp()");
     }
 
     /**
@@ -244,9 +222,12 @@ public class MedievalFactionsFaction implements IFaction {
      *
      * @return hashmap of all warps.
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @NotNull
     @Override
     public HashMap<String, Location> getWarps() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWarps().");
+        if (bridge.catch_exceptions) return new HashMap<>();
+        return (HashMap) unsupported(getProvider(), "getWarps()");
     }
 
     /**
@@ -256,8 +237,9 @@ public class MedievalFactionsFaction implements IFaction {
      * @param location of the warp.
      */
     @Override
-    public void createWarp(String name, Location location) {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support createWarp(String, Location).");
+    public void createWarp(@NotNull String name, @NotNull Location location) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "createWarp(name, location)");
     }
 
     /**
@@ -266,8 +248,9 @@ public class MedievalFactionsFaction implements IFaction {
      * @param name of the warp to be deleted.
      */
     @Override
-    public void deleteWarp(String name) {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support deleteWarp(String).");
+    public void deleteWarp(@NotNull String name) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "deleteWarp(name)");
     }
 
     /**
@@ -278,7 +261,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support addStrike(String, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "addStrike(sender, reason)");
     }
 
     /**
@@ -289,7 +273,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support removeStrike(String, String).");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "removeStrike(sender, reason)");
     }
 
     /**
@@ -299,7 +284,8 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public int getTotalStrikes() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getTotalStrikes().");
+        if (bridge.catch_exceptions) return 0;
+        return (int) unsupported(getProvider(), "getTotalStrikes()");
     }
 
     /**
@@ -307,7 +293,40 @@ public class MedievalFactionsFaction implements IFaction {
      */
     @Override
     public void clearStrikes() {
-        throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support clearStrikes().");
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "clearStrikes()");
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    @Override
+    public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
+        if (this.faction.isEnemy(faction.getName())) {
+            return Relationship.ENEMY;
+        }
+        if (this.faction.isAlly(faction.getName())) {
+            return Relationship.ALLY;
+        }
+        if (this.faction.isTruceRequested(faction.getName())) {
+            return Relationship.TRUCE;
+        }
+        return Relationship.NONE;
+    }
+
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "MedievalFactions";
     }
 
 }

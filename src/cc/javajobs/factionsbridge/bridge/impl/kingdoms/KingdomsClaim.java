@@ -1,12 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
-import cc.javajobs.factionsbridge.bridge.IClaim;
-import cc.javajobs.factionsbridge.bridge.IFaction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.Chunk;
-import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
 import org.kingdoms.constants.land.Land;
-
-import java.util.UUID;
 
 /**
  * Kingdoms implementation of IClaim.
@@ -14,22 +12,29 @@ import java.util.UUID;
  * @author Callum Johnson
  * @since 26/02/2021 - 17:02
  */
-public class KingdomsClaim implements IClaim {
+public class KingdomsClaim extends AbstractClaim<Land> {
 
-    private final Land land;
-
-    public KingdomsClaim(Land land) {
-        this.land = land;
+    /**
+     * Constructor to create an AbstractClaim.
+     * <p>
+     * This class will be used to create each implementation of a 'Claim'.
+     * </p>
+     *
+     * @param claim object which will be bridged using the FactionsBridge.
+     */
+    public KingdomsClaim(@NotNull Land claim) {
+        super(claim);
     }
 
     /**
-     * Method to get the Chunk linked to the Claim.
+     * Method to obtain the Chunk related to the Claim.
      *
-     * @return {@link Chunk} from Bukkit.
+     * @return {@link Chunk} represented by the 'Claim'.
      */
+    @NotNull
     @Override
-    public Chunk getBukkitChunk() {
-        return land.getLocation().toChunk();
+    public Chunk getChunk() {
+        return claim.getLocation().toChunk();
     }
 
     /**
@@ -39,7 +44,7 @@ public class KingdomsClaim implements IClaim {
      */
     @Override
     public int getX() {
-        return land.getLocation().getX();
+        return claim.getLocation().getX();
     }
 
     /**
@@ -49,17 +54,7 @@ public class KingdomsClaim implements IClaim {
      */
     @Override
     public int getZ() {
-        return land.getLocation().getZ();
-    }
-
-    /**
-     * Method to get the World of the Chunk.
-     *
-     * @return {@link World} from the Bukkit API.
-     */
-    @Override
-    public World getWorld() {
-        return land.getLocation().getBukkitWorld();
+        return claim.getLocation().getZ();
     }
 
     /**
@@ -68,38 +63,22 @@ public class KingdomsClaim implements IClaim {
      * @return IFaction linked to the IClaim.
      */
     @Override
-    public IFaction getFaction() {
-        return new KingdomsKingdom(land.getKingdom());
+    public Faction getFaction() {
+        return new KingdomsKingdom(claim.getKingdom());
     }
 
     /**
-     * Method to get the name of the World linked to the Chunk.
+     * Method to determine if the Claim has a Faction related to it.
+     * <p>
+     * If the claim is owned by 'Wilderness' or the equivalent Faction, this method will return {@code false}.
+     * </p>
      *
-     * @return string name of the World.
+     * @return {@code true} if a Faction owns this land (not Wilderness)
+     * @see Faction#isWilderness()
      */
     @Override
-    public String getWorldName() {
-        return land.getLocation().getWorld();
-    }
-
-    /**
-     * Method to get the unique Id of the World linked to the Chunk.
-     *
-     * @return UUID (UniqueId).
-     */
-    @Override
-    public UUID getWorldUID() {
-        return land.getLocation().getBukkitWorld().getUID();
-    }
-
-    /**
-     * Method to return the IClaim as an Object (API friendly)
-     *
-     * @return object of API.
-     */
-    @Override
-    public Object asObject() {
-        return land;
+    public boolean isClaimed() {
+        return getFaction() != null;
     }
 
 }
