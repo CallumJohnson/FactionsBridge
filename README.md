@@ -9,7 +9,7 @@ Due to the nature of Factions and their individualised implementations, it can b
 
 ### Plugins which are supported.
 
-As of Version 1.1.4, 11 different versions of Factions are supported.
+As of Version 1.2.0, 12 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://www.spigotmc.org/resources/factionsx.83459/ |
@@ -23,6 +23,7 @@ As of Version 1.1.4, 11 different versions of Factions are supported.
 | KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
 | MedievalFactions | https://www.spigotmc.org/resources/medieval-factions-sovereign-nation-simulator.79941/ |
 | LegacyFactions | https://github.com/redstone/LegacyFactions/releases/tag/1.4.7 |
+| UltimateFactions | https://www.spigotmc.org/resources/%E2%AD%90ultimate-factions-%E2%96%BA-unique-faction-plugin-%E2%97%84-%E2%9C%85-1-8-1-16-5-%E2%9C%85-%E2%9C%A8-fully-configurable-%E2%9C%A8.81103/ |
 
 ## How to use the API
 
@@ -34,7 +35,7 @@ main: com.yourname.yourproject.YourProject
 version: 1.0-Snapshot-of-the-century
 
 # If you are shading the project in, include the following:
-softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions]
+softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions]
 
 # If you are depending on the standalone plugin, including the following:
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
