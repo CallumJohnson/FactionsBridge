@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodUnsupportedException;
+import cc.javajobs.factionsbridge.bridge.impl.medievalfactions.events.MedievalFactionsListener;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
@@ -11,6 +12,7 @@ import dansplugins.factionsystem.ChunkManager;
 import dansplugins.factionsystem.MedievalFactions;
 import dansplugins.factionsystem.commands.DisbandCommand;
 import dansplugins.factionsystem.data.PersistentData;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -147,6 +149,11 @@ public class MedievalFactionsAPI implements FactionsAPI {
      */
     @Override
     public void register() {
+        if (FactionsBridge.getFactionsAPI().hasRegistered()) return;
+        Bukkit.getPluginManager().registerEvents(
+                new MedievalFactionsListener(),
+                FactionsBridge.get().getDevelopmentPlugin()
+        );
         FactionsBridge.get().registered = true;
     }
 
