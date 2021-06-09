@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship.getRelationship;
-
 public class FactionsUUIDFaction extends AbstractFaction<Faction> {
 
     /**

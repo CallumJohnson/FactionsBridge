@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
-import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.Chunk;

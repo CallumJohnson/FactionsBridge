@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx;
 
-import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import net.prosavage.factionsx.persist.data.FLocation;
 import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.supremefactions;
 
-import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import com.massivecraft.factions.FPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

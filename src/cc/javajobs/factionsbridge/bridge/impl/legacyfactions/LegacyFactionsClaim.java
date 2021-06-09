@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
-import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.locality.Locality;

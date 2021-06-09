@@ -1,7 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
-import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import me.zysea.factions.FPlugin;
 import me.zysea.factions.objects.Claim;
 import org.bukkit.Chunk;

@@ -1,10 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions.events;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
-import cc.javajobs.factionsbridge.bridge.events.*;
 import cc.javajobs.factionsbridge.bridge.events.FactionCreateEvent;
 import cc.javajobs.factionsbridge.bridge.events.FactionDisbandEvent;
 import cc.javajobs.factionsbridge.bridge.events.FactionRenameEvent;
+import cc.javajobs.factionsbridge.bridge.events.*;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.event.*;

@@ -1,11 +1,11 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events.FactionsUUIDListener;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
-import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.events.FactionsUUIDListener;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Factions;

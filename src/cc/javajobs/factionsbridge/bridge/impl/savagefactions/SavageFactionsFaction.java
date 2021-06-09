@@ -1,8 +1,8 @@
 package cc.javajobs.factionsbridge.bridge.impl.savagefactions;
 
+import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
-import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import com.massivecraft.factions.Faction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

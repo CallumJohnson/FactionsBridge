@@ -37,7 +37,7 @@ public enum Relationship {
                 return value;
             }
         }
-        return NONE;
+        return DEFAULT_RELATIONSHIP;
     }
 
     /**

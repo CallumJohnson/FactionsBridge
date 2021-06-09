@@ -1,10 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsx;
 
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
 import net.prosavage.factionsx.persist.data.wrappers.DataLocation;
