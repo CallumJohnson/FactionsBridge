@@ -11,6 +11,7 @@ import cc.javajobs.factionsbridge.bridge.impl.medievalfactions.MedievalFactionsA
 import cc.javajobs.factionsbridge.bridge.impl.saberfactions.SaberFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.savagefactions.SavageFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.supremefactions.SupremeFactionsAPI;
+import cc.javajobs.factionsbridge.bridge.impl.ultimatefactions.UltimateFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -41,7 +42,8 @@ public enum Provider {
     Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life"), new SavageFactionsAPI()),
     Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), new SupremeFactionsAPI()),
     Factions_LegacyFactions("LegacyFactions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan", "drtshoc"), new LegacyFactionsAPI()),
-    Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), new MedievalFactionsAPI());
+    Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), new MedievalFactionsAPI()),
+    Factions_UltimateFactions("UltimateFactions", Collections.singletonList("Miinoo_"), new UltimateFactionsAPI());
 
     private final String pluginName;
     private final List<String> authors;
@@ -52,7 +54,7 @@ public enum Provider {
      * Constructor to initialise a Provider.
      * @param pluginName of the Provider.
      * @param authors which made the Provider.
-     * @param fapi {@link IFactionsAPI} implementation.
+     * @param fapi {@link FactionsAPI} implementation.
      * @param classes to check for to be sure the Provider is correctly identified (unused).
      */
     Provider(String pluginName, List<String> authors, FactionsAPI fapi, String... classes) {
