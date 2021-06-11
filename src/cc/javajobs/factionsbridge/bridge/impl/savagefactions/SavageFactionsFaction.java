@@ -168,4 +168,15 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
         }
     }
 
+    /**
+     * Method to obtain the Provider name for Debugging/Console output purposes.
+     *
+     * @return String name of the Provider.
+     */
+    @NotNull
+    @Override
+    public String getProvider() {
+        return "SavageFactions";
+    }
+
 }

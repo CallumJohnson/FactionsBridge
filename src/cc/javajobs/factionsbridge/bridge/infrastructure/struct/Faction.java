@@ -272,6 +272,17 @@ public interface Faction {
 
     /**
      * Method to obtain the Relationship between this Faction and another Faction.
+     *
+     * @param faction to get the relative relationship to this Faction.
+     * @return {@link Relationship} enumeration.
+     */
+    @NotNull
+    default Relationship getRelationshipTo(@NotNull Faction faction) {
+        return getRelationshipTo(((AbstractFaction<?>) faction));
+    }
+
+    /**
+     * Method to obtain the Relationship between this Faction and another Faction.
      * <p>
      *      This method has been made to reflect both the previous FactionsBridge iterations and Faction APIs.
      * </p>
