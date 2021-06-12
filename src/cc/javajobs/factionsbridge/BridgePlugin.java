@@ -1,19 +1,38 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.commands.About;
+import cc.javajobs.factionsbridge.util.ACommand;
 import cc.javajobs.factionsbridge.util.Communicator;
 import cc.javajobs.factionsbridge.util.Updater;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author Callum Johnson
  * @since 17/04/2021 - 09:00
  */
-public class BridgePlugin extends JavaPlugin implements Communicator {
+public class BridgePlugin extends JavaPlugin implements Communicator, CommandExecutor {
+
+    private final ACommand[] commands = new ACommand[] {
+            new About()
+    };
 
     public void onEnable() {
         FactionsBridge bridge = new FactionsBridge();
         bridge.connect(this);
+
+        try {
+            Objects.requireNonNull(getCommand("factionsbridge")).setExecutor(this);
+        } catch (Exception e) {
+            exception(e, "Callum is an idiot.");
+        }
 
         if (!FactionsBridge.get().connected()) {
             log("FactionsBridge didn't connect.");
@@ -52,6 +71,24 @@ public class BridgePlugin extends JavaPlugin implements Communicator {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length != 0) {
+            for (ACommand aCommand : commands) {
+                if (aCommand.isCommand(args[0])) {
+                    String[] arguments = new String[args.length - 1];
+                    System.arraycopy(args, 1, arguments, 0, args.length - 1); // Remove one entry from the beginning.
+                    aCommand.execute(sender, arguments);
+                    return true;
+                }
+            }
+        }
+        Arrays.stream(commands)
+                .map(aCommand -> translate("&b" + aCommand.getName() + " &7- &f" + aCommand.getDescription()))
+                .forEach(sender::sendMessage);
+        return false;
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class FactionsBridge implements Communicator {
 
-    private static final String version = "1.2.1";
+    private static final String version = "1.2.2";
     private static FactionsBridge instance = null;
 
     private static FactionsAPI factionapi = null;
@@ -171,6 +171,14 @@ public class FactionsBridge implements Communicator {
      */
     public static FactionsAPI getFactionsAPI() {
         return factionapi;
+    }
+
+    /**
+     * Method to obtain the Version of FactionsBridge for the commands.
+     * @return String version.
+     */
+    public static String getVersion() {
+        return version;
     }
 
 }

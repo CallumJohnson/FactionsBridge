@@ -131,6 +131,21 @@ public enum Provider {
         return name().replaceAll("\\w+_", "");
     }
 
+    /**
+     * Method to obtain the Provider relative to the FactionsAPI class.
+     *
+     * @param factionsAPI to use to find the Provider.
+     * @return {@link Provider} or {@code null}.
+     */
+    public static Provider getFromAPI(FactionsAPI factionsAPI) {
+        for (Provider value : Provider.values()) {
+            if (value.getAPI().equals(factionsAPI)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Provider{" + "pluginName='" + pluginName + '\'' + ", authors=" + String.join(", ", authors) + '}';
