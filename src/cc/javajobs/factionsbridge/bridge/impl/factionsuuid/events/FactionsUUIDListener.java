@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * FactionsUUID implementation of the Bridges needed to handle all Custom Events.
@@ -29,7 +30,7 @@ public class FactionsUUIDListener implements Listener {
         FactionClaimEvent bridgeEvent = new FactionClaimEvent(
                 api.getClaim(event.getLocation().getChunk()),
                 api.getFaction(event.getFaction().getId()),
-                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                api.getFPlayer(UUID.fromString(event.getfPlayer().getId())),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -40,7 +41,7 @@ public class FactionsUUIDListener implements Listener {
     public void onJoin(com.massivecraft.factions.event.FPlayerJoinEvent event) {
         FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                 api.getFaction(event.getFaction().getId()),
-                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                api.getFPlayer(UUID.fromString(event.getfPlayer().getId())),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -51,7 +52,7 @@ public class FactionsUUIDListener implements Listener {
     public void onLeave(com.massivecraft.factions.event.FPlayerLeaveEvent event) {
         FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                 api.getFaction(event.getFaction().getId()),
-                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                api.getFPlayer(UUID.fromString(event.getfPlayer().getId())),
                 FactionLeaveEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
@@ -63,7 +64,7 @@ public class FactionsUUIDListener implements Listener {
     public void onUnclaimAll(LandUnclaimAllEvent event) {
         FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                 api.getFaction(event.getFaction().getId()),
-                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                api.getFPlayer(UUID.fromString(event.getfPlayer().getId())),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -75,7 +76,7 @@ public class FactionsUUIDListener implements Listener {
         FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
                 api.getClaim(event.getLocation().getChunk()),
                 api.getFaction(event.getFaction().getId()),
-                api.getFPlayer(event.getfPlayer().getOfflinePlayer()),
+                api.getFPlayer(UUID.fromString(event.getfPlayer().getId())),
                 event
         );
         Bukkit.getPluginManager().callEvent(bridgeEvent);
@@ -88,7 +89,7 @@ public class FactionsUUIDListener implements Listener {
         Bukkit.getScheduler().runTaskLater(FactionsBridge.get().getDevelopmentPlugin(), () -> {
             FactionCreateEvent bridgeEvent = new FactionCreateEvent(
                     api.getFactionByName(event.getFactionTag()),
-                    api.getFPlayer(event.getFPlayer().getOfflinePlayer()),
+                    api.getFPlayer(UUID.fromString(event.getFPlayer().getId())),
                     event
             );
             Bukkit.getPluginManager().callEvent(bridgeEvent);

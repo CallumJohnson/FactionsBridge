@@ -1,13 +1,16 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.iface.RelationParticipator;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.util.LazyLocation;
+import com.massivecraft.factions.zcore.persist.MemoryFaction;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -319,7 +322,22 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     @NotNull
     @Override
     public Relationship getRelationshipTo(@NotNull AbstractFaction<?> faction) {
-        return Relationship.getRelationship(this.faction.getRelationTo((RelationParticipator) faction.getFaction()));
+        final Object one = this.faction;
+        final Object two = faction.getFaction();
+        try {
+            Class.forName("com.massivecraft.factions.zcore.persist.MemoryFaction");
+            final MemoryFaction oneM = (MemoryFaction) one;
+            final MemoryFaction twoM = (MemoryFaction) two;
+            return Relationship.getRelationship(oneM.getRelationTo(twoM).name());
+        } catch (ClassNotFoundException ignored) {}
+        try {
+            Class.forName("com.massivecraft.factions.data.MemoryFaction");
+            final com.massivecraft.factions.data.MemoryFaction oneM = (com.massivecraft.factions.data.MemoryFaction) one;
+            final com.massivecraft.factions.data.MemoryFaction twoM = (com.massivecraft.factions.data.MemoryFaction) two;
+            return Relationship.getRelationship(oneM.getRelationTo(twoM).name());
+        } catch (ClassNotFoundException ignored) {}
+        if (bridge.catch_exceptions) return Relationship.NONE;
+        else return (Relationship) methodError(getClass(), "getRelationshipTo(AbstractionFaction<?>)");
     }
 
     /**

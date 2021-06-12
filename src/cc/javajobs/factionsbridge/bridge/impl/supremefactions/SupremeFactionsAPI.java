@@ -38,7 +38,7 @@ public class SupremeFactionsAPI extends FactionsUUIDAPI {
     @NotNull
     @Override
     public Claim getClaim(@NotNull Chunk chunk) {
-        return new SupremeFactionsClaim(new FLocation(chunk));
+        return new SupremeFactionsClaim(new FLocation(chunk.getWorld().getName(), chunk.getX(), chunk.getZ()));
     }
 
     /**

@@ -38,7 +38,7 @@ public class AtlasFactionsAPI extends FactionsUUIDAPI {
     @NotNull
     @Override
     public Claim getClaim(@NotNull Chunk chunk) {
-        return new AtlasFactionsClaim(new FLocation(chunk));
+        return new AtlasFactionsClaim(new FLocation(chunk.getWorld().getName(), chunk.getX(), chunk.getZ()));
     }
 
     /**

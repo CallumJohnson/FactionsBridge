@@ -39,7 +39,7 @@ public class SavageFactionsAPI extends FactionsUUIDAPI {
     @NotNull
     @Override
     public Claim getClaim(@NotNull Chunk chunk) {
-        return new SaberFactionsClaim(new FLocation(chunk));
+        return new SaberFactionsClaim(new FLocation(chunk.getWorld().getName(), chunk.getX(), chunk.getZ()));
     }
 
     /**

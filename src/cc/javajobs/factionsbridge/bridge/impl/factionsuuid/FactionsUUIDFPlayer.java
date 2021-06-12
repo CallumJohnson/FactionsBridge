@@ -3,11 +3,13 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import com.massivecraft.factions.FPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
@@ -32,7 +34,14 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public UUID getUniqueId() {
-        return fPlayer.getOfflinePlayer().getUniqueId();
+        try {
+            final Class<?> FPLAYER_CLASS = fPlayer.getClass();
+            final Method getOfflinePlayer = FPLAYER_CLASS.getMethod("getOfflinePlayer");
+            final OfflinePlayer player = (OfflinePlayer) getOfflinePlayer.invoke(fPlayer);
+            return player.getUniqueId();
+        } catch (Exception ex) {
+            return UUID.fromString(fPlayer.getId());
+        }
     }
 
     /**
@@ -80,7 +89,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return fPlayer.getOfflinePlayer();
+        return Bukkit.getOfflinePlayer(getUniqueId());
     }
 
     /**
