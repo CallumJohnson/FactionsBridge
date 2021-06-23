@@ -43,7 +43,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             return new SaberFactionsFPlayer(leader);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return null;
-            return (FPlayer) methodError(getClass(), "getLeader()");
+            return (FPlayer) methodError(getClass(), "getLeader()", ex.getClass().getSimpleName());
         }
     }
 
@@ -82,7 +82,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             return (int) getPoints.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getPoints()");
+            return (int) methodError(getClass(), "getPoints()", ex.getClass().getSimpleName());
         }
     }
 
@@ -100,7 +100,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             setPoints.invoke(faction, points);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "setPoints(int points)");
+            methodError(getClass(), "setPoints(int points)", ex.getClass().getSimpleName());
         }
     }
 
@@ -119,7 +119,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             return (double) getBalance.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0.0;
-            return (double) methodError(getClass(), "getBank()");
+            return (double) methodError(getClass(), "getBank()", ex.getClass().getSimpleName());
         }
     }
 
@@ -166,7 +166,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             set.invoke(faction, count);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "addStrike(Sender, String)");
+            methodError(getClass(), "addStrike(Sender, String)", ex.getClass().getSimpleName());
         }
     }
 
@@ -182,7 +182,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
             return (int) get.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getTotalStrikes()");
+            return (int) methodError(getClass(), "getTotalStrikes()", ex.getClass().getSimpleName());
         }
     }
 

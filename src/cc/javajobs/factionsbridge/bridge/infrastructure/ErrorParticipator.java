@@ -40,16 +40,4 @@ public interface ErrorParticipator {
         throw new BridgeMethodException(clazz, method, reason);
     }
 
-    /**
-     * Method to throw {@link BridgeMethodException}.
-     *
-     * @param clazz which has an error.
-     * @param method which had an error.
-     * @return nothing.
-     * @throws BridgeMethodException with the given parameters.
-     */
-    default Object methodError(@NotNull Class<?> clazz, @NotNull String method) {
-        throw new BridgeMethodException(clazz, method);
-    }
-
 }

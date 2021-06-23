@@ -54,7 +54,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             return new SavageFactionsFPlayer(leader);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return null;
-            return (FPlayer) methodError(getClass(), "getLeader()");
+            return (FPlayer) methodError(getClass(), "getLeader()", ex.getClass().getSimpleName());
         }
     }
 
@@ -82,7 +82,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             return (int) getPoints.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getPoints()");
+            return (int) methodError(getClass(), "getPoints()", ex.getClass().getSimpleName());
         }
     }
 
@@ -101,7 +101,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             addPoints.invoke(faction, difference);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "setPoints(int points)");
+            methodError(getClass(), "setPoints(int points)", ex.getClass().getSimpleName());
         }
     }
 
@@ -148,7 +148,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             set.invoke(faction, count, false);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "addStrike(Sender, String)");
+            methodError(getClass(), "addStrike(Sender, String)", ex.getClass().getSimpleName());
         }
     }
 
@@ -164,7 +164,7 @@ public class SavageFactionsFaction extends FactionsUUIDFaction {
             return (int) get.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getTotalStrikes()");
+            return (int) methodError(getClass(), "getTotalStrikes()", ex.getClass().getSimpleName());
         }
     }
 

@@ -78,7 +78,7 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
             return (double) getFBalance.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0.0;
-            return (double) methodError(getClass(), "getFBalance()");
+            return (double) methodError(getClass(), "getFBalance()", ex.getClass().getSimpleName());
         }
     }
 
@@ -101,11 +101,11 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
                 }
             } else {
                 if (bridge.catch_exceptions) return;
-                methodError(getClass(), "clearStrikes(){2}");
+                methodError(getClass(), "clearStrikes(){2}", "Strikes not in List.");
             }
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "clearStrikes(){1}");
+            methodError(getClass(), "clearStrikes(){1}", ex.getClass().getSimpleName());
         }
     }
 
@@ -123,7 +123,7 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
             add.invoke(faction, strike);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "addStrike(Sender, String)");
+            methodError(getClass(), "addStrike(Sender, String)", ex.getClass().getSimpleName());
         }
     }
 
@@ -150,13 +150,13 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
             }
             if (removeMe == null) {
                 if (bridge.catch_exceptions) return;
-                methodError(getClass(), "removeStrike(Sender, String){2}");
+                methodError(getClass(), "removeStrike(Sender, String){2}", "RemoveMe == null");
             }
             Method remove = faction.getClass().getMethod("removeStrike", Strike.class);
             remove.invoke(faction, removeMe);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "removeStrike(Sender, String){1}");
+            methodError(getClass(), "removeStrike(Sender, String){1}", ex.getClass().getSimpleName());
         }
     }
 
@@ -175,7 +175,7 @@ public class SupremeFactionsFaction extends FactionsUUIDFaction {
             }
         } catch (Exception ignored) {}
         if (bridge.catch_exceptions) return 0;
-        else return (int) methodError(getClass(), "getTotalStrikes()");
+        else return (int) methodError(getClass(), "getTotalStrikes()", "Strikes not in list.");
     }
 
     /**

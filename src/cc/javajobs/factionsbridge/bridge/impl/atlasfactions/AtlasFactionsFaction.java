@@ -63,7 +63,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             return new AtlasFactionsFPlayer(leader);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return null;
-            return (FPlayer) methodError(getClass(), "getLeader()");
+            return (FPlayer) methodError(getClass(), "getLeader()", ex.getClass().getSimpleName());
         }
     }
 
@@ -91,7 +91,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             return (int) getPoints.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getPoints()");
+            return (int) methodError(getClass(), "getPoints()", ex.getClass().getSimpleName());
         }
     }
 
@@ -110,7 +110,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             addPoints.invoke(faction, difference);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "setPoints(int points)");
+            methodError(getClass(), "setPoints(int points)", ex.getClass().getSimpleName());
         }
     }
 
@@ -130,7 +130,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             return (double) getBalance.invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0.0;
-            return (double) methodError(getClass(), "getBalance()");
+            return (double) methodError(getClass(), "getBalance()", ex.getClass().getSimpleName());
         }
     }
 
@@ -149,10 +149,10 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             Object result = getWarp.invoke(faction, name);
             if (result instanceof Warp) return ((Warp) result).getLocation();
             if (bridge.catch_exceptions) return null;
-            return (Location) methodError(getClass(), "getWarp(String name) {2}");
+            return (Location) methodError(getClass(), "getWarp(String name) {2}", "Failed");
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return null;
-            return (Location) methodError(getClass(), "getWarp(String name) {1}");
+            return (Location) methodError(getClass(), "getWarp(String name) {1}", ex.getClass().getSimpleName());
         }
     }
 
@@ -173,7 +173,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             setWarp.invoke(faction, name, warp);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "createWarp(String name, Location location)");
+            methodError(getClass(), "createWarp(String name, Location location)", ex.getClass().getSimpleName());
         }
     }
 
@@ -201,10 +201,10 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
                 return data;
             }
             if (bridge.catch_exceptions) return new HashMap<>();
-            return (HashMap) methodError(getClass(), "getWarps(){2}");
+            return (HashMap) methodError(getClass(), "getWarps(){2}", "Not WarpMap");
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return new HashMap<>();
-            return (HashMap) methodError(getClass(), "getWarps(){1}");
+            return (HashMap) methodError(getClass(), "getWarps(){1}", ex.getClass().getSimpleName());
         }
     }
 
@@ -217,7 +217,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             faction.getClass().getMethod("clearStrikes").invoke(faction);
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "clearStrikes()");
+            methodError(getClass(), "clearStrikes()", ex.getClass().getSimpleName());
         }
     }
 
@@ -244,7 +244,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             }
             if (removeMe == null) {
                 if (bridge.catch_exceptions) return;
-                methodError(getClass(), "removeStrike(Sender, String){2}");
+                methodError(getClass(), "removeStrike(Sender, String){2}", "RemoveMe == Null.");
             }
 
             Method remove = faction.getClass().getMethod("removeStrike", StrikeInfo.class);
@@ -252,7 +252,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
 
         } catch (Exception e) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "removeStrike(Sender, String){1}");
+            methodError(getClass(), "removeStrike(Sender, String){1}", e.getClass().getSimpleName());
         }
     }
 
@@ -287,7 +287,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
 
         } catch (Exception e) {
             if (bridge.catch_exceptions) return;
-            methodError(getClass(), "addStrike(Sender, String)");
+            methodError(getClass(), "addStrike(Sender, String)", e.getClass().getSimpleName());
         }
     }
 
@@ -303,10 +303,10 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
             Object strikeObj = get.invoke(faction);
             if (Set.class.isAssignableFrom(strikeObj.getClass())) return ((Set<?>) strikeObj).size();
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getTotalStrikes(){2}");
+            return (int) methodError(getClass(), "getTotalStrikes(){2}", "Not StrikeSet");
         } catch (Exception ex) {
             if (bridge.catch_exceptions) return 0;
-            return (int) methodError(getClass(), "getTotalStrikes(){1}");
+            return (int) methodError(getClass(), "getTotalStrikes(){1}", ex.getClass().getSimpleName());
         }
     }
 

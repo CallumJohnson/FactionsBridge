@@ -337,7 +337,8 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
             return Relationship.getRelationship(oneM.getRelationTo(twoM).name());
         } catch (ClassNotFoundException ignored) {}
         if (bridge.catch_exceptions) return Relationship.NONE;
-        else return (Relationship) methodError(getClass(), "getRelationshipTo(AbstractionFaction<?>)");
+        else return (Relationship) methodError(getClass(), "getRelationshipTo(AbstractionFaction<?>)",
+                "Can't find relationship.");
     }
 
     /**
