@@ -16,7 +16,7 @@ public abstract class AbstractFPlayer<FP> implements FPlayer {
     /**
      * FPlayer object bridged using FactionsBridge.
      */
-    protected FP fPlayer;
+    protected final FP fPlayer;
 
     /**
      * Bridge object for quick-use within an 'FPlayer' implementation.

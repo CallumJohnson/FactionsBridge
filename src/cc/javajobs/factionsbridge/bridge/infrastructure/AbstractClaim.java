@@ -16,7 +16,7 @@ public abstract class AbstractClaim<C> implements Claim {
     /**
      * Claim object bridged using FactionsBridge.
      */
-    protected C claim;
+    protected final C claim;
 
     /**
      * Bridge object for quick-use within a 'Claim' implementation.

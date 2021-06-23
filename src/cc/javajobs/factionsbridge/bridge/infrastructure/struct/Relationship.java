@@ -19,7 +19,7 @@ public enum Relationship {
     /**
      * A static definition of the default relationship.
      */
-    public static Relationship DEFAULT_RELATIONSHIP = NONE;
+    public static final Relationship DEFAULT_RELATIONSHIP = NONE;
 
     /**
      * Accessible method to convert a string into a {@link Relationship}.

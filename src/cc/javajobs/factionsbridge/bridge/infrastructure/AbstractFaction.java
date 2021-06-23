@@ -16,7 +16,7 @@ public abstract class AbstractFaction<F> implements Faction, ErrorParticipator {
     /**
      * Faction object bridged using FactionsBridge.
      */
-    protected F faction;
+    protected final F faction;
 
     /**
      * Bridge object for quick-use within a 'Faction' implementation.
