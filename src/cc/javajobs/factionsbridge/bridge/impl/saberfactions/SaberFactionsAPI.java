@@ -77,7 +77,7 @@ public class SaberFactionsAPI extends FactionsUUIDAPI {
     @NotNull
     @Override
     public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
-        return new SaberFactionsFPlayer(FPlayers.getInstance().getByOfflinePlayer(player));
+        return new SaberFactionsFPlayer(FPlayers.getInstance().getById(player.getUniqueId().toString()));
     }
 
     /**
