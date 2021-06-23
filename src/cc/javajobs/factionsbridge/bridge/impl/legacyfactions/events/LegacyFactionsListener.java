@@ -84,9 +84,7 @@ public class LegacyFactionsListener implements Listener {
                     event
             ));
         }
-        eventList.forEach(bridgeEvent -> {
-            Bukkit.getPluginManager().callEvent(bridgeEvent);
-        });
+        eventList.forEach(bridgeEvent -> Bukkit.getPluginManager().callEvent(bridgeEvent));
         if (eventList.stream().anyMatch(FactionEvent::isCancelled)) {
             event.setCancelled(true);
             eventList.forEach(ev -> ev.setCancelled(true));
