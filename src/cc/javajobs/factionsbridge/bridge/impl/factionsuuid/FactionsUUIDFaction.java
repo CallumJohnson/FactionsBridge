@@ -1,13 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
-import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Relationship;
 import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.iface.RelationParticipator;
 import com.massivecraft.factions.integration.Econ;
 import com.massivecraft.factions.util.LazyLocation;
 import com.massivecraft.factions.zcore.persist.MemoryFaction;

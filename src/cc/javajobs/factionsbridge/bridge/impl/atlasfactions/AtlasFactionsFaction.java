@@ -262,7 +262,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
      * @param sender who added the Strike
      * @param reason for the Strike
      */
-    @SuppressWarnings("JavaReflectionMemberAccess") // FactionsUUID takes precedence over Atlas,
+    @SuppressWarnings({"JavaReflectionMemberAccess", "deprecation"}) // FactionsUUID takes precedence over Atlas,
     @Override                                       // so the member cannot be found.
     public void addStrike(String sender, String reason) {
         try {

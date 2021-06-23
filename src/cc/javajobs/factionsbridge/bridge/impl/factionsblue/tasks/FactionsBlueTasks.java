@@ -25,7 +25,7 @@ public class FactionsBlueTasks implements Runnable {
     private final HashMap<Faction, List<FPlayer>> memberTrack = new HashMap<>();
 
     public FactionsBlueTasks() {
-        for (Faction fac : FactionsBridge.getFactionsAPI().getAllFactions()) {
+        for (Faction fac : FactionsBridge.getFactionsAPI().getFactions()) {
             claimCount.put(fac, new HashSet<>(fac.getAllClaims().size()));
             nameChangeTrack.put(fac, fac.getName());
             memberTrack.put(fac, fac.getMembers());
@@ -34,7 +34,7 @@ public class FactionsBlueTasks implements Runnable {
 
     @Override
     public void run() {
-        for (Faction faction : FactionsBridge.getFactionsAPI().getAllFactions()) {
+        for (Faction faction : FactionsBridge.getFactionsAPI().getFactions()) {
             Set<Claim> currentClaims = new HashSet<>(faction.getAllClaims());
             Set<Claim> oldClaims = claimCount.getOrDefault(faction, new HashSet<>());
 
