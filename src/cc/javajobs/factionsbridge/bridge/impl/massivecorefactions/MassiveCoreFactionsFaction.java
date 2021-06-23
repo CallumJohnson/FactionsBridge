@@ -76,6 +76,7 @@ public class MassiveCoreFactionsFaction extends AbstractFaction<Faction> {
      *
      * @return Claims in the form List of {@link Claim}
      */
+    @NotNull
     @Override
     public List<Claim> getAllClaims() {
         return BoardColl.get().getChunks(faction).stream().map(MassiveCoreFactionsClaim::new)

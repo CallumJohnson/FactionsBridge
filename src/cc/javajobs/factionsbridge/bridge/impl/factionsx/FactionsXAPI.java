@@ -48,7 +48,7 @@ public class FactionsXAPI implements FactionsAPI {
      * @return IFaction at that location
      */
     @Override
-    public Faction getFactionAt(Location location) {
+    public Faction getFactionAt(@NotNull Location location) {
         return new FactionsXFaction(GridManager.INSTANCE.getFactionAt(location.getChunk()));
     }
 
@@ -60,7 +60,7 @@ public class FactionsXAPI implements FactionsAPI {
      */
     @NotNull
     @Override
-    public Claim getClaim(Chunk chunk) {
+    public Claim getClaim(@NotNull Chunk chunk) {
         return new FactionsXClaim(new FLocation(chunk.getX(), chunk.getZ(), chunk.getWorld().getName()));
     }
 
@@ -94,7 +94,7 @@ public class FactionsXAPI implements FactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public Faction getFaction(OfflinePlayer player) {
+    public Faction getFaction(@NotNull OfflinePlayer player) {
         return new FactionsXFaction(PlayerManager.INSTANCE.getFPlayer(player.getUniqueId()).getFaction());
     }
 

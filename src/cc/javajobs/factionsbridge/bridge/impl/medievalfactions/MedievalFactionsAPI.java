@@ -88,7 +88,7 @@ public class MedievalFactionsAPI implements FactionsAPI {
      * @return IFaction implementation.
      */
     @Override
-    public Faction getFaction(OfflinePlayer player) {
+    public Faction getFaction(@NotNull OfflinePlayer player) {
         return new MedievalFactionsFaction(PersistentData.getInstance().getPlayersFaction(player.getUniqueId()));
     }
 
