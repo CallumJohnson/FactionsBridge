@@ -2,7 +2,9 @@ package cc.javajobs.factionsbridge.bridge.impl.factionsuuid;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.data.MemoryFPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -115,6 +117,75 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @Override
     public boolean isOnline() {
         return fPlayer.isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        return fPlayer.getPower();
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        fPlayer.alterPower(Math.abs(fPlayer.getPower()-power));
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        return fPlayer.getTitle();
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        fPlayer.setTitle(Bukkit.getConsoleSender(), title);
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        if (!hasFaction() || getFaction() == null) return Role.FACTIONLESS;
+        try {
+            Class.forName("com.massivecraft.factions.perms.Role");
+            Class.forName("com.massivecraft.factions.data.MemoryFPlayer");
+            final MemoryFPlayer fpl = (MemoryFPlayer) fPlayer;
+            return Role.getRole(fpl.getRole().name());
+        } catch (ClassNotFoundException tier1) {
+            try {
+                Class.forName("com.massivecraft.factions.struct.Role");
+                Class.forName("com.massivecraft.factions.zcore.persist.MemoryFPlayer");
+                final com.massivecraft.factions.zcore.persist.MemoryFPlayer fpl =
+                        (com.massivecraft.factions.zcore.persist.MemoryFPlayer) this.fPlayer;
+                return Role.getRole(fpl.getRole().name());
+            } catch (ReflectiveOperationException ex) {
+                if (bridge.catch_exceptions) return Role.DEFAULT_ROLE;
+                return (Role) methodError(getClass(), "getRole()", "Role unable to be resolved.");
+            }
+        }
     }
 
 }

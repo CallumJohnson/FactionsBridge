@@ -1,12 +1,16 @@
 package cc.javajobs.factionsbridge.bridge.impl.factionsblue;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import me.zysea.factions.api.FactionsApi;
 import me.zysea.factions.faction.FPlayer;
+import me.zysea.factions.faction.Members;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -110,6 +114,67 @@ public class FactionsBluePlayer extends AbstractFPlayer<FPlayer> {
     @Override
     public boolean isOnline() {
         return getOfflinePlayer().isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        if (bridge.catch_exceptions) return 0.0D;
+        return (double) unsupported("FactionsBlue", "getPower()");
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        if (bridge.catch_exceptions) return;
+        unsupported("FactionsBlue", "setPower(power)");
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        if (bridge.catch_exceptions) return null;
+        return (String) unsupported("FactionsBlue", "getTitle()");
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        if (bridge.catch_exceptions) return;
+        unsupported("FactionsBlue", "setTitle(title)");
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        if (!hasFaction() || getFaction() == null) return Role.FACTIONLESS;
+        final AbstractFaction<?> faction = (AbstractFaction<?>) getFaction();
+        final me.zysea.factions.faction.Faction f = (me.zysea.factions.faction.Faction) faction.getFaction();
+        final Members memberInformation = f.getMembers();
+        final me.zysea.factions.faction.role.Role memberRole = memberInformation.getMemberRole(getUniqueId());
+        return Role.getRole(memberRole.getTag());
     }
 
 }

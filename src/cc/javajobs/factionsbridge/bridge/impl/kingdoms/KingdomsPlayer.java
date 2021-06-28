@@ -2,11 +2,13 @@ package cc.javajobs.factionsbridge.bridge.impl.kingdoms;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.kingdoms.constants.player.KingdomPlayer;
+import org.kingdoms.constants.player.Rank;
 
 import java.util.UUID;
 
@@ -110,6 +112,63 @@ public class KingdomsPlayer extends AbstractFPlayer<KingdomPlayer> {
     @Override
     public boolean isOnline() {
         return fPlayer.getOfflinePlayer().isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        return fPlayer.getPower();
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        fPlayer.setPower(power);
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        if (bridge.catch_exceptions) return null;
+        return (String) unsupported("KingdomsX", "getTitle()");
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        if (bridge.catch_exceptions) return;
+        unsupported("KingdomsX", "setTitle(title)");
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        if (!hasFaction() || getFaction() == null) return Role.FACTIONLESS;
+        final Rank rank = fPlayer.getRank();
+        if (rank.isKing()) return Role.LEADER;
+        return Role.getRole(rank.getName());
     }
 
 }

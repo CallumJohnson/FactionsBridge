@@ -2,11 +2,13 @@ package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import net.redstoneore.legacyfactions.entity.FPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -105,6 +107,59 @@ public class LegacyFactionsPlayer extends AbstractFPlayer<FPlayer> {
     @Override
     public boolean isOnline() {
         return fPlayer.isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        return fPlayer.getPower();
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        fPlayer.alterPower(power);
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        return fPlayer.getTitle();
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        fPlayer.setTitle(title);
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        if (!hasFaction() || getFaction() == null) return Role.FACTIONLESS;
+        return Role.getRole(fPlayer.getRole().name());
     }
 
 }

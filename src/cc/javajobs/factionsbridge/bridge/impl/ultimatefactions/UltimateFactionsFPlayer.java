@@ -1,8 +1,12 @@
 package cc.javajobs.factionsbridge.bridge.impl.ultimatefactions;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import de.miinoo.factions.FactionsSystem;
+import de.miinoo.factions.configuration.messages.GUITags;
+import de.miinoo.factions.model.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -108,6 +112,77 @@ public class UltimateFactionsFPlayer extends AbstractFPlayer<OfflinePlayer> {
     @Override
     public boolean isOnline() {
         return fPlayer.isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        if (bridge.catch_exceptions) return 0.0D;
+        return (double) unsupported("UltimateFactions", "getPower()");
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        if (bridge.catch_exceptions) return;
+        unsupported("UltimateFactions", "setPower(power)");
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        if (bridge.catch_exceptions) return null;
+        return (String) unsupported("UltimateFactions", "getTitle()");
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        if (bridge.catch_exceptions) return;
+        unsupported("UltimateFactions", "setTitle(title)");
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        if (!hasFaction() || getFaction() == null) return Role.FACTIONLESS;
+        final AbstractFaction<?> faction = (AbstractFaction<?>) getFaction();
+        final de.miinoo.factions.model.Faction f = (de.miinoo.factions.model.Faction) faction.getFaction();
+        final Rank rankOfPlayer = f.getRankOfPlayer(fPlayer.getUniqueId());
+        GUITags tag = null;
+        for (GUITags value : GUITags.values()) {
+            if (value.name().equals(rankOfPlayer.getName())) {
+                tag = value;
+                break;
+            }
+        }
+        if (tag == null) {
+            if (bridge.catch_exceptions) return Role.DEFAULT_ROLE;
+            else return (Role) methodError(getClass(), "getRole()", "Failed to find Tag from Rank.");
+        }
+        return Role.getRole(tag.name().replaceAll("Rank_", "").toUpperCase());
     }
 
 }

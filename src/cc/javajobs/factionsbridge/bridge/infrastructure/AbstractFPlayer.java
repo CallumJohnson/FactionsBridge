@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Callum Johnson
  * @since 04/06/2021 - 21:49
  */
-public abstract class AbstractFPlayer<FP> implements FPlayer {
+public abstract class AbstractFPlayer<FP> implements FPlayer, ErrorParticipator {
 
     /**
      * FPlayer object bridged using FactionsBridge.

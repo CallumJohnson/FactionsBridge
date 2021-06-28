@@ -83,6 +83,43 @@ public interface FPlayer {
     boolean isOnline();
 
     /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    double getPower();
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    void setPower(double power);
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    String getTitle();
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    void setTitle(@NotNull String title);
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    Role getRole();
+
+    /**
      * Method to obtain the Relationship between this FPlayer and a Faction.
      *
      * @param faction to get relationship relative to this FPlayer.

@@ -1,8 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.impl.medievalfactions;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import dansplugins.factionsystem.data.PersistentData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -106,6 +108,67 @@ public class MedievalFactionsPlayer extends AbstractFPlayer<OfflinePlayer> {
     @Override
     public boolean isOnline() {
         return fPlayer.isOnline();
+    }
+
+    /**
+     * Method to get the power of the FPlayer.
+     *
+     * @return power value.
+     */
+    @Override
+    public double getPower() {
+        return PersistentData.getInstance().getPlayersPowerRecord(getUniqueId()).getPowerLevel();
+    }
+
+    /**
+     * Method to set the power of the FPlayer.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        PersistentData.getInstance().getPlayersPowerRecord(getUniqueId()).setPowerLevel((int) power);
+    }
+
+    /**
+     * Method to obtain the title of the FPlayer.
+     *
+     * @return title or tag of the FPlayer.
+     */
+    @Nullable
+    @Override
+    public String getTitle() {
+        if (bridge.catch_exceptions) return null;
+        else return (String) unsupported("MedievalFactions", "getTitle()");
+    }
+
+    /**
+     * Method to set the title of the FPlayer.
+     *
+     * @param title to set.
+     */
+    @Override
+    public void setTitle(@NotNull String title) {
+        if (bridge.catch_exceptions) return;
+        unsupported("MedievalFactions", "setTitle(title)");
+    }
+
+    /**
+     * Method to get the Role of the FPlayer.
+     *
+     * @return {@link Role}
+     */
+    @NotNull
+    @Override
+    public Role getRole() {
+        final AbstractFaction<?> faction = (AbstractFaction<?>) getFaction();
+        if (faction == null) return Role.FACTIONLESS;
+        if (faction.getLeader() == this) return Role.LEADER;
+        final dansplugins.factionsystem.objects.Faction f =
+                (dansplugins.factionsystem.objects.Faction) faction.getFaction();
+        if (f.isOfficer(getUniqueId())) return Role.OFFICER;
+        if (f.isMember(getUniqueId())) return Role.NORMAL;
+        return Role.CUSTOM;
     }
 
 }
