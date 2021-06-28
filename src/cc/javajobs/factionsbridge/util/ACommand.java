@@ -16,6 +16,7 @@ public abstract class ACommand implements Communicator {
      * Constructor to initialise a command with the given name.
      *
      * @param name of the command.
+     * @param description of the command.
      */
     public ACommand(@NotNull String name, @NotNull String description) {
         this.name = name;

@@ -34,7 +34,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     /**
      * Method to get all of the Claims linked to the Faction.
      *
-     * @return {@link List < Claim >} related to the Faction.
+     * @return {@link List} of {@link Claim} related to the Faction.
      */
     @NotNull
     @Override
@@ -70,7 +70,7 @@ public class AtlasFactionsFaction extends FactionsUUIDFaction {
     /**
      * Method to get all of the Members of a Faction.
      *
-     * @return {@link List <FPlayer>} related to the Faction.
+     * @return {@link List} of {@link FPlayer} related to the Faction.
      */
     @NotNull
     @Override

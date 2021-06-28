@@ -61,7 +61,7 @@ public class LegacyFactionsPlayer extends AbstractFPlayer<FPlayer> {
     }
 
     /**
-     * Method to determine if the Player is in a Faction & if the Faction isn't a System Faction.
+     * Method to determine if the Player is in a Faction &amp; if the Faction isn't a System Faction.
      * <p>
      * Some Factions implementations, if a Player isn't in a Faction, the Player is assumed
      * to be "factionless" which is defaulted to Wilderness.

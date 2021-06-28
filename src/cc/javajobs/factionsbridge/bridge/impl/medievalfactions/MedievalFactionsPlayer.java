@@ -7,6 +7,7 @@ import dansplugins.factionsystem.data.PersistentData;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -56,12 +57,13 @@ public class MedievalFactionsPlayer extends AbstractFPlayer<OfflinePlayer> {
      * @return faction of the player.
      */
     @Override
+    @Nullable
     public Faction getFaction() {
         return new MedievalFactionsFaction(PersistentData.getInstance().getPlayersFaction(getUniqueId()));
     }
 
     /**
-     * Method to determine if the Player is in a Faction & if the Faction isn't a System Faction.
+     * Method to determine if the Player is in a Faction &amp; if the Faction isn't a System Faction.
      * <p>
      * Some Factions implementations, if a Player isn't in a Faction, the Player is assumed
      * to be "factionless" which is defaulted to Wilderness.

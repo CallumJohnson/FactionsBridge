@@ -73,7 +73,7 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     /**
      * Method to get all of the Claims linked to the Faction.
      *
-     * @return {@link List < Claim >} related to the Faction.
+     * @return {@link List} of {@link Claim} related to the Faction.
      */
     @NotNull
     @Override
@@ -84,7 +84,7 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     /**
      * Method to get all of the Members of a Faction.
      *
-     * @return {@link List<FPlayer>} related to the Faction.
+     * @return {@link List} of {@link FPlayer} related to the Faction.
      */
     @NotNull
     @Override
@@ -194,7 +194,7 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     /**
      * Method to obtain the Bank Balance of the Faction.
      * <p>
-     *     Credit goes to mbax for informing me of proper API usage.
+     * Credit goes to mbax for informing me of proper API usage.
      * </p>
      *
      * @return bank balance in the form of {@link Double}.
@@ -228,7 +228,7 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     /**
      * Method to create a Warp manually.
      *
-     * @param name of the Warp to create.
+     * @param name     of the Warp to create.
      * @param location of the warp.
      */
     @Override

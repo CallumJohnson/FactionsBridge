@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * <a href="https://github.com/InventivetalentDev/Spiget-Update" target="_blank">Spiget Update (GitHub)</a>
- * @author Callum Johnson & InventiveTalentDev
+ * @author Callum Johnson &amp; InventiveTalentDev
  */
 public class Updater {
 

@@ -86,7 +86,7 @@ public interface Faction {
     /**
      * Method to get all of the Claims linked to the Faction.
      *
-     * @return {@link List<Claim>} related to the Faction.
+     * @return {@link List} of {@link Claim} related to the Faction.
      */
     @NotNull
     List<Claim> getAllClaims();
@@ -94,7 +94,7 @@ public interface Faction {
     /**
      * Method to get all of the Members of a Faction.
      *
-     * @return {@link List<FPlayer>} related to the Faction.
+     * @return {@link List} of {@link FPlayer} related to the Faction.
      */
     @NotNull
     List<FPlayer> getMembers();
@@ -102,7 +102,7 @@ public interface Faction {
     /**
      * Method to obtain all Online Members of the Faction.
      *
-     * @return {@link List<FPlayer>} who are online.
+     * @return {@link List} of {@link FPlayer} who are online.
      * @see #getMembers()
      */
     @NotNull
@@ -113,7 +113,7 @@ public interface Faction {
     /**
      * Method to obtain all Offline Members of the Faction.
      *
-     * @return {@link List<FPlayer>} who are offline.
+     * @return {@link List} of {@link FPlayer} who are offline.
      * @see #getMembers()
      */
     @NotNull

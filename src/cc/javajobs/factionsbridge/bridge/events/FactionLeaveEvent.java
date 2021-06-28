@@ -21,6 +21,7 @@ public class FactionLeaveEvent extends FPlayerEvent {
      * @param faction which was left.
      * @param fplayer which left.
      * @param other   event object.
+     * @param reason which the player left.
      */
     public FactionLeaveEvent(Faction faction, FPlayer fplayer, LeaveReason reason, Event other) {
         super(faction, fplayer, other);
