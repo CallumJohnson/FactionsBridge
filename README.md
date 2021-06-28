@@ -7,6 +7,10 @@ A Plugin which Bridges the gap between multiple APIs and Plugins which use them.
 
 Due to the nature of Factions and their individualised implementations, it can be difficult to implement Factions into a Project without having to make a multitude of methods to support them all or choosing a specific branch to exclusively support. This project is being developed to hopefully mitigate this issue and create a unified interface, which any developer can depend, use and rely upon to make the distance for them when handling different Factions APIs.
 
+### JavaDocs
+
+To view the JavaDocs, visit the following website: http://javajobs.ni-vps.fr/factionsbridge/
+
 ### Plugins which are supported.
 
 As of Version 1.2.0, 12 different versions of Factions are supported.
