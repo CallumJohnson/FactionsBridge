@@ -3,6 +3,7 @@ package cc.javajobs.factionsbridge.bridge.impl.saberfactions;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDFaction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
 import com.massivecraft.factions.Faction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,13 +38,16 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     @Override
     public FPlayer getLeader() {
         try {
-            Class<?> factionClass = faction.getClass();
-            Method getLeader = factionClass.getMethod("getFPlayerLeader");
-            com.massivecraft.factions.FPlayer leader = (com.massivecraft.factions.FPlayer) getLeader.invoke(faction);
-            return new SaberFactionsFPlayer(leader);
-        } catch (Exception ex) {
+            return new SaberFactionsFPlayer(faction.getFPlayerAdmin());
+        } catch (Exception ex2) {
+            for (final FPlayer member : getMembers()) {
+                final Role role = member.getRole();
+                if (role.equals(Role.getOwner())) { // Leader
+                    return member;
+                }
+            }
             if (bridge.catch_exceptions) return null;
-            return (FPlayer) methodError(getClass(), "getLeader()", ex.getClass().getSimpleName());
+            return (FPlayer) methodError(getClass(), "getLeader()", "Failed to find Leader for Faction.");
         }
     }
 
@@ -107,7 +111,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
     /**
      * Method to obtain the Bank Balance of the Faction.
      * <p>
-     *     Thanks to Driftay for the note of the correct API usage here.
+     * Thanks to Driftay for the note of the correct API usage here.
      * </p>
      *
      * @return bank balance in the form of {@link Double}.
@@ -139,7 +143,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
      */
     @Override
     public void addStrike(String sender, String reason) {
-        setStrikes(getTotalStrikes()+1);
+        setStrikes(getTotalStrikes() + 1);
     }
 
     /**
@@ -150,7 +154,7 @@ public class SaberFactionsFaction extends FactionsUUIDFaction {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        setStrikes(getTotalStrikes()-1);
+        setStrikes(getTotalStrikes() - 1);
     }
 
     /**
