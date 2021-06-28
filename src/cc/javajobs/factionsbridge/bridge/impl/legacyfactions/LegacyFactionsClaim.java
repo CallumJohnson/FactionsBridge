@@ -1,6 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.legacyfactions;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.Board;
@@ -9,6 +10,9 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * LegacyFactions implementation of {@link Claim}.
+ * Object Target: {@link FLocation}.
+ *
  * @author Callum Johnson
  * @since 04/05/2021 - 09:47
  */

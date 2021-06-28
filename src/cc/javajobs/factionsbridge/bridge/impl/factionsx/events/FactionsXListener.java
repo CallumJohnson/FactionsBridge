@@ -7,9 +7,11 @@ import net.prosavage.factionsx.event.FPlayerFactionJoinEvent;
 import net.prosavage.factionsx.event.FactionPreClaimEvent;
 import net.prosavage.factionsx.event.FactionUnClaimAllEvent;
 import net.prosavage.factionsx.event.FactionUnClaimEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 /**
  * FactionsX implementation of the Bridges needed to handle all Custom Events.
@@ -19,94 +21,161 @@ import org.bukkit.event.Listener;
  */
 public class FactionsXListener implements Listener {
 
+    /**
+     * Instance of the {@link FactionsAPI} created by FactionsBridge.
+     */
     private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
+    /**
+     * Listener for the {@link FactionPreClaimEvent}.
+     * <p>
+     *     This listener calls the {@link FactionClaimEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onClaim(FactionPreClaimEvent event) {
-        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+    public void onClaim(@NotNull FactionPreClaimEvent event) {
+        final FactionClaimEvent bridgeEvent = new FactionClaimEvent(
                 api.getClaim(event.getFLocation().getChunk()),
                 api.getFaction(String.valueOf(event.getFactionClaiming().getId())),
                 api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link FactionUnClaimAllEvent}.
+     * <p>
+     *     This listener calls the {@link FactionUnclaimAllEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onUnclaimAll(FactionUnClaimAllEvent event) {
-        FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
+    public void onUnclaimAll(@NotNull FactionUnClaimAllEvent event) {
+        final FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                 api.getFaction(String.valueOf(event.getUnclaimingFaction().getId())),
                 api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link FactionUnClaimAllEvent}.
+     * <p>
+     *     This listener calls the {@link FactionUnclaimEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onUnclaim(FactionUnClaimEvent event) {
-        FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
+    public void onUnclaim(@NotNull FactionUnClaimEvent event) {
+        final FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
                 api.getClaim(event.getFLocation().getChunk()),
                 api.getFaction(String.valueOf(event.getFactionUnClaiming().getId())),
                 api.getFPlayer(event.getFplayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link net.prosavage.factionsx.event.FactionCreateEvent}.
+     * <p>
+     *     This listener calls the {@link FactionCreateEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onCreate(net.prosavage.factionsx.event.FactionCreateEvent event) {
-        FactionCreateEvent bridgeEvent = new FactionCreateEvent(
+    public void onCreate(@NotNull net.prosavage.factionsx.event.FactionCreateEvent event) {
+        final FactionCreateEvent bridgeEvent = new FactionCreateEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 api.getFPlayer(event.getFPlayer().getOfflinePlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
 
     }
 
+    /**
+     * Listener for the {@link net.prosavage.factionsx.event.FactionDisbandEvent}.
+     * <p>
+     *     This listener calls the {@link FactionDisbandEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onDisband(net.prosavage.factionsx.event.FactionDisbandEvent event) {
-        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
+    public void onDisband(@NotNull net.prosavage.factionsx.event.FactionDisbandEvent event) {
+        final FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
                 api.getFPlayer(event.getFPlayer().getPlayer()),
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
     }
 
+    /**
+     * Listener for the {@link net.prosavage.factionsx.event.FactionRenameEvent}.
+     * <p>
+     *     This listener calls the {@link FactionRenameEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onRename(net.prosavage.factionsx.event.FactionRenameEvent event) {
-        FactionRenameEvent bridgeEvent = new FactionRenameEvent(
+    public void onRename(@NotNull net.prosavage.factionsx.event.FactionRenameEvent event) {
+        final FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 event.getNewTag(),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
     }
 
+    /**
+     * Listener for the {@link FPlayerFactionJoinEvent}.
+     * <p>
+     *     This listener calls the {@link FactionJoinEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onJoin(FPlayerFactionJoinEvent event) {
-        FactionJoinEvent bridgeEvent = new FactionJoinEvent(
+    public void onJoin(@NotNull FPlayerFactionJoinEvent event) {
+        final FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 api.getFPlayer(event.getFPlayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
     }
 
+    /**
+     * Listener for the {@link FPlayerFactionJoinEvent}.
+     * <p>
+     *     This listener calls the {@link FactionLeaveEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onLeave(FPlayerFactionJoinEvent event) {
-        FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
+    public void onLeave(@NotNull FPlayerFactionJoinEvent event) {
+        final FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 api.getFPlayer(event.getFPlayer().getPlayer()),
                 (event.isAdmin() ? FactionLeaveEvent.LeaveReason.KICK : FactionLeaveEvent.LeaveReason.LEAVE),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
     }
 
 }

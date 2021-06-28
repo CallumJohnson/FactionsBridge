@@ -7,9 +7,9 @@ import me.zysea.factions.objects.Claim;
 import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 
-
 /**
- * FactionsBlue Implementation of the IClaim.
+ * FactionsBlue Implementation of the {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim}.
+ * Object Target: {@link Claim}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 14:01

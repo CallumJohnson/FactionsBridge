@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * UltimateFactions implementation of the {@link FactionsAPI}.
+ */
 public class UltimateFactionsAPI implements FactionsAPI {
 
     /**

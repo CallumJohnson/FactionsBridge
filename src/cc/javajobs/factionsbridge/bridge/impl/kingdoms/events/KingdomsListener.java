@@ -3,10 +3,10 @@ package cc.javajobs.factionsbridge.bridge.impl.kingdoms.events;
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.events.*;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 import org.kingdoms.events.general.KingdomCreateEvent;
 import org.kingdoms.events.general.KingdomDisbandEvent;
 import org.kingdoms.events.general.KingdomRenameEvent;
@@ -14,6 +14,8 @@ import org.kingdoms.events.lands.ClaimLandEvent;
 import org.kingdoms.events.lands.UnclaimLandEvent;
 import org.kingdoms.events.members.KingdomJoinEvent;
 import org.kingdoms.events.members.KingdomLeaveEvent;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 /**
  * Kingdoms implementation of the Bridges needed to handle all Custom Events.
@@ -23,96 +25,156 @@ import org.kingdoms.events.members.KingdomLeaveEvent;
  */
 public class KingdomsListener implements Listener {
 
+    /**
+     * Instance of the {@link FactionsAPI} created by FactionsBridge.
+     */
     private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
+    /**
+     * Listener for the {@link ClaimLandEvent}.
+     * <p>
+     *     This listener calls the {@link FactionClaimEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onClaim(ClaimLandEvent event) {
-        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+    public void onClaim(@NotNull ClaimLandEvent event) {
+        final FactionClaimEvent bridgeEvent = new FactionClaimEvent(
                 api.getClaim(event.getLand().getLocation().toChunk()),
                 api.getFaction(event.getKingdom().getId().toString()),
                 api.getFPlayer(event.getKingdom().getKing().getPlayer()), // Assumed.
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link UnclaimLandEvent}.
+     * <p>
+     *     This listener calls the {@link FactionUnclaimAllEvent}.<br>
+     *     This listener calls the {@link FactionUnclaimEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onUnclaim(UnclaimLandEvent event) {
+    public void onUnclaim(@NotNull UnclaimLandEvent event) {
         if (event.getKingdomPlayer().getKingdom().getLands().size() == 0) {
-            FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
+            final FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                     api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
                     api.getFPlayer(event.getKingdomPlayer().getPlayer()),
                     event
             );
-            Bukkit.getPluginManager().callEvent(bridgeEvent);
+            getPluginManager().callEvent(bridgeEvent);
             event.setCancelled(bridgeEvent.isCancelled());
             return;
         }
-        FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
+        final FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
                 api.getClaim(event.getLand().getLocation().toChunk()),
                 api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
                 api.getFPlayer(event.getKingdomPlayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link KingdomCreateEvent}.
+     * <p>
+     *     This listener calls the {@link FactionCreateEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onCreate(KingdomCreateEvent event) {
-        FactionCreateEvent bridgeEvent = new FactionCreateEvent(
+    public void onCreate(@NotNull KingdomCreateEvent event) {
+        final FactionCreateEvent bridgeEvent = new FactionCreateEvent(
                 api.getFaction(event.getKingdom().getId().toString()),
                 api.getFPlayer(event.getKingdom().getKing().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         if (event instanceof Cancellable) ((Cancellable)event).setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link KingdomDisbandEvent}.
+     * <p>
+     *     This listener calls the {@link FactionDisbandEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onDelete(KingdomDisbandEvent event) {
-        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
+    public void onDelete(@NotNull KingdomDisbandEvent event) {
+        final FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
                 api.getFPlayer(event.getKingdom().getKing().getPlayer()),
                 api.getFaction(event.getKingdom().getId().toString()),
                 FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link KingdomRenameEvent}.
+     * <p>
+     *     This listener calls the {@link FactionRenameEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onRename(KingdomRenameEvent event) {
-        FactionRenameEvent bridgeEvent = new FactionRenameEvent(
+    public void onRename(@NotNull KingdomRenameEvent event) {
+        final FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                 api.getFaction(event.getKingdom().getId().toString()),
                 event.getName(),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link KingdomJoinEvent}.
+     * <p>
+     *     This listener calls the {@link FactionJoinEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onJoin(KingdomJoinEvent event) {
-        FactionJoinEvent bridgeEvent = new FactionJoinEvent(
+    public void onJoin(@NotNull KingdomJoinEvent event) {
+        final FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                 api.getFaction(event.getKingdom().getId().toString()),
                 api.getFPlayer(event.getPlayer().getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link KingdomLeaveEvent}.
+     * <p>
+     *     This listener calls the {@link FactionLeaveEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onLeave(KingdomLeaveEvent event) {
-        FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
+    public void onLeave(@NotNull KingdomLeaveEvent event) {
+        final  FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                 api.getFaction(event.getKingdomPlayer().getKingdom().getId().toString()),
                 api.getFPlayer(event.getKingdomPlayer().getPlayer()),
                 FactionLeaveEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 

@@ -9,6 +9,8 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * The MedievalFactions implementation utilises {@link ClaimedChunk}.
+ *
  * @author Callum Johnson
  * @since 03/05/2021 - 09:23
  */

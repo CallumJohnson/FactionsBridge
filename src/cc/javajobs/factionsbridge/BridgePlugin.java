@@ -15,29 +15,37 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
+ * The Bridge Plugin is a plugin implementation of FactionsBridge,
+ * this allows developers to build plugins without shading.
+ *
  * @author Callum Johnson
  * @since 17/04/2021 - 09:00
  */
 public class BridgePlugin extends JavaPlugin implements Communicator, CommandExecutor {
 
+    /**
+     * Commands for the Bridge Plugin.
+     */
     private final ACommand[] commands = new ACommand[] {
             new About()
     };
 
+    /**
+     * Method which is called by {@link JavaPlugin} methods when loading the plugin.
+     */
     public void onEnable() {
         FactionsBridge bridge = new FactionsBridge();
         bridge.connect(this);
-
         try {
             Objects.requireNonNull(getCommand("factionsbridge")).setExecutor(this);
         } catch (Exception e) {
             exception(e, "Callum is an idiot.");
         }
-
         if (!FactionsBridge.get().connected()) {
             log("FactionsBridge didn't connect.");
             return;
         }
+
         // API test.
         int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
         warn(loaded + " factions have been loaded.");
@@ -73,8 +81,18 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
 
     }
 
+    /**
+     * Command handler to redirect commands to their command-handling {@link ACommand} implementation.
+     *
+     * @param sender who sent the command.
+     * @param command which was called.
+     * @param label of the command.
+     * @param args to control the functionality of the command.
+     * @return {@code true} upon success.
+     */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
         if (args.length != 0) {
             for (ACommand aCommand : commands) {
                 if (aCommand.isCommand(args[0])) {

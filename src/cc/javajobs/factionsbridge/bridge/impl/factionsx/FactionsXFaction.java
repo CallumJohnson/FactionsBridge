@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * FactionsX implementation of IFaction.
+ * FactionsX implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Faction}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 16:38
@@ -175,6 +176,8 @@ public class FactionsXFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {
@@ -262,7 +265,8 @@ public class FactionsXFaction extends AbstractFaction<Faction> {
     @Override
     public void createWarp(@NotNull String name, @NotNull Location location) {
         if (location.getWorld() == null) {
-            throw new BridgeMethodException(getClass(), "createWarp(String name, null)");
+            if (bridge.catch_exceptions) return;
+            methodError(getClass(), "createWarp(name, location)", "Location's world == null.");
         }
         faction.setWarp(name, null, new DataLocation(
                 location.getWorld().getName(),
@@ -311,12 +315,19 @@ public class FactionsXFaction extends AbstractFaction<Faction> {
      */
     @Override
     public void removeStrike(String sender, String reason) {
-        int removeMe = IntStream.range(0, faction.getStrikes().size())
-                .filter(i -> faction.getStrikes().get(i).equalsIgnoreCase(reason))
-                .findFirst().orElse(-1);
-        if (removeMe == -1) {
-            throw new BridgeMethodException(getClass(), "removeStrike(Sender, String)");
+        int removeMe = -1;
+        int bound = faction.getStrikes().size();
+        for (int i = 0; i < bound; i++) {
+            if (faction.getStrikes().get(i).equalsIgnoreCase(reason)) {
+                removeMe = i;
+                break;
+            }
         }
+        if (removeMe == -1) {
+            if (bridge.catch_exceptions) return;
+            methodError(getClass(), "removeStrike(Sender, String)", "Strike not found.");
+        }
+        faction.removeStrike(Bukkit.getConsoleSender(), removeMe);
     }
 
     /**

@@ -13,6 +13,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
+ * LegacyFactions implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer}.
+ * Object Target: {@link FPlayer}.
+ *
  * @author Callum Johnson
  * @since 04/05/2021 - 09:55
  */

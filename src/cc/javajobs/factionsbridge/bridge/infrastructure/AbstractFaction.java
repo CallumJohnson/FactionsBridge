@@ -46,6 +46,11 @@ public abstract class AbstractFaction<F> implements Faction, ErrorParticipator {
         return faction;
     }
 
+    /**
+     * Method to obtain the String representation of the {@link AbstractFaction}.
+     *
+     * @return String representation of the {@link AbstractFaction}.
+     */
     @Override
     @NotNull
     public String toString() {

@@ -5,6 +5,7 @@ import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The FactionClaimEvent is an event which is called when a Claim is claimed.
@@ -14,6 +15,9 @@ import org.bukkit.event.Event;
  */
 public class FactionClaimEvent extends FPlayerEvent {
 
+    /**
+     * The claim related to the event.
+     */
     private final Claim claim;
 
     /**
@@ -24,11 +28,18 @@ public class FactionClaimEvent extends FPlayerEvent {
      * @param fplayer who requested the claiming.
      * @param other event object.
      */
-    public FactionClaimEvent(Claim claim, Faction faction, FPlayer fplayer, Event other) {
+    public FactionClaimEvent(@NotNull Claim claim, @NotNull Faction faction,
+                             @NotNull FPlayer fplayer, @NotNull Event other) {
         super(faction, fplayer, other);
         this.claim = claim;
     }
 
+    /**
+     * Method to obtain the claim related to the event.
+     *
+     * @return {@link Claim}.
+     */
+    @NotNull
     public Claim getClaim() {
         return claim;
     }

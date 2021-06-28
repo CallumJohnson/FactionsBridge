@@ -8,6 +8,10 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * UltimateFactions implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim}.
+ * Object Target: {@link FactionChunk}.
+ */
 public class UltimateFactionsClaim extends AbstractClaim<FactionChunk> {
 
     /**

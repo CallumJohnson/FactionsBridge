@@ -24,6 +24,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
+ * An implementation for MedievalFactions of the FactionsAPI.
+ *
  * @author Callum Johnson
  * @since 03/05/2021 - 09:26
  */
@@ -140,7 +142,7 @@ public class MedievalFactionsAPI implements FactionsAPI {
             method.invoke(this, index, null);
         } catch (Exception ex) {
             if (FactionsBridge.get().catch_exceptions) return;
-            throw new BridgeMethodException(getClass(), "deleteFaction()");
+            throw new BridgeMethodException(getClass(), "deleteFaction()", "Reflection failed, failed to delete Faction.");
         }
     }
 
@@ -165,9 +167,8 @@ public class MedievalFactionsAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getWarZone() {
-        if (FactionsBridge.get().catch_exceptions) {
+        if (FactionsBridge.get().catch_exceptions)
             FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
-        }
         throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWarZone");
     }
 
@@ -179,9 +180,8 @@ public class MedievalFactionsAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getSafeZone() {
-        if (FactionsBridge.get().catch_exceptions) {
+        if (FactionsBridge.get().catch_exceptions)
             FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
-        }
         throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getSafeZone");
     }
 
@@ -193,9 +193,8 @@ public class MedievalFactionsAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getWilderness() {
-        if (FactionsBridge.get().catch_exceptions) {
+        if (FactionsBridge.get().catch_exceptions)
             FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
-        }
         throw new BridgeMethodUnsupportedException("MedievalFactions doesn't support getWilderness");
     }
 

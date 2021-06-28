@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * LegacyFactions implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Faction}.
+ *
  * @author Callum Johnson
  * @since 04/05/2021 - 09:59
  */
@@ -163,6 +166,8 @@ public class LegacyFactionsFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {

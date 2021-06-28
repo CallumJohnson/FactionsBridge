@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge.bridge;
 
+import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.impl.atlasfactions.AtlasFactionsAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsblue.FactionsBlueAPI;
 import cc.javajobs.factionsbridge.bridge.impl.factionsuuid.FactionsUUIDAPI;
@@ -45,23 +46,31 @@ public enum Provider {
     Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), new MedievalFactionsAPI()),
     Factions_UltimateFactions("UltimateFactions", Collections.singletonList("Miinoo_"), new UltimateFactionsAPI());
 
+    /**
+     * The plugin name of the given Provider.
+     */
     private final String pluginName;
+
+    /**
+     * The authors of the plugin of the given Provider.
+     */
     private final List<String> authors;
+
+    /**
+     * The api class which will be obtainable using {@link FactionsBridge#getFactionsAPI()}.
+     */
     private final FactionsAPI api;
-    private final String[] classes;
 
     /**
      * Constructor to initialise a Provider.
      * @param pluginName of the Provider.
      * @param authors which made the Provider.
      * @param fapi {@link FactionsAPI} implementation.
-     * @param classes to check for to be sure the Provider is correctly identified (unused).
      */
-    Provider(String pluginName, List<String> authors, FactionsAPI fapi, String... classes) {
+    Provider(String pluginName, List<String> authors, FactionsAPI fapi) {
         this.pluginName = pluginName;
         this.authors = authors;
         this.api = fapi;
-        this.classes = classes;
     }
 
     /**
@@ -90,37 +99,21 @@ public enum Provider {
     }
 
     /**
-     * Method to count how many predefined classes are found at runtime.
-     * @return the amount of classes which are found.
+     * Method to get the preconfigured authors of the Provider.
+     *
+     * @return {@link List} of authors.
      */
-    public int areClassesLoaded() {
-        int loadedClasses = 0;
-        if (classes == null) return loadedClasses;
-        for (String aClass : classes) {
-            try {
-                Class.forName(aClass);
-                loadedClasses++;
-            } catch (ClassNotFoundException ignored) {
-            }
-        }
-        return loadedClasses;
-    }
-
     public List<String> getAuthors() {
         return authors;
     }
 
+    /**
+     * Method to obtain the API class for the given provider.
+     *
+     * @return {@link FactionsAPI} implementation.
+     */
     public FactionsAPI getAPI() {
         return api;
-    }
-
-    /**
-     * Method to get the total amount of classes which are being checked.
-     * @return amount of classes which are provided in the constructor.
-     */
-    public int getClassCount() {
-        if (classes == null) return 0;
-        return classes.length;
     }
 
     /**
@@ -138,17 +131,18 @@ public enum Provider {
      * @return {@link Provider} or {@code null}.
      */
     public static Provider getFromAPI(FactionsAPI factionsAPI) {
-        for (Provider value : Provider.values()) {
-            if (value.getAPI().equals(factionsAPI)) {
-                return value;
-            }
-        }
-        return null;
+        return Arrays.stream(Provider.values()).filter(value -> value.getAPI().equals(factionsAPI))
+                .findFirst().orElse(null);
     }
 
+    /**
+     * Plugin Name and the Enum shorthand for the given Provider.
+     *
+     * @return String representation if the Provider.
+     */
     @Override
     public String toString() {
-        return "Provider{" + "pluginName='" + pluginName + '\'' + ", authors=" + String.join(", ", authors) + '}';
+        return pluginName + "_" + name();
     }
 
 }

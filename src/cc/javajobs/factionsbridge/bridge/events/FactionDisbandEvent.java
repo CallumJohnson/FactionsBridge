@@ -1,11 +1,10 @@
 package cc.javajobs.factionsbridge.bridge.events;
 
-import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.events.infrastructure.FactionEvent;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * FactionDisbandEvent is called when an Faction is disbanded.
@@ -15,8 +14,15 @@ import org.bukkit.event.Event;
  */
 public class FactionDisbandEvent extends FactionEvent {
 
+    /**
+     * Reason for the disbandment.
+     */
     private final DisbandReason reason;
-    private final Player player;
+
+    /**
+     * Player who disbanded the Faction.
+     */
+    private final FPlayer player;
 
     /**
      * Constructor to initialise an FactionDisbandEvent.
@@ -26,63 +32,84 @@ public class FactionDisbandEvent extends FactionEvent {
      * @param reason for the disbandment.
      * @param other event object.
      */
-    public FactionDisbandEvent(FPlayer fpl, Faction faction, DisbandReason reason, Event other) {
-        this(fpl.getPlayer(), faction, reason, other);
-    }
-
-    /**
-     * Constructor to initialise an FactionDisbandEvent
-     *
-     * @param player who disbanded the Faction.
-     * @param faction which was disbanded.
-     * @param reason for the disbandment.
-     * @param other event object.
-     */
-    public FactionDisbandEvent(Player player, Faction faction, DisbandReason reason, Event other) {
+    public FactionDisbandEvent(@NotNull FPlayer fpl, @NotNull Faction faction,
+                               @NotNull DisbandReason reason, @NotNull Event other) {
         super(faction, other);
         this.reason = reason;
-        this.player = player;
+        this.player = fpl;
     }
 
     /**
+     * @see #reason
      * @see DisbandReason
      * @return reason for disbandment.
      */
+    @NotNull
     public DisbandReason getReason() {
         return reason;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
+    /**
+     * Method to obtain the {@link FPlayer}.
+     *
+     * @return {@link FPlayer} who disbanded the faction.
+     */
+    @NotNull
     public FPlayer getFPlayer() {
-        return FactionsBridge.getFactionsAPI().getFPlayer(player);
+        return player;
     }
 
     /**
      * This enumeration is a bridge for disbandment reasons.
-     * <p>
-     *     The current reasons are:
-     *      - Command (Savage/Saber/Atlas).
-     *      - Plugin (Savage/Saber/Atlas).
-     *      - Inactivity (Savage/Saber/Atlas).
-     *      - Leave (Savage/Saber/Atlas).
-     * </p>
+     *
      * @author Callum Johnson
      * @since 28/02/2021 - 08:34
      */
     public enum DisbandReason {
 
-        COMMAND("DISBAND_COMMAND"), PLUGIN, INACTIVITY, LEAVE, UNKNOWN;
+        /**
+         * When the faction is disbanded via /f disband.
+         */
+        COMMAND("DISBAND_COMMAND"),
 
+        /**
+         * When the Faction is disbanded by an external plugin.
+         */
+        PLUGIN,
+
+        /**
+         * When the Faction is disbanded due to inactivity.
+         */
+        INACTIVITY,
+
+        /**
+         * When the Faction is disbanded as the Owner left with no players remaining.
+         */
+        LEAVE,
+
+        /**
+         * When the Faction is disbanded.
+         */
+        UNKNOWN;
+
+        /**
+         * Other name for the reason.
+         */
         private final String other;
 
+        /**
+         * Constructor to initialise a DisbandReason without alternative name.
+         */
         DisbandReason() {
             this.other = null;
         }
 
-        DisbandReason(String other_key) {
+        /**
+         * Constructor to initialise a DisbandReason with an alternative name.
+         *
+         * @param other_key or other_name.
+         */
+        DisbandReason(@NotNull String other_key) {
             this.other = other_key;
         }
 
@@ -95,16 +122,11 @@ public class FactionDisbandEvent extends FactionEvent {
          * @param key to get a DisbandReason for.
          * @return a DisbandReason entry.
          */
+        @NotNull
         public static DisbandReason fromString(String key) {
             for (DisbandReason value : DisbandReason.values()) {
-                if (value.name().equalsIgnoreCase(key)) {
-                    return value;
-                }
-                if (value.other != null) {
-                    if (value.other.equalsIgnoreCase(key)) {
-                        return value;
-                    }
-                }
+                if (value.name().equalsIgnoreCase(key)) return value;
+                if (value.other != null && value.other.equalsIgnoreCase(key)) return value;
             }
             return DisbandReason.UNKNOWN;
         }

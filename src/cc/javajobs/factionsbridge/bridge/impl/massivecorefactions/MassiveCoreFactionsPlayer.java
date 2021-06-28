@@ -13,7 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * MassiveCoreFactions implementation of IFactionPlayer.
+ * MassiveCore implementation of {@link FPlayer}.
+ * Object Target: {@link MPlayer}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 15:17

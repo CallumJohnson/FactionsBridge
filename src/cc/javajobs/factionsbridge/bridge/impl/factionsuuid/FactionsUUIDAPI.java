@@ -18,6 +18,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * FactionsUUID implementation of {@link FactionsAPI}.
+ */
 public class FactionsUUIDAPI implements FactionsAPI {
 
     /**

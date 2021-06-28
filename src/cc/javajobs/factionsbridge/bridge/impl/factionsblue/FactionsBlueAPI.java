@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * FactionsBlue Implementation of the IFactionsAPI.
+ * FactionsBlue Implementation of the {@link FactionsAPI}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 14:27

@@ -7,7 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.kingdoms.constants.land.Land;
 
 /**
- * Kingdoms implementation of IClaim.
+ * Kingdoms implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim}.
+ * Object Target: {@link Land}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 17:02

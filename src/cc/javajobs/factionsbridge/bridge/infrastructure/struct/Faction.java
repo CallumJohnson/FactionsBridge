@@ -178,6 +178,8 @@ public interface Faction {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     double getPower();
 

@@ -8,6 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import static cc.javajobs.factionsbridge.util.FontMetrics.obtainCenteredMessage;
 
+/**
+ * The About command shows the command-sender intrinsic values about the FactionsBridge plugin.
+ * <p>
+ *     This command is only registered when using the standalone project, if shaded, the command is not registered.
+ * </p>
+ */
 public class About extends ACommand {
 
     /**

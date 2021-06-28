@@ -6,6 +6,10 @@ import com.massivecraft.factions.FPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The SaberFactions implementation is an extension of FactionsUUID.
+ * Object Target: {@link FPlayer}.
+ */
 public class SaberFactionsFPlayer extends FactionsUUIDFPlayer {
 
     /**

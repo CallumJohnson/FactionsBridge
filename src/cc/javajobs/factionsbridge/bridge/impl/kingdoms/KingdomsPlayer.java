@@ -13,7 +13,8 @@ import org.kingdoms.constants.player.Rank;
 import java.util.UUID;
 
 /**
- * Kingdoms implementation of IFactionPlayer.
+ * Kingdoms implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer}.
+ * Object Target: {@link KingdomsPlayer}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 17:08

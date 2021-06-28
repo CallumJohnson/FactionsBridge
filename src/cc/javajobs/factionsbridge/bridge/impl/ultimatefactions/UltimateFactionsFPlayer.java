@@ -16,6 +16,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * UltimateFactions implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer}.
+ * Similarly to the plugin itself, {@link UltimateFactionsFPlayer} utilises {@link OfflinePlayer}.
+ */
 public class UltimateFactionsFPlayer extends AbstractFPlayer<OfflinePlayer> {
 
     /**

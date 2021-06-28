@@ -11,6 +11,10 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The SavageFactions implementation is an extension of FactionsUUID.
+ * Object Target: {@link Faction}.
+ */
 public class SavageFactionsFaction extends FactionsUUIDFaction {
 
     /**

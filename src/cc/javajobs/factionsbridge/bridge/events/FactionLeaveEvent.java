@@ -4,6 +4,8 @@ import cc.javajobs.factionsbridge.bridge.events.infrastructure.FPlayerEvent;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * FactionLeaveEvent is called when an FPlayer leaves a Faction.
@@ -13,17 +15,24 @@ import org.bukkit.event.Event;
  */
 public class FactionLeaveEvent extends FPlayerEvent {
 
+    /**
+     * The reason this event was called.
+     */
     private final LeaveReason reason;
 
     /**
      * Constructor to initialise an FactionLeaveEvent.
+     * <p>
+     *     Event parameter can be null, with thanks to FactionsBlue and their lack of event API.
+     * </p>
      *
      * @param faction which was left.
      * @param fplayer which left.
      * @param other   event object.
      * @param reason which the player left.
      */
-    public FactionLeaveEvent(Faction faction, FPlayer fplayer, LeaveReason reason, Event other) {
+    public FactionLeaveEvent(@NotNull Faction faction, @NotNull FPlayer fplayer,
+                             @NotNull LeaveReason reason, @Nullable Event other) {
         super(faction, fplayer, other);
         this.reason = reason;
     }
@@ -32,6 +41,7 @@ public class FactionLeaveEvent extends FPlayerEvent {
      * @see FactionLeaveEvent.LeaveReason
      * @return reason for leaving.
      */
+    @NotNull
     public LeaveReason getReason() {
         return reason;
     }
@@ -43,16 +53,42 @@ public class FactionLeaveEvent extends FPlayerEvent {
      */
     public enum LeaveReason {
 
+        /**
+         * The player left the faction, usually with /f leave.
+         */
         LEAVE("LEFT"),
+
+        /**
+         * The player was kicked from the Faction by an Administrator.
+         */
         KICK("KICKED"),
+
+        /**
+         * Reason unspecified, it just happened!
+         */
         UNKNOWN();
 
+        /**
+         * Variants of the reason's name.
+         * @see #fromString(String)
+         */
         private final String[] variants;
 
-        LeaveReason(String... variants) {
+        /**
+         * Constructor to initialise {@link #variants}.
+         *
+         * @param variants store.
+         */
+        LeaveReason(@NotNull String... variants) {
             this.variants = variants;
         }
 
+        /**
+         * Method to obtain the variants for a given LeaveReason.
+         *
+         * @return {@link #variants}.
+         */
+        @NotNull
         public String[] getVariants() {
             return variants;
         }
@@ -68,15 +104,8 @@ public class FactionLeaveEvent extends FPlayerEvent {
          */
         public static LeaveReason fromString(String key) {
             for (LeaveReason value : LeaveReason.values()) {
-                if (value.name().equalsIgnoreCase(key)) {
-                    return value;
-                } else {
-                    for (String variant : value.getVariants()) {
-                        if (variant.equalsIgnoreCase(key)) {
-                            return value;
-                        }
-                    }
-                }
+                if (value.name().equalsIgnoreCase(key)) return value;
+                for (String variant : value.getVariants()) if (variant.equalsIgnoreCase(key)) return value;
             }
             return LeaveReason.UNKNOWN;
         }

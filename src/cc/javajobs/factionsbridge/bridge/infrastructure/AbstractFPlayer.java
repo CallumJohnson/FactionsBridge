@@ -46,6 +46,11 @@ public abstract class AbstractFPlayer<FP> implements FPlayer, ErrorParticipator 
         return fPlayer;
     }
 
+    /**
+     * Method to obtain the String representation of the {@link AbstractFPlayer}.
+     *
+     * @return String representation of the {@link AbstractFPlayer}.
+     */
     @Override
     @NotNull
     public String toString() {

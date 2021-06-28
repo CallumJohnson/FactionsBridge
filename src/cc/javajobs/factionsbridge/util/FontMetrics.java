@@ -5,7 +5,9 @@ import org.bukkit.ChatColor;
 import java.util.Arrays;
 
 /**
- * Credits to: https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872/
+ * The FontMetrics class provides functionality to centre messages in chat.
+ *
+ * <a href="https://www.spigotmc.org/threads/free-code-sending-perfectly-centered-chat-message.95872/">Credit</a>
  * Modified: 07/06/2021 - 10:15
  */
 public enum FontMetrics {

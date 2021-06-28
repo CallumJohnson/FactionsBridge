@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
+ * The MedievalFactions implementation utilises {@link OfflinePlayer}.
+ *
  * @author Callum Johnson
  * @since 03/05/2021 - 09:16
  */

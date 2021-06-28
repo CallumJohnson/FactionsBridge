@@ -7,7 +7,8 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * FactionsX implementation of IClaim.
+ * FactionsX implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim}.
+ * Object Target: {@link FLocation}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 16:23

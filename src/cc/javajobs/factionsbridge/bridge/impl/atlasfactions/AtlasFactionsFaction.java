@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The AtlasFactions implementation is an extension of FactionsUUID.
+ * Object Target: {@link Faction}.
+ */
 public class AtlasFactionsFaction extends FactionsUUIDFaction {
 
     /**

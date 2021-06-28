@@ -46,6 +46,11 @@ public abstract class AbstractClaim<C> implements Claim {
         return claim;
     }
 
+    /**
+     * Method to obtain the String representation of the {@link AbstractClaim}.
+     *
+     * @return String representation of the {@link AbstractClaim}.
+     */
     @Override
     @NotNull
     public String toString() {

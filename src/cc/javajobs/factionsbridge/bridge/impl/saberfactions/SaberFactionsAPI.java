@@ -15,6 +15,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The SaberFactions implementation is an extension of FactionsUUID.
+ */
 public class SaberFactionsAPI extends FactionsUUIDAPI {
 
     /**

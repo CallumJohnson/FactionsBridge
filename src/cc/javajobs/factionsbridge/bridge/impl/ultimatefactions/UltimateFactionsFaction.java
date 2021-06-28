@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * UltimateFactions implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Faction}.
+ */
 public class UltimateFactionsFaction extends AbstractFaction<Faction> {
 
     /**
@@ -174,6 +178,8 @@ public class UltimateFactionsFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {

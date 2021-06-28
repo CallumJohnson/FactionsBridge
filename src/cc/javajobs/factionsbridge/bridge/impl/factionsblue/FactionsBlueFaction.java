@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * FactionsBlue Implementation of the IFaction.
+ * FactionsBlue Implementation of the {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Faction}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 14:05
@@ -175,6 +176,8 @@ public class FactionsBlueFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {

@@ -14,6 +14,10 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+/**
+ * FactionsUUID implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer}.
+ * Object Target: {@link FPlayer}.
+ */
 public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
 
     /**

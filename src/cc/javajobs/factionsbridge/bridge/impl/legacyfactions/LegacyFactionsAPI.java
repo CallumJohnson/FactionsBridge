@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * LegacyFactions implementation of {@link FactionsAPI}.
+ *
  * @author Callum Johnson
  * @since 04/05/2021 - 10:09
  */

@@ -8,6 +8,10 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * FactionsUUID implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim}.
+ * Object Target: {@link FLocation}.
+ */
 public class FactionsUUIDClaim extends AbstractClaim<FLocation> {
 
     /**

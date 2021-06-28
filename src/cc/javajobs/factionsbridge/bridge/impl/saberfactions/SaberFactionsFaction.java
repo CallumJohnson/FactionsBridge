@@ -12,6 +12,10 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The SaberFactions implementation is an extension of FactionsUUID.
+ * Object Target: {@link Faction}.
+ */
 public class SaberFactionsFaction extends FactionsUUIDFaction {
 
     /**

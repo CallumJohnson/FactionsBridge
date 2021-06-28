@@ -4,12 +4,21 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * The ACommand handles commands using {@link #execute(CommandSender, String[])}.
+ *
  * @author Callum Johnson
  * @since 12/06/2021 - 12:11
  */
 public abstract class ACommand implements Communicator {
 
+    /**
+     * Name of the command.
+     */
     private final String name;
+
+    /**
+     * Description of the command.
+     */
     private final String description;
 
     /**

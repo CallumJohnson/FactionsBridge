@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * MassiveCoreFactions implementation of IFaction.
+ * MassiveCore implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Faction}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 15:21
@@ -172,6 +173,8 @@ public class MassiveCoreFactionsFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {

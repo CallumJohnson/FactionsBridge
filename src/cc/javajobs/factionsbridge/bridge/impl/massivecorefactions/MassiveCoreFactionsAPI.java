@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * MassiveCoreFactions implementation of FactionsAPI.
+ * MassiveCore implementation of {@link FactionsAPI}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 15:25

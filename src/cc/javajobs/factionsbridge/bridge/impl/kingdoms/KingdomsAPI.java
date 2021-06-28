@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Kingdoms implementation of IFactionsAPI.
+ * Kingdoms implementation of {@link FactionsAPI}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 17:17

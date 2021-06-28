@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * The MedievalFactions implementation utilises {@link Faction}.
+ *
  * @author Callum Johnson
  * @since 03/05/2021 - 09:07
  */
@@ -170,6 +172,8 @@ public class MedievalFactionsFaction extends AbstractFaction<Faction> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {

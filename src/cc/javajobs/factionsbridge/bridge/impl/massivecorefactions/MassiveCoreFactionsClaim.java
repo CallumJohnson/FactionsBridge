@@ -1,6 +1,7 @@
 package cc.javajobs.factionsbridge.bridge.impl.massivecorefactions;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractClaim;
+import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.massivecore.ps.PS;
@@ -8,7 +9,8 @@ import org.bukkit.Chunk;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * MassiveCoreFactions implementation of IClaim.
+ * MassiveCore implementation of {@link Claim}.
+ * Object Target: {@link PS}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 15:11

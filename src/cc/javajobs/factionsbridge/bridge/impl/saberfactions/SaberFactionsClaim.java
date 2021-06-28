@@ -7,6 +7,10 @@ import com.massivecraft.factions.FLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The SaberFactions implementation is an extension of FactionsUUID.
+ * Object Target: {@link FLocation}.
+ */
 public class SaberFactionsClaim extends FactionsUUIDClaim {
 
     /**

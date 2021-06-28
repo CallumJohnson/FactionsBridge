@@ -15,7 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * FactionsBlue Implementation of the IFactionPlayer.
+ * FactionsBlue Implementation of the {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer}.
+ * Object Target: {@link FPlayer}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 14:21

@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * FactionsBridge plugin.
+ * FactionsBridge API.
  * <p>
- *     This plugin acts as a middleground between Factions plugins and plugins which require API
- *     functionality of said Factions plugins.
+ *     This API acts as a bridge of multiple implementations of Factions,
+ *     combining their functionality into one core API.
  * </p>
  * @author Callum Johnson
  * @since 25/02/2021 - 09:05
@@ -95,6 +95,7 @@ public class FactionsBridge implements Communicator {
      *     Specifying "requiresFactions", throws exceptions.<br>
      *     If "requiresFactions" is false, then console output is done based on "consoleOutput".
      * </p>
+     *
      * @param plugin to connect for.
      * @param consoleOutput {@code true} if console output should be shown.
      * @param requiresFactions {@code true} if your plugin needs factions to work.
@@ -130,7 +131,7 @@ public class FactionsBridge implements Communicator {
         if (instance == null) instance = new FactionsBridge();
         instance.development_plugin = plugin;
         ProviderManager manager = new ProviderManager();
-        Plugin provider = manager.discover(false);
+        Plugin provider = manager.discover();
         factionapi = manager.getAPI();
         String status = "without";
         long diff = System.currentTimeMillis()-start;

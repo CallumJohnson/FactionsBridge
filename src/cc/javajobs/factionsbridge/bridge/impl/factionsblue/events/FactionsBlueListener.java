@@ -7,10 +7,13 @@ import cc.javajobs.factionsbridge.bridge.impl.factionsblue.tasks.FactionsBlueTas
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import me.zysea.factions.events.FPlayerClaimEvent;
-import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 /**
  * FactionsBlue implementation of the Bridges needed to handle all Custom Events.
@@ -21,34 +24,53 @@ import org.bukkit.event.Listener;
  */
 public class FactionsBlueListener implements Listener, Communicator {
 
+    /**
+     * Instance of the {@link FactionsAPI} created by FactionsBridge.
+     */
     private final FactionsAPI api = FactionsBridge.getFactionsAPI();
 
+    /**
+     * Listener for the {@link FPlayerClaimEvent}.
+     * <p>
+     *     This listener calls the {@link FactionClaimEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onClaim(FPlayerClaimEvent event) {
-        FactionClaimEvent bridgeEvent = new FactionClaimEvent(
+    public void onClaim(@NotNull FPlayerClaimEvent event) {
+        final FactionClaimEvent bridgeEvent = new FactionClaimEvent(
                 api.getClaim(event.getClaim().asChunk()),
                 api.getFaction(String.valueOf(event.getFaction().getId())),
                 api.getFPlayer(event.getPlayer()),
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 
+    /**
+     * Listener for the {@link me.zysea.factions.events.FactionDisbandEvent}.
+     * <p>
+     *     This listener calls the {@link FactionDisbandEvent}.
+     * </p>
+     *
+     * @param event to monitor.
+     */
     @EventHandler
-    public void onDisband(me.zysea.factions.events.FactionDisbandEvent event) {
+    public void onDisband(@NotNull me.zysea.factions.events.FactionDisbandEvent event) {
         if (!(event.getSender() instanceof Player)) {
             warn("A Faction has been deleted by something other than a Player.");
             warn("This is not supported behaviour and will therefore cause issues.");
             return;
         }
-        FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
-                (Player) event.getSender(),
+        final FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
+                api.getFPlayer((OfflinePlayer) event.getSender()),
                 api.getFaction(event.getFaction().getId().toString()),
                 FactionDisbandEvent.DisbandReason.UNKNOWN,
                 event
         );
-        Bukkit.getPluginManager().callEvent(bridgeEvent);
+        getPluginManager().callEvent(bridgeEvent);
         event.setCancelled(bridgeEvent.isCancelled());
     }
 

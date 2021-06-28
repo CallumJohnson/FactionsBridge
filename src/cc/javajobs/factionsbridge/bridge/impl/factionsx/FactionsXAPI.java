@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * FactionsX implementation of IFactionsAPI.
+ * FactionsX implementation of {@link FactionsAPI}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 16:43

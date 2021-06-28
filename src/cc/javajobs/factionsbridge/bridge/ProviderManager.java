@@ -18,20 +18,24 @@ import java.util.stream.IntStream;
  *     <br>Using the {@link Provider} enumeration class and data manually added, this class compares
  *     plugins loaded on the server. If a match is found, the plugin is returned.
  * </p>
+ *
  * @author Callum Johnson
  * @since 25/02/2021 - 16:48
  */
 public class ProviderManager implements Communicator {
 
+    /**
+     * API variable set if/when the provider is found.
+     */
     private FactionsAPI fapi;
 
     /**
      * Method to perform all functionality of the ProviderManager class.
-     * @see ProviderManager
-     * @param classLevel should the method scan for classes? (an unused implementation as of 26/02/2021).
+     *
      * @return the Plugin which will be used or {@code null}.
+     * @see ProviderManager
      */
-    public Plugin discover(boolean classLevel) {
+    public Plugin discover() {
         for (Provider provider : Provider.values()) {
             Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
@@ -41,16 +45,6 @@ public class ProviderManager implements Communicator {
             List<String> providerAuthors = provider.getAuthors();
             int auth = (int) IntStream.range(0, providerAuthors.size()).filter(i -> authors[i]).count();
             if (providerAuthors.size() == auth) hook = true;
-            if (classLevel) {
-                int classes = provider.areClassesLoaded();
-                int totalClasses = provider.getClassCount();
-                log("Classes Found:\t" + classes + "/" + totalClasses);
-                double per = (double) (classes*100)/totalClasses;
-                per = new BigDecimal(per).round(new MathContext(2)).doubleValue();
-                log("Percentage Found:\t" + per+ "%");
-                if (per < 75 && hook) hook = false;
-            }
-
             if (hook) {
                 log("Found " + provider.name() + "!");
                 spacer(ChatColor.AQUA);
@@ -64,8 +58,8 @@ public class ProviderManager implements Communicator {
     }
 
     /**
-     * Method to return the FactionAPI implementation.
-     * @return FactionAPI implementation.
+     * Method to return the FactionsAPI implementation.
+     * @return FactionsAPI implementation.
      */
     public FactionsAPI getAPI() {
         return fapi;

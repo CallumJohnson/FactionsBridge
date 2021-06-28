@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Kingdoms implementation of IFaction.
+ * Kingdoms implementation of {@link cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction}.
+ * Object Target: {@link Kingdom}.
  *
  * @author Callum Johnson
  * @since 26/02/2021 - 17:11
@@ -167,6 +168,8 @@ public class KingdomsKingdom extends AbstractFaction<Kingdom> {
 
     /**
      * Method to obtain the power of the Faction.
+     *
+     * @return the power of the Faction.
      */
     @Override
     public double getPower() {
