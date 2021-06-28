@@ -73,7 +73,7 @@ public enum FontMetrics {
         boolean previousCode = false;
         boolean isBold = false;
         for (char c : message.toCharArray()) {
-            if (c == '§') {
+            if (String.valueOf(c).equals("§")) {
                 previousCode = true;
             } else if (previousCode) {
                 previousCode = false;
