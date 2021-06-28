@@ -166,6 +166,25 @@ public class KingdomsKingdom extends AbstractFaction<Kingdom> {
     }
 
     /**
+     * Method to obtain the power of the Faction.
+     */
+    @Override
+    public double getPower() {
+        return faction.getMaxLands();
+    }
+
+    /**
+     * Method to set the power of a Faction.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPower(power)");
+    }
+
+    /**
      * Method to get the bank balance of the Faction.
      *
      * @return in the form of Double.

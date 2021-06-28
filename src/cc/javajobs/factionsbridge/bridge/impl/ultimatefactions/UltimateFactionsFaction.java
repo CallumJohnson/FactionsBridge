@@ -173,6 +173,24 @@ public class UltimateFactionsFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to obtain the power of the Faction.
+     */
+    @Override
+    public double getPower() {
+        return faction.getPower();
+    }
+
+    /**
+     * Method to set the power of a Faction.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        faction.setPower(power);
+    }
+
+    /**
      * Method to get the points of the Faction.
      *
      * @return points of the Faction.

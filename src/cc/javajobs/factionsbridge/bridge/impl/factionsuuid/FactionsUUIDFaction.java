@@ -169,6 +169,25 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to obtain the power of the Faction.
+     */
+    @Override
+    public double getPower() {
+        return faction.getPower();
+    }
+
+    /**
+     * Method to set the power of a Faction.
+     *
+     * @param power to set.
+     */
+    @Override
+    public void setPower(double power) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setPower(power)");
+    }
+
+    /**
      * Method to get the points of the Faction.
      *
      * @return points of the Faction.
@@ -326,13 +345,15 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
             final MemoryFaction oneM = (MemoryFaction) one;
             final MemoryFaction twoM = (MemoryFaction) two;
             return Relationship.getRelationship(oneM.getRelationTo(twoM).name());
-        } catch (ClassNotFoundException ignored) {}
+        } catch (ClassNotFoundException ignored) {
+        }
         try {
             Class.forName("com.massivecraft.factions.data.MemoryFaction");
             final com.massivecraft.factions.data.MemoryFaction oneM = (com.massivecraft.factions.data.MemoryFaction) one;
             final com.massivecraft.factions.data.MemoryFaction twoM = (com.massivecraft.factions.data.MemoryFaction) two;
             return Relationship.getRelationship(oneM.getRelationTo(twoM).name());
-        } catch (ClassNotFoundException ignored) {}
+        } catch (ClassNotFoundException ignored) {
+        }
         if (bridge.catch_exceptions) return Relationship.NONE;
         else return (Relationship) methodError(getClass(), "getRelationshipTo(AbstractionFaction<?>)",
                 "Can't find relationship.");
