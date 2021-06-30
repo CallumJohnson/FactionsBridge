@@ -1,10 +1,11 @@
 # FactionsBridge
 
 ## Where do I buy/get it?
-See Here: 
+Purchase: 
 
- - https://github.com/CallumJohnson/FactionsBridge/tree/main/FactionsBridge
-
+ - https://github.com/CallumJohnson/FactionsBridge/releases
+ - https://www.spigotmc.org/resources/factionsbridge.89716/
+ 
 ## Documentation
 Direct Links:
 
