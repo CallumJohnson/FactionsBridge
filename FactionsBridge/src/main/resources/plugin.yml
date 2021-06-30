@@ -1,0 +1,9 @@
+name: FactionsBridge
+main: cc.javajobs.factionsbridge.BridgePlugin
+version: ${project.version}
+api-version: 1.13
+softdepend: [Factions, FactionsX, FactionsBlue, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions]
+commands:
+  factionsbridge:
+    aliases: [fbridge, factionbridge, facbridge, bridgefactions]
+    description: "Main and only command."

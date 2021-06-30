@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FactionsBridge-PARENT</artifactId>
+        <groupId>cc.javajobs.factionsbridge</groupId>
+        <version>parent</version>
+    </parent>
+
+    <name>FactionsX Implementation</name>
+    <artifactId>Factions_FactionsX</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <version>${bridge.version}</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- FactionsBridge API -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>FactionsBridge-API</artifactId>
+            <version>${bridge.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- FactionsX -->
+        <dependency>
+            <groupId>Factions</groupId>
+            <artifactId>FactionsX</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${factions.location}/FactionsX.jar</systemPath>
+        </dependency>
+
+    </dependencies>
+
+</project>

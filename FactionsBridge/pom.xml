@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FactionsBridge-PARENT</artifactId>
+        <groupId>cc.javajobs.factionsbridge</groupId>
+        <version>parent</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>FactionsBridge</artifactId>
+    <version>${bridge.version}</version>
+
+    <build>
+        <finalName>FactionsBridge - ${bridge.version} (Snapshot)</finalName>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-compiler-plugin</artifactId>
+    			<version>3.8.1</version>
+    			<configuration>
+    				<source>${java.version}</source>
+    				<target>${java.version}</target>
+                    <!-- Disable annotation processing for ourselves. -->
+                    <compilerArgument>-proc:none</compilerArgument>
+    			</configuration>
+    		</plugin>
+    		<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-shade-plugin</artifactId>
+    			<version>3.3.0-SNAPSHOT</version>
+    			<executions>
+    				<execution>
+    					<phase>package</phase>
+    					<goals>
+    						<goal>shade</goal>
+    					</goals>
+    					<configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>factionsuuid</pattern>
+                                    <shadedPattern>${package.directory}.factionsuuid</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>saberfactions</pattern>
+                                    <shadedPattern>${package.directory}.saberfactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>savagefactions</pattern>
+                                    <shadedPattern>${package.directory}.savagefactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>atlasfactions</pattern>
+                                    <shadedPattern>${package.directory}.atlasfactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>supremefactions</pattern>
+                                    <shadedPattern>${package.directory}.supremefactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>factionsblue</pattern>
+                                    <shadedPattern>${package.directory}.factionsblue</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>factionsx</pattern>
+                                    <shadedPattern>${package.directory}.factionsx</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>kingdoms</pattern>
+                                    <shadedPattern>${package.directory}.kingdoms</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>legacyfactions</pattern>
+                                    <shadedPattern>${package.directory}.legacyfactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>massivecorefactions</pattern>
+                                    <shadedPattern>${package.directory}.massivecorefactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>medievalfactions</pattern>
+                                    <shadedPattern>${package.directory}.medievalfactions</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>ultimatefactions</pattern>
+                                    <shadedPattern>${package.directory}.ultimatefactions</shadedPattern>
+                                </relocation>
+                            </relocations>
+    						<createDependencyReducedPom>false</createDependencyReducedPom>
+    					</configuration>
+    				</execution>
+    			</executions>
+    		</plugin>
+    	</plugins>
+
+    	<resources>
+    		<resource>
+    			<directory>src/main/resources</directory>
+    			<filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+    		</resource>
+    	</resources>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+
+    	<!-- SpigotMC Repo -->
+    	<repository>
+    		<id>spigotmc-repo</id>
+    		<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    	</repository>
+
+    </repositories>
+
+    <dependencies>
+
+        <!-- FactionsBridgeAPI -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>FactionsBridge-API</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Factions UUID -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsUUID</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <!-- SaberFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_SaberFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- SavageFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_SavageFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- AtlasFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_AtlasFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- SupremeFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_SupremeFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- FactionsBlue -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsBlue</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- FactionsX -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsX</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Kingdoms -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_Kingdoms</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- LegacyFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_LegacyFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- MassiveCoreFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_MassiveCoreFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- MedievalFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_MedievalFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- UltimateFactions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_UltimateFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Jetbrains Annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>21.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>

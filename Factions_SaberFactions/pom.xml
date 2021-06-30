@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FactionsBridge-PARENT</artifactId>
+        <groupId>cc.javajobs.factionsbridge</groupId>
+        <version>parent</version>
+    </parent>
+
+    <name>SaberFactions Implementation</name>
+    <artifactId>Factions_SaberFactions</artifactId>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <version>${bridge.version}</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Configure the project to use java 8 version. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <!-- Disable annotation processing for ourselves. -->
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- FactionsBridge API -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>FactionsBridge-API</artifactId>
+            <version>${bridge.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- SaberFactions -->
+        <dependency>
+            <groupId>Factions</groupId>
+            <artifactId>SaberFactions</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${factions.location}/SaberFactions.jar</systemPath>
+        </dependency>
+
+    </dependencies>
+
+</project>
