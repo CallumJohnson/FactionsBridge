@@ -16,9 +16,28 @@
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <java.version>16</java.version>
         <factions.location>D:/Program Files/Intellij/FactionsBridge - Maven/jars</factions.location>
-        <bridge.version>1.2.6</bridge.version>
+        <bridge.version>1.2.7</bridge.version>
         <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <!--<phase>install</phase>-->
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <modules>
         <module>FactionsBridgeAPI</module>

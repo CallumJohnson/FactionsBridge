@@ -9,6 +9,40 @@
         <artifactId>FactionsBridge-PARENT</artifactId>
     </parent>
 
+    <properties>
+        <version.struct>src/main/java/cc/javajobs/factionsbridge/Version.struct</version.struct>
+        <version.file>src/main/java/cc/javajobs/factionsbridge/Version.java</version.file>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>maven-replacer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <file>${version.struct}</file>
+                    <outputFile>${version.file}</outputFile>
+                    <replacements>
+                        <replacement>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <token>@bridgeversion@</token>
+                            <value>${bridge.version}</value>
+                        </replacement>
+                    </replacements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>FactionsBridge-API</artifactId>
     <packaging>jar</packaging>

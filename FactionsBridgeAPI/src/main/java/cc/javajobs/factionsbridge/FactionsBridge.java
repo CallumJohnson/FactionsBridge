@@ -2,6 +2,7 @@ package cc.javajobs.factionsbridge;
 
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeAlreadyConnectedException;
+import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,19 +21,31 @@ import java.util.stream.Collectors;
  * <p>
  *     This API acts as a bridge of multiple implementations of Factions,
  *     combining their functionality into one core API.
+ *     <br>This class dismisses deprecation as I have to support both Java 8 and Java 16.
  * </p>
  * @author Callum Johnson
  * @since 25/02/2021 - 09:05
  */
+@SuppressWarnings("deprecation")
 public class FactionsBridge implements Communicator {
 
-    private static final String version = "1.2.6";
+    private static final String version;
     private static FactionsBridge instance = null;
-
     private static FactionsAPI factionapi = null;
     public boolean registered = false;
     public boolean catch_exceptions;
     private Plugin development_plugin = null;
+
+    static {
+        try {
+            final Class<?> version_class = Class.forName("cc.javajobs.factionsbridge.Version");
+            final Field field = version_class.getField("build_version");
+            if (!field.isAccessible()) field.setAccessible(true);
+            version = (String) field.get(null);
+        } catch (ReflectiveOperationException ex) {
+            throw new BridgeMethodException(FactionsBridge.class, "version_getter", "Failed to get Version from class");
+        }
+    }
 
     /**
      * Method to generate the report for debugging or error checking when the Plugin to be linked to isn't found.
