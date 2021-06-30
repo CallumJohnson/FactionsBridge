@@ -6,64 +6,64 @@
 
     <groupId>cc.javajobs.factionsbridge</groupId>
     <artifactId>FactionsBridge-PARENT</artifactId>
-	<packaging>pom</packaging>
-	<name>FactionsBridge-Parent</name>
-	<version>parent</version>
+    <packaging>pom</packaging>
+    <name>FactionsBridge-Parent</name>
+    <version>parent</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-		<java.version>16</java.version>
-		<factions.location>D:/Program Files/Intellij/FactionsBridge - Maven/jars</factions.location>
-		<bridge.version>1.2.6</bridge.version>
-		<package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
+        <java.version>16</java.version>
+        <factions.location>D:/Program Files/Intellij/FactionsBridge - Maven/jars</factions.location>
+        <bridge.version>1.2.6</bridge.version>
+        <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
     </properties>
 
-	<modules>
-		<module>FactionsBridgeAPI</module>
-		<module>Factions_SavageFactions</module>
-		<module>Factions_AtlasFactions</module>
-		<module>Factions_FactionsUUID</module>
-		<module>Factions_SupremeFactions</module>
-		<module>Factions_FactionsBlue</module>
-		<module>Factions_FactionsX</module>
-		<module>Factions_Kingdoms</module>
-		<module>Factions_LegacyFactions</module>
-		<module>Factions_MassiveCoreFactions</module>
-		<module>Factions_MedievalFactions</module>
-		<module>Factions_UltimateFactions</module>
-		<module>Factions_SaberFactions</module>
-		<module>FactionsBridge</module>
-	</modules>
+    <modules>
+        <module>FactionsBridgeAPI</module>
+        <module>Factions_SavageFactions</module>
+        <module>Factions_AtlasFactions</module>
+        <module>Factions_FactionsUUID</module>
+        <module>Factions_SupremeFactions</module>
+        <module>Factions_FactionsBlue</module>
+        <module>Factions_FactionsX</module>
+        <module>Factions_Kingdoms</module>
+        <module>Factions_LegacyFactions</module>
+        <module>Factions_MassiveCoreFactions</module>
+        <module>Factions_MedievalFactions</module>
+        <module>Factions_UltimateFactions</module>
+        <module>Factions_SaberFactions</module>
+        <module>FactionsBridge</module>
+    </modules>
 
     <repositories>
 
-    	<!-- SpigotMC Repo -->
-    	<repository>
-    		<id>spigotmc-repo</id>
-    		<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    	</repository>
+        <!-- SpigotMC Repo -->
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
 
     </repositories>
 
     <dependencies>
 
-    	<!-- Spigot Latest -->
-    	<dependency>
-    		<groupId>org.spigotmc</groupId>
-    		<artifactId>spigot-api</artifactId>
-    		<version>1.17-R0.1-SNAPSHOT</version>
-    		<scope>provided</scope>
-    	</dependency>
+        <!-- Spigot Latest -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.17-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
-    	<!-- Jetbrains Annotations -->
-    	<dependency>
-    		<groupId>org.jetbrains</groupId>
-    		<artifactId>annotations</artifactId>
-    		<version>21.0.1</version>
-    		<scope>provided</scope>
-    	</dependency>
+        <!-- Jetbrains Annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>21.0.1</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

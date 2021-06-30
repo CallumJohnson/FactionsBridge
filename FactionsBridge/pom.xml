@@ -14,29 +14,29 @@
 
     <build>
         <finalName>FactionsBridge - ${bridge.version} (Snapshot)</finalName>
-    	<plugins>
-    		<plugin>
-    			<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-compiler-plugin</artifactId>
-    			<version>3.8.1</version>
-    			<configuration>
-    				<source>${java.version}</source>
-    				<target>${java.version}</target>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <!-- Disable annotation processing for ourselves. -->
                     <compilerArgument>-proc:none</compilerArgument>
-    			</configuration>
-    		</plugin>
-    		<plugin>
-    			<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-shade-plugin</artifactId>
-    			<version>3.3.0-SNAPSHOT</version>
-    			<executions>
-    				<execution>
-    					<phase>package</phase>
-    					<goals>
-    						<goal>shade</goal>
-    					</goals>
-    					<configuration>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
                             <relocations>
                                 <relocation>
                                     <pattern>factionsuuid</pattern>
@@ -87,22 +87,22 @@
                                     <shadedPattern>${package.directory}.ultimatefactions</shadedPattern>
                                 </relocation>
                             </relocations>
-    						<createDependencyReducedPom>false</createDependencyReducedPom>
-    					</configuration>
-    				</execution>
-    			</executions>
-    		</plugin>
-    	</plugins>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-    	<resources>
-    		<resource>
-    			<directory>src/main/resources</directory>
-    			<filtering>true</filtering>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
                 </includes>
-    		</resource>
-    	</resources>
+            </resource>
+        </resources>
     </build>
 
     <pluginRepositories>
@@ -114,11 +114,11 @@
 
     <repositories>
 
-    	<!-- SpigotMC Repo -->
-    	<repository>
-    		<id>spigotmc-repo</id>
-    		<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-    	</repository>
+        <!-- SpigotMC Repo -->
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
 
     </repositories>
 
