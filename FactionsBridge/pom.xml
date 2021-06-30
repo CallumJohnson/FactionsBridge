@@ -88,6 +88,14 @@
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
@@ -103,7 +111,9 @@
                 </includes>
             </resource>
         </resources>
+
     </build>
+
 
     <pluginRepositories>
         <pluginRepository>

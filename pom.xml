@@ -11,10 +11,10 @@
     <version>parent</version>
 
     <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <java.version>16</java.version>
+        <java.version>1.8</java.version>
         <factions.location>D:/Program Files/Intellij/FactionsBridge - Maven/jars</factions.location>
         <bridge.version>1.2.7</bridge.version>
         <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
@@ -32,7 +32,7 @@
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
-                        <!--<phase>install</phase>-->
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -41,18 +41,18 @@
 
     <modules>
         <module>FactionsBridgeAPI</module>
-        <module>Factions_SavageFactions</module>
         <module>Factions_AtlasFactions</module>
-        <module>Factions_FactionsUUID</module>
-        <module>Factions_SupremeFactions</module>
         <module>Factions_FactionsBlue</module>
+        <module>Factions_FactionsUUID</module>
         <module>Factions_FactionsX</module>
         <module>Factions_Kingdoms</module>
         <module>Factions_LegacyFactions</module>
         <module>Factions_MassiveCoreFactions</module>
         <module>Factions_MedievalFactions</module>
-        <module>Factions_UltimateFactions</module>
         <module>Factions_SaberFactions</module>
+        <module>Factions_SavageFactions</module>
+        <module>Factions_SupremeFactions</module>
+        <module>Factions_UltimateFactions</module>
         <module>FactionsBridge</module>
     </modules>
 
