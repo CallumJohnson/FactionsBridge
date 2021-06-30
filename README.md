@@ -16,18 +16,18 @@ To view the JavaDocs, visit the following website: http://javajobs.ni-vps.fr/fac
 As of Version 1.2.0, 12 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
-| FactionsX | https://www.spigotmc.org/resources/factionsx.83459/ |
-| FactionsUUID | https://www.spigotmc.org/resources/factionsuuid.1035/ |
-| SavageFactions (Abandoned) | https://www.spigotmc.org/resources/savagefactions-the-ultimate-factions-experience-abandoned.52891/ |
-| SaberFactions | https://www.spigotmc.org/resources/saberfactions-1-8-1-16-x-discord-saber-pw-the-complete-factions-solution.69771/ |
-| SupremeFactions | https://docs.supremedev.us/supreme-dev-supreme-factions |
-| Atlas Factions | https://factions.atlas-studios.net | 
-| FactionsBlue | https://www.spigotmc.org/resources/factions-blue.66627/ | 
-| MassiveFactions | https://www.spigotmc.org/resources/factions.1900/ |
-| KingdomsX | https://www.spigotmc.org/resources/kingdomsx.77670/ |
-| MedievalFactions | https://www.spigotmc.org/resources/medieval-factions-sovereign-nation-simulator.79941/ |
-| LegacyFactions | https://github.com/redstone/LegacyFactions/releases/tag/1.4.7 |
-| UltimateFactions | https://www.spigotmc.org/resources/%E2%AD%90ultimate-factions-%E2%96%BA-unique-faction-plugin-%E2%97%84-%E2%9C%85-1-8-1-16-5-%E2%9C%85-%E2%9C%A8-fully-configurable-%E2%9C%A8.81103/ |
+| FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
+| FactionsUUID | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsUUID |
+| SavageFactions (Abandoned) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SavageFactions |
+| SaberFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SaberFactions |
+| SupremeFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SupremeFactions |
+| Atlas Factions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_AtlasFactions | 
+| FactionsBlue | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsBlue | 
+| MassiveFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_MassiveCoreFactions |
+| KingdomsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_Kingdoms |
+| MedievalFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_MedievalFactions |
+| LegacyFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_LegacyFactions |
+| UltimateFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_UltimateFactions |
 
 ## How to use the API
 
