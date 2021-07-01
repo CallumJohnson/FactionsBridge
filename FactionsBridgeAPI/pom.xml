@@ -49,4 +49,16 @@
     <name>FactionsBridge-API</name>
     <version>${bridge.version}</version>
 
+    <dependencies>
+
+        <!-- bStats -->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>2.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
 </project>
