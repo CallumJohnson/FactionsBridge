@@ -95,7 +95,7 @@
                                     <shadedPattern>cc.javajobs.factionsbridge.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
                             <filters>
                                 <filter>
                                     <artifact>*</artifact>
