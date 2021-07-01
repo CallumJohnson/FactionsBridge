@@ -37,7 +37,7 @@ public class About extends ACommand {
         sender.sendMessage("");
         sender.sendMessage(translate("  &cStatus&7: " + (FactionsBridge.get().connected() ? "&aConnected" : "&cDisconnected")));
         sender.sendMessage(translate("  &cRegistered&7: " + (FactionsBridge.get().registered ? "&aYes" : "&cNo")));
-        Provider provider = Provider.getFromAPI(FactionsBridge.getFactionsAPI().getClass().toString());
+        Provider provider = Provider.getFromAPI(FactionsBridge.getFactionsAPI().getClass().getName());
         if (provider == null) {
             sender.sendMessage(translate("  &cProvider&7: &cN/A"));
         } else {

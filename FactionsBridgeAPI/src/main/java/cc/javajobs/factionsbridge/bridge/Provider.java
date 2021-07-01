@@ -71,10 +71,12 @@ public enum Provider {
      */
     @Nullable
     public static Provider getFromAPI(String location) {
-        return Arrays.stream(Provider.values())
-                .filter(value -> value.API_CLASS_NAME.equals(location))
-                .findFirst()
-                .orElse(null);
+        for (Provider value : Provider.values()) {
+            if (value.API_CLASS_NAME.equals(location)) {
+                return value;
+            }
+        }
+        return null;
     }
 
     /**
