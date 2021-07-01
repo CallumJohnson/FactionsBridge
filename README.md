@@ -66,7 +66,7 @@ bridge.connect(yourPluginObject, true,          false           , true          
 #### How do I get access to the API?
 ```JAVA
 // 	This is how to obtain the API.
-FactionAPI api = FactionsBridge.getFactionAPI(); 
+FactionsAPI api = FactionsBridge.getFactionsAPI(); 
 /* 
 	The API class has many methods which will hopefully add all the 
 	functionality you could ever require.
