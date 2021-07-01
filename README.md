@@ -47,6 +47,7 @@ softdepend/depend: [FactionsBridge] # depending on your preference or requiremen
 ```
 
 If you are shading the project into your plugin, please make sure to 'connect' to the FactionsBridge class *before* you attempt to use the API.
+**Please make sure to relocate the Shaded Jar, if you don't conflicts will occur with Spigot**
 #### How do I connect for Shading?
 ```JAVA
 FactionsBridge bridge = new FactionsBridge();
