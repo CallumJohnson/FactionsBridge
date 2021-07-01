@@ -83,6 +83,10 @@
                                     <shadedPattern>${package.directory}.medievalfactions</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>towny</pattern>
+                                    <shadedPattern>${package.directory}.towny</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>ultimatefactions</pattern>
                                     <shadedPattern>${package.directory}.ultimatefactions</shadedPattern>
                                 </relocation>
@@ -161,7 +165,6 @@
             <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>
-
 
         <!-- SaberFactions -->
         <dependency>
@@ -243,6 +246,14 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Towny -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_Towny</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- UltimateFactions -->
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
@@ -258,6 +269,7 @@
             <version>21.0.1</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
 </project>

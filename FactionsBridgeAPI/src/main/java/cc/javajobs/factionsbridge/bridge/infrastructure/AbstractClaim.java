@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Callum Johnson
  * @since 05/06/2021 - 09:25
  */
-public abstract class AbstractClaim<C> implements Claim {
+public abstract class AbstractClaim<C> implements Claim, ErrorParticipator {
 
     /**
      * Claim object bridged using FactionsBridge.

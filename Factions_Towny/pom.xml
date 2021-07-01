@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FactionsBridge-PARENT</artifactId>
+        <groupId>cc.javajobs.factionsbridge</groupId>
+        <version>parent</version>
+    </parent>
+
+    <name>Towny Implementation</name>
+    <artifactId>Factions_Towny</artifactId>
+    <version>${bridge.version}</version>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <repositories>
+
+        <!-- Towny Repo -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+    </repositories>
+
+    <dependencies>
+
+        <!-- FactionsBridge API -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>FactionsBridge-API</artifactId>
+            <version>${bridge.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Towny -->
+        <dependency>
+            <groupId>com.github.TownyAdvanced</groupId>
+            <artifactId>Towny</artifactId>
+            <version>0.96.7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

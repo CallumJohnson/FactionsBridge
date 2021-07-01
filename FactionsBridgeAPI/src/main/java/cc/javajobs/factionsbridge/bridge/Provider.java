@@ -27,14 +27,15 @@ public enum Provider {
     Factions_FactionsBlue("FactionsBlue", Collections.singletonList("NickD"), "factionsblue.FactionsBlueAPI"),
     Factions_FactionsUUID("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"), "factionsuuid.FactionsUUIDAPI"),
     Factions_FactionsX("FactionsX", Collections.singletonList("ProSavage"), "factionsx.FactionsXAPI"),
-    Kingdoms_Kingdoms("Kingdoms", Collections.singletonList("Crypto Morin"), "kingdoms.KingdomsAPI"),
+    Factions_Kingdoms("Kingdoms", Collections.singletonList("Crypto Morin"), "kingdoms.KingdomsAPI"),
     Factions_LegacyFactions("LegacyFactions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan", "drtshoc"), "legacyfactions.LegacyFactionsAPI"),
     Factions_MassiveCoreFactions("Factions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan"), "massivecorefactions.MassiveCoreFactionsAPI"),
     Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), "medievalfactions.MedievalFactionsAPI"),
     Factions_SaberFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"), "saberfactions.SaberFactionsAPI"),
     Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life"), "savagefactions.SavageFactionsAPI"),
     Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), "supremefactions.SupremeFactionsAPI"),
-    Factions_UltimateFactions("UltimateFactions", Collections.singletonList("Miinoo_"), "ultimatefactions.UltimateFactionsAPI");
+    Factions_UltimateFactions("UltimateFactions", Collections.singletonList("Miinoo_"), "ultimatefactions.UltimateFactionsAPI"),
+    Factions_Towny("Towny", Collections.singletonList("Shade, Modified by FuzzeWuzze. Forked by ElgarL. Forked by LlmDl."), "towny.TownyAPI");
 
     /**
      * The plugin name of the given Provider.

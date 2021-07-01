@@ -52,6 +52,7 @@
         <module>Factions_SaberFactions</module>
         <module>Factions_SavageFactions</module>
         <module>Factions_SupremeFactions</module>
+        <module>Factions_Towny</module>
         <module>Factions_UltimateFactions</module>
         <module>FactionsBridge</module>
     </modules>
