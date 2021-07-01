@@ -146,6 +146,7 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- bStats -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
