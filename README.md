@@ -87,7 +87,7 @@ FactionJoinEvent			# When a Player Joins a Faction. (1.2.0)
 
 ## side-note:
 This API is very unstable and is a very basic implementation of the concept, updates will come to increase stability and fix issues if they arise.
-
+The standalone plugin (FactionsBridge/BridgePlugin) uses bStats to track implementations. See more here: https://bstats.org/plugin/bukkit/FactionsBridge/11893
 
 ## Contact Me
 ```JAVA
