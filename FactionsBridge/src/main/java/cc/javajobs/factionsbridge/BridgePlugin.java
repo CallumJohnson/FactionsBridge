@@ -1,10 +1,14 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.Provider;
 import cc.javajobs.factionsbridge.bridge.commands.About;
 import cc.javajobs.factionsbridge.util.ACommand;
 import cc.javajobs.factionsbridge.util.Communicator;
 import cc.javajobs.factionsbridge.util.Updater;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,6 +53,20 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
         // API test.
         int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
         warn(loaded + " factions have been loaded.");
+
+        spacer(ChatColor.AQUA);
+        log("This plugin uses bStats to track non-specific server data.");
+        log("Go to '/plugins/bStats/' to change this if you do not consent.");
+        log("With thanks to: &bhttps://bstats.org");
+        error("Thank you, Callum");
+        spacer(ChatColor.AQUA);
+
+        final Metrics metrics = new Metrics(this, 11893);
+        metrics.addCustomChart(new SimplePie("factions_implementation_used", () -> {
+            final Provider provider = Provider.getFromAPI(FactionsBridge.getFactionsAPI().getClass().getName());
+            if (provider == null) return "Provider_Unknown";
+            else return provider.name();
+        }));
 
         // Check for updates.
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
