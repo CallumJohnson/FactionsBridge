@@ -28,6 +28,11 @@ public class ProviderManager implements Communicator {
     private FactionsAPI fapi;
 
     /**
+     * Provider variable set for Metrics.
+     */
+    private Provider hookedProvider;
+
+    /**
      * Method to perform all functionality of the ProviderManager class.
      *
      * @return the Plugin which will be used or {@code null}.
@@ -38,7 +43,6 @@ public class ProviderManager implements Communicator {
             Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
             boolean hook = false;
-
             boolean[] authors = provider.authorsMatch(new ArrayList<>(plugin.getDescription().getAuthors()));
             List<String> providerAuthors = provider.getAuthors();
             int auth = (int) IntStream.range(0, providerAuthors.size()).filter(i -> authors[i]).count();
@@ -49,6 +53,7 @@ public class ProviderManager implements Communicator {
                 log("Hooking into API for " + provider.fancy() + "!");
                 spacer(ChatColor.AQUA);
                 fapi = provider.getAPI();
+                hookedProvider = provider;
                 return plugin;
             }
         }
@@ -57,10 +62,20 @@ public class ProviderManager implements Communicator {
 
     /**
      * Method to return the FactionsAPI implementation.
+     *
      * @return FactionsAPI implementation.
      */
     public FactionsAPI getAPI() {
         return fapi;
+    }
+
+    /**
+     * Method to obtain the Hooked Provider.
+     *
+     * @return {@link Provider} object.
+     */
+    public Provider getHookedProvider() {
+        return hookedProvider;
     }
 
 }
