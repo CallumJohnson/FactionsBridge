@@ -1,14 +1,19 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.Provider;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeAlreadyConnectedException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -99,7 +104,7 @@ public class FactionsBridge implements Communicator {
      * @param plugin to connect for.
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
-    public void connect(@NotNull Plugin plugin) throws BridgeAlreadyConnectedException {
+    public void connect(@NotNull JavaPlugin plugin) throws BridgeAlreadyConnectedException {
         connect(plugin, true, true, true);
     }
 
@@ -116,7 +121,7 @@ public class FactionsBridge implements Communicator {
      * @param catchExceptions {@code true} if you want to reduce exceptions when a function isn't supported.
      * @throws BridgeAlreadyConnectedException if the bridge is already setup.
      */
-    public void connect(Plugin plugin, boolean consoleOutput, boolean requiresFactions, boolean catchExceptions)
+    public void connect(JavaPlugin plugin, boolean consoleOutput, boolean requiresFactions, boolean catchExceptions)
             throws BridgeAlreadyConnectedException {
         if (plugin == null) {
             if (requiresFactions) {
@@ -161,10 +166,37 @@ public class FactionsBridge implements Communicator {
             registered = factionapi.register();
             if (!registered) {
                 status = "with";
+            } else {
+                if (consoleOutput) {
+                    spacer(ChatColor.AQUA);
+                    log("This plugin uses bStats to track non-specific server data.");
+                    log("Go to '/plugins/bStats/' to change this if you do not consent.");
+                    log("With thanks to: &bhttps://bstats.org");
+                    error("Thank you, Callum");
+                    spacer(ChatColor.AQUA);
+                }
+                final Metrics metrics = new Metrics(plugin, 11893);
+                metrics.addCustomChart(new SimplePie("factions_implementation_used",
+                        () -> manager.getHookedProvider().name()));
+                metrics.addCustomChart(new SimplePie("standalone_or_shaded",
+                        () -> String.valueOf(isFactionsBridge(plugin))));
             }
         }
         long diff = System.currentTimeMillis()-start;
         if (consoleOutput) log("FactionsBridge started in " + diff + " milliseconds " + status + " errors.");
+    }
+
+    /**
+     * Method to determine if the plugin connecting is FactionsBridge or not.
+     *
+     * @param plugin to test.
+     * @return {@code true} if it is.
+     */
+    private boolean isFactionsBridge(@NotNull JavaPlugin plugin) {
+        final PluginDescriptionFile description = plugin.getDescription();
+        return  description.getName().equals("FactionsBridge") &&
+                description.getVersion().equals(version) &&
+                description.getMain().equals("cc.javajobs.factionsbridge.BridgePlugin");
     }
 
     /**
