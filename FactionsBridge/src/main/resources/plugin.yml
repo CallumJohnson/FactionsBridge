@@ -2,6 +2,7 @@ name: FactionsBridge
 main: cc.javajobs.factionsbridge.BridgePlugin
 version: ${project.version}
 api-version: 1.13
+authors: [Callum, mbax, Driftay, CustomEnchants, Lèbànk, Thefluffypvper, Splodgebox]
 softdepend: [Factions, FactionsX, FactionsBlue, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions]
 commands:
   factionsbridge:
