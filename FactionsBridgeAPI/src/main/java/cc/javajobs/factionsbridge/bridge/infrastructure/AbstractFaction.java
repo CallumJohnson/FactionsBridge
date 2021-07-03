@@ -4,6 +4,9 @@ import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * The AbstractFaction class stands for one implementation of a Faction.
  *
@@ -55,6 +58,19 @@ public abstract class AbstractFaction<F> implements Faction, ErrorParticipator {
     @NotNull
     public String toString() {
         return "AbstractFaction={factionObject:" + faction + "}";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(faction, getName(), getId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AbstractFaction)) return false;
+        final AbstractFaction<?> fac = (AbstractFaction<?>) obj;
+        if (getId().equals(fac.getId()) && getName().equals(fac.getName())) return true;
+        else return hashCode() == fac.hashCode();
     }
 
 }

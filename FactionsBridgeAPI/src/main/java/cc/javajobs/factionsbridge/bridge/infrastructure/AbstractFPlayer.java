@@ -4,6 +4,8 @@ import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * The AbstractFPlayer class stands for one implementation of an FPlayer.
  *
@@ -55,6 +57,19 @@ public abstract class AbstractFPlayer<FP> implements FPlayer, ErrorParticipator 
     @NotNull
     public String toString() {
         return "AbstractFPlayer={fplayerObject:" + fPlayer + "}";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fPlayer, getUniqueId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AbstractFPlayer)) return false;
+        final AbstractFPlayer<?> fpl = (AbstractFPlayer<?>) obj;
+        if (getUniqueId().equals(fpl.getUniqueId()) && getName().equals(fpl.getName())) return true;
+        else return hashCode() == fpl.hashCode();
     }
 
 }

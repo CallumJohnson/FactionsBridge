@@ -4,6 +4,9 @@ import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * The AbstractClaim class stands for one implementation of a Claim.
  *
@@ -55,6 +58,19 @@ public abstract class AbstractClaim<C> implements Claim, ErrorParticipator {
     @NotNull
     public String toString() {
         return "AbstractClaim={claimObject:" + claim + "}";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(claim, getWorldName(), getX(), getZ());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AbstractClaim)) return false;
+        final AbstractClaim<?> claim = (AbstractClaim<?>) obj;
+        if (getX() == claim.getX() && getZ() == claim.getX() && getWorldUID().equals(claim.getWorldUID())) return true;
+        else return hashCode() == claim.hashCode();
     }
 
 }
