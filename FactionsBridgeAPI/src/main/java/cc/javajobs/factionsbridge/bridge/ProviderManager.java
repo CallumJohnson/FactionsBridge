@@ -6,8 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * The Provider Manager class handles all methodology to locate/identify the API-provider for the plugin.
@@ -42,13 +40,11 @@ public class ProviderManager implements Communicator {
         for (Provider provider : Provider.values()) {
             Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
-            boolean hook = false;
-            boolean[] authors = provider.authorsMatch(new ArrayList<>(plugin.getDescription().getAuthors()));
-            List<String> providerAuthors = provider.getAuthors();
-            int auth = (int) IntStream.range(0, providerAuthors.size()).filter(i -> authors[i]).count();
-            if (providerAuthors.size() == auth) hook = true;
-            if (hook) {
+            final AuthorConfiguration authorConfiguration = provider.authorsMatch(
+                    new ArrayList<>(plugin.getDescription().getAuthors()));
+            if (authorConfiguration != null) {
                 log("Found " + provider.name() + "!");
+                log("Matched '" + authorConfiguration + "'!");
                 spacer(ChatColor.AQUA);
                 log("Hooking into API for " + provider.fancy() + "!");
                 spacer(ChatColor.AQUA);

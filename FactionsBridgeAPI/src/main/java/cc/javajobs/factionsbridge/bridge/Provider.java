@@ -7,35 +7,89 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The Provider enumeration is a data store class for all plugins supported by this release of FactionsBridge.
  * <p>
- *     Each enum entry has a Plugin Name, Author List, {@link FactionsAPI} implementation
- *     and possibilities of adding further data in the form of a String array to be more precise
- *     if ever required.
+ * Each enum entry has a Plugin Name, Author List, {@link FactionsAPI} implementation
+ * and possibilities of adding further data in the form of a String array to be more precise
+ * if ever required.
  * </p>
+ *
  * @author Callum Johnson
  * @since 26/02/2021 - 09:54
  */
 public enum Provider {
 
-    Factions_AtlasFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Elapsed"), "atlasfactions.AtlasFactionsAPI"),
-    Factions_FactionsBlue("FactionsBlue", Collections.singletonList("NickD"), "factionsblue.FactionsBlueAPI"),
-    Factions_FactionsUUID("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"), "factionsuuid.FactionsUUIDAPI"),
-    Factions_FactionsX("FactionsX", Collections.singletonList("ProSavage"), "factionsx.FactionsXAPI"),
-    Factions_Kingdoms("Kingdoms", Collections.singletonList("Crypto Morin"), "kingdoms.KingdomsAPI"),
-    Factions_LegacyFactions("LegacyFactions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan", "drtshoc"), "legacyfactions.LegacyFactionsAPI"),
-    Factions_MassiveCoreFactions("Factions", Arrays.asList("Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan"), "massivecorefactions.MassiveCoreFactionsAPI"),
-    Factions_MedievalFactions("MedievalFactions", Arrays.asList("DanTheTechMan", "Pasarus", "Caibinus"), "medievalfactions.MedievalFactionsAPI"),
-    Factions_SaberFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"), "saberfactions.SaberFactionsAPI"),
-    Factions_SavageFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life"), "savagefactions.SavageFactionsAPI"),
-    Factions_SupremeFactions("Factions", Arrays.asList("Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev"), "supremefactions.SupremeFactionsAPI"),
-    Factions_UltimateFactions("UltimateFactions", Collections.singletonList("Miinoo_"), "ultimatefactions.UltimateFactionsAPI"),
-    Factions_Towny("Towny", Collections.singletonList("Shade, Modified by FuzzeWuzze. Forked by ElgarL. Forked by LlmDl."), "towny.TownyAPI");
+    Factions_AtlasFactions(
+            "Factions",
+            "atlasfactions.AtlasFactionsAPI",
+            new AuthorConfiguration("Atlas_1", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Elapsed")
+    ),
+    Factions_FactionsBlue(
+            "FactionsBlue",
+            "factionsblue.FactionsBlueAPI",
+            new AuthorConfiguration("1.1.6 Stable", "NickD")
+    ),
+    Factions_FactionsUUID(
+            "Factions",
+            "factionsuuid.FactionsUUIDAPI",
+            new AuthorConfiguration("1.6.9.5-U0.5.24", "Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"),
+            new AuthorConfiguration("1.6.9.5-U0.5.25", "Olof Larsson", "Brett Flannigan", "drtshock", "dariasc", "CmdrKittens", "mbaxter")
+    ),
+    Factions_FactionsX(
+            "FactionsX",
+            "factionsx.FactionsXAPI",
+            new AuthorConfiguration("1.2-STABLE", "ProSavage")
+    ),
+    Factions_Kingdoms(
+            "Kingdoms",
+            "kingdoms.KingdomsAPI",
+            new AuthorConfiguration("1.10.19.2", "Crypto Morin")
+    ),
+    Factions_LegacyFactions(
+            "LegacyFactions",
+            "legacyfactions.LegacyFactionsAPI",
+            new AuthorConfiguration("1.4.7", "Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan", "drtshoc")
+    ),
+    Factions_MassiveCoreFactions(
+            "Factions",
+            "massivecorefactions.MassiveCoreFactionsAPI",
+            new AuthorConfiguration("2.14.0", "Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan")
+    ),
+    Factions_MedievalFactions(
+            "MedievalFactions",
+            "medievalfactions.MedievalFactionsAPI",
+            new AuthorConfiguration("v4.1", "DanTheTechMan", "Pasarus", "Caibinus"),
+            new AuthorConfiguration("v4.2-beta-1", "DanTheTechMan", "Pasarus", "Caibinus", "Callum")
+    ),
+    Factions_SaberFactions(
+            "Factions",
+            "saberfactions.SaberFactionsAPI",
+            new AuthorConfiguration("2.9.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay")
+    ),
+    Factions_SavageFactions(
+            "Factions",
+            "savagefactions.SavageFactionsAPI",
+            new AuthorConfiguration("2.5-RC-9", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "SvenjaReißaus", "Driftay", "D3cide", "Savag3life")
+    ),
+    Factions_SupremeFactions(
+            "Factions",
+            "supremefactions.SupremeFactionsAPI",
+            new AuthorConfiguration("1.6.9.5-U0.2.1-RC-1.6.2-RC-2.5-RC-9", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "Savag3life", "Lone____Wolf", "SupremeDev")
+    ),
+    Factions_Towny(
+            "Towny",
+            "towny.TownyAPI",
+            new AuthorConfiguration("0.97.0.0", "Shade, Modified by FuzzeWuzze. Forked by ElgarL. Forked by LlmDl.")
+    ),
+    Factions_UltimateFactions(
+            "UltimateFactions",
+            "ultimatefactions.UltimateFactionsAPI",
+            new AuthorConfiguration("4.3.4", "Miinoo_")
+    );
 
     /**
      * The plugin name of the given Provider.
@@ -45,7 +99,7 @@ public enum Provider {
     /**
      * The authors of the plugin of the given Provider.
      */
-    private final List<String> authors;
+    private final AuthorConfiguration[] authors;
 
     /**
      * The api class which will be obtainable using {@link FactionsBridge#getFactionsAPI()}.
@@ -54,13 +108,14 @@ public enum Provider {
 
     /**
      * Constructor to initialise a Provider.
-     * @param pluginName of the Provider.
-     * @param authors which made the Provider.
-     * @param fapiName The class name for the {@link FactionsAPI} implementation.
+     *
+     * @param pluginName     of the Provider.
+     * @param configurations of authors who made the Provider.
+     * @param fapiName       The class name for the {@link FactionsAPI} implementation.
      */
-    Provider(@NotNull String pluginName, @NotNull List<String> authors, @Nullable String fapiName) {
+    Provider(@NotNull String pluginName, @Nullable String fapiName, @NotNull AuthorConfiguration... configurations) {
         this.pluginName = pluginName;
-        this.authors = authors;
+        this.authors = configurations;
         this.API_CLASS_NAME = fapiName;
     }
 
@@ -82,6 +137,7 @@ public enum Provider {
 
     /**
      * Method to obtain the Plugin linked to the Provider.
+     *
      * @return {@link Plugin} or {@code null}.
      */
     public Plugin getPlugin() {
@@ -90,19 +146,19 @@ public enum Provider {
 
     /**
      * Method to match authors to a Provider.
+     *
      * @param authors of the Plugin identified at runtime.
-     * @return boolean[] of true/false based on matches.
+     * @return {@link Boolean} if the entire list matches or not.
      */
-    public boolean[] authorsMatch(List<String> authors) {
-        if (authors == null) return new boolean[0];
-        if (this.authors.isEmpty() || authors.isEmpty()) return new boolean[0];
-        Collections.sort(authors);
-        Collections.sort(this.authors);
-        boolean[] matches = new boolean[this.authors.size()];
-        for (int i = 0; i < this.authors.size(); i++) {
-            matches[i] = authors.contains(this.authors.get(i));
+    @Nullable
+    public AuthorConfiguration authorsMatch(List<String> authors) {
+        if (authors == null || authors.isEmpty()) return null;
+        for (final AuthorConfiguration configuration : this.authors) {
+            if (configuration.equals(authors)) {
+                return configuration;
+            }
         }
-        return matches;
+        return null;
     }
 
     /**
@@ -112,7 +168,13 @@ public enum Provider {
      */
     @NotNull
     public List<String> getAuthors() {
-        return authors;
+        final ArrayList<String> pluginAuthors = new ArrayList<>(getPlugin().getDescription().getAuthors());
+        for (AuthorConfiguration author : authors) {
+            if (author.equals(pluginAuthors)) {
+                return author.getAuthors();
+            }
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -136,6 +198,7 @@ public enum Provider {
 
     /**
      * Method to obtain the fancy name of the Provider.
+     *
      * @return fancy name!
      */
     @NotNull
