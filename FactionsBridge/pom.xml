@@ -91,6 +91,10 @@
                                     <shadedPattern>${package.directory}.ultimatefactions</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>korefactions</pattern>
+                                    <shadedPattern>${package.directory}.korefactions</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>cc.javajobs.factionsbridge.bstats</shadedPattern>
                                 </relocation>
@@ -258,6 +262,14 @@
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
             <artifactId>Factions_UltimateFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Kore Factions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_KoreFactions</artifactId>
             <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>

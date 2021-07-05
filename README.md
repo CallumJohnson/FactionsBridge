@@ -29,6 +29,7 @@ As of Version 1.2.9, 13 different versions of Factions are supported.
 | LegacyFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_LegacyFactions |
 | UltimateFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_UltimateFactions |
 | Towny | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_Towny |
+| Factions (Kore Factions) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_KoreFactions |
 
 ## How to use the API
 

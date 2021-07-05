@@ -89,6 +89,11 @@ public enum Provider {
             "UltimateFactions",
             "ultimatefactions.UltimateFactionsAPI",
             new AuthorConfiguration("4.3.4", "Miinoo_")
+    ),
+    Factions_KoreFactions(
+            "Factions",
+            "korefactions.KoreFactionsAPI",
+            new AuthorConfiguration("1.6.9.5-U0.5.18-b", "Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens", "Golfing8")
     );
 
     /**
@@ -154,9 +159,7 @@ public enum Provider {
     public AuthorConfiguration authorsMatch(List<String> authors) {
         if (authors == null || authors.isEmpty()) return null;
         for (final AuthorConfiguration configuration : this.authors) {
-            if (configuration.equals(authors)) {
-                return configuration;
-            }
+            if (configuration.equals(authors)) return configuration;
         }
         return null;
     }
