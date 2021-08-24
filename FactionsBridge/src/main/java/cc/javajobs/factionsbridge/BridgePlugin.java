@@ -47,8 +47,16 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
         }
 
         // API test.
-        int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
-        warn(loaded + " factions have been loaded.");
+        if (Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null) {
+            warn("FastAsyncWorldEdit changes the load-order of the Server. Delaying the API test by 5 seconds.");
+            Bukkit.getScheduler().runTaskLater(this, () -> {
+                int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
+                warn(loaded + " factions have been loaded.");
+            }, 100L);
+        } else {
+            int loaded = FactionsBridge.getFactionsAPI().getFactions().size();
+            warn(loaded + " factions have been loaded.");
+        }
 
         // Check for updates.
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
