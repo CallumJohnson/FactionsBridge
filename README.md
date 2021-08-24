@@ -13,7 +13,7 @@ To view the JavaDocs, visit the following website: http://javajobs.ni-vps.fr/fac
 
 ### Plugins which are supported.
 
-As of Version 1.2.9, 13 different versions of Factions are supported.
+As of Version 1.3.3, 14 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
