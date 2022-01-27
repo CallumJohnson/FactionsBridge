@@ -68,7 +68,8 @@ public enum Provider {
     Factions_SaberFactions(
             "Factions",
             "saberfactions.SaberFactionsAPI",
-            new AuthorConfiguration("2.9.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay")
+            new AuthorConfiguration("2.9.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"),
+            new AuthorConfiguration("3.0.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev")
     ),
     Factions_SavageFactions(
             "Factions",
