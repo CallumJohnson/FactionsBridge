@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/saberfactions-1-8-1-16-x-discord-sa
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/saberfactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/saberfactions/events/package-summary.html
+ - <redacted>saberfactions/package-summary.html
+ - <redacted>saberfactions/events/package-summary.html

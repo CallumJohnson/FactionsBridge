@@ -6,5 +6,5 @@ Purchase: https://github.com/redstone/LegacyFactions/releases/tag/1.4.7
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/legacyfactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/legacyfactions/events/package-summary.html
+ - <redacted>legacyfactions/package-summary.html
+ - <redacted>legacyfactions/events/package-summary.html

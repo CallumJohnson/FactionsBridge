@@ -6,5 +6,5 @@ Purchase: https://factions.atlas-studios.net
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/atlasfactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/atlasfactions/events/package-summary.html
+ - <redacted>atlasfactions/package-summary.html
+ - <redacted>atlasfactions/events/package-summary.html

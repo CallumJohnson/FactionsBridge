@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/kingdomsx.77670/
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/kingdoms/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/kingdoms/events/package-summary.html
+ - <redacted>kingdoms/package-summary.html
+ - <redacted>kingdoms/events/package-summary.html

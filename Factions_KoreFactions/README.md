@@ -6,5 +6,5 @@ Purchase: https://discord.gg/umNYBwpvSj
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/korefactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/korefactions/events/package-summary.html
+ - <redacted>korefactions/package-summary.html
+ - <redacted>korefactions/events/package-summary.html

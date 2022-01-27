@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/towny-advanced.72694/
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/towny/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/towny/events/package-summary.html
+ - <redacted>towny/package-summary.html
+ - <redacted>towny/events/package-summary.html

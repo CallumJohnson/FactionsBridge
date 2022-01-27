@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/savagefactions-the-ultimate-faction
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/savagefactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/savagefactions/events/package-summary.html
+ - <redacted>savagefactions/package-summary.html
+ - <redacted>savagefactions/events/package-summary.html

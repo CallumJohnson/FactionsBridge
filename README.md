@@ -9,7 +9,7 @@ Due to the nature of Factions and their individualised implementations, it can b
 
 ### JavaDocs
 
-To view the JavaDocs, visit the following website: http://javajobs.ni-vps.fr/factionsbridge/
+To view the JavaDocs, visit the following website: <redacted>
 
 ### Plugins which are supported.
 

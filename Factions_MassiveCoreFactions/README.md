@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/factions.1900/
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/massivecorefactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/massivecorefactions/events/package-summary.html
+ - <redacted>massivecorefactions/package-summary.html
+ - <redacted>massivecorefactions/events/package-summary.html

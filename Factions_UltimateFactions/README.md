@@ -6,5 +6,5 @@ Purchase: https://www.spigotmc.org/resources/%E2%AD%90ultimate-factions-%E2%96%B
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/ultimatefactions/package-summary.html
- - http://javajobs.ni-vps.fr/factionsbridge/ultimatefactions/events/package-summary.html
+ - <redacted>ultimatefactions/package-summary.html
+ - <redacted>ultimatefactions/events/package-summary.html

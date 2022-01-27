@@ -9,4 +9,4 @@ Purchase:
 ## Documentation
 Direct Links:
 
- - http://javajobs.ni-vps.fr/factionsbridge/
+ - <redacted>
