@@ -50,12 +50,16 @@ public class TownyAPI implements FactionsAPI, ErrorParticipator {
      */
     @Override
     public @NotNull Claim getClaim(@NotNull Location location) {
-        final TownBlock townyBlock = com.palmergames.bukkit.towny.TownyAPI.getInstance().getTownBlock(location);
+        final com.palmergames.bukkit.towny.TownyAPI townyAPI = com.palmergames.bukkit.towny.TownyAPI.getInstance();
+        TownBlock townyBlock = townyAPI.getTownBlock(location);
         if (townyBlock == null) {
             if (FactionsBridge.get().catch_exceptions) {
                 FactionsBridge.get().error("Cannot bypass exception as this is an API method!");
             }
-            return (Claim) methodError(getClass(), "getClaim(Location)", "Failed to find Town from Location");
+            if (townyAPI.isWilderness(location)) {
+                townyBlock = new TownBlock(location.getChunk().getX(), location.getChunk().getZ(),
+                        townyAPI.getTownyWorld(Objects.requireNonNull(location.getWorld()).getName()));
+            } else return (Claim) methodError(getClass(), "getClaim(Location)", "Failed to find Town from Location");
         }
         return new TownyClaim(townyBlock);
     }

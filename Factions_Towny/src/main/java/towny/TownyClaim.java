@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Towny implementation of {@link Claim}.
- * Object Target: {@link Resident}.
+ * Object Target: {@link TownBlock}.
  *
  * @author Callum Johnson
  * @since 01/07/2021 - 11:03
