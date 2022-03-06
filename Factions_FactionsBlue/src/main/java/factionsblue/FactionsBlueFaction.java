@@ -206,6 +206,17 @@ public class FactionsBlueFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        if (bridge.catch_exceptions) return;
+        unsupported(getProvider(), "setBank(balance)");
+    }
+
+    /**
      * Method to get the points of a Faction.
      *
      * @return in the form of Integer.

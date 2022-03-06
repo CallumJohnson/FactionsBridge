@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FactionsBridge-PARENT</artifactId>
+        <groupId>cc.javajobs.factionsbridge</groupId>
+        <version>parent</version>
+    </parent>
+
+    <name>Improved Factions Implementation</name>
+    <artifactId>Factions_ImprovedFactions</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <version>${bridge.version}</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- FactionsBridge API -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>FactionsBridge-API</artifactId>
+            <version>${bridge.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Improved Factions -->
+        <dependency>
+            <groupId>Factions</groupId>
+            <artifactId>ImprovedFactions</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${factions.location}/ImprovedFactions.jar</systemPath>
+        </dependency>
+
+        <!-- Home Extension for FactionHomes. -->
+        <dependency>
+            <groupId>HomeExtension</groupId>
+            <artifactId>ImprovedFactions-Homes</artifactId>
+            <version>LATEST</version>
+            <scope>system</scope>
+            <systemPath>${factions.location}/HomeExtension.jar</systemPath>
+        </dependency>
+
+    </dependencies>
+
+</project>

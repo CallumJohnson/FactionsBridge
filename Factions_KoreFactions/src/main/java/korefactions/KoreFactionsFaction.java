@@ -238,6 +238,21 @@ public class KoreFactionsFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        if (!Econ.shouldBeUsed()) {
+            if (bridge.catch_exceptions) return;
+            else methodError(getClass(), "setBank(balance)", "Economy hasn't been initialised.");
+            return;
+        }
+        Econ.setBalance(faction, balance);
+    }
+
+    /**
      * Method to get a Warp set by the faction by its name.
      *
      * @param name of the Warp to get

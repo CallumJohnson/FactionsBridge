@@ -204,6 +204,16 @@ public class FactionsXFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        faction.getBank().setAmount(balance);
+    }
+
+    /**
      * Method to get the points of a Faction.
      *
      * @return in the form of Integer.

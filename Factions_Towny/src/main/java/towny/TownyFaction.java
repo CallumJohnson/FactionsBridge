@@ -247,6 +247,22 @@ public class TownyFaction extends AbstractFaction<Town> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        try {
+            faction.getAccount().setBalance(balance, "FactionsBridge");
+        } catch (EconomyException e) {
+            if (!bridge.catch_exceptions) {
+                methodError(getClass(), "setBank(balance)", "EconomyException encountered.");
+            }
+        }
+    }
+
+    /**
      * Method to get a Warp set by the faction by its name.
      *
      * @param name of the Warp to get

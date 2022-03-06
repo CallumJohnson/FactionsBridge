@@ -69,7 +69,8 @@ public enum Provider {
             "Factions",
             "saberfactions.SaberFactionsAPI",
             new AuthorConfiguration("2.9.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"),
-            new AuthorConfiguration("3.0.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev")
+            new AuthorConfiguration("3.0.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev"),
+            new AuthorConfiguration("3.0.2-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev", "Callum")
     ),
     Factions_SavageFactions(
             "Factions",
@@ -95,6 +96,11 @@ public enum Provider {
             "Factions",
             "korefactions.KoreFactionsAPI",
             new AuthorConfiguration("1.6.9.5-U0.5.18-b", "Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens", "Golfing8")
+    ),
+    Factions_ImprovedFactions(
+            "ImprovedFactions",
+            "improvedfactions.ImprovedFactionsAPI",
+            new AuthorConfiguration("BETA-5.0.4", "Tobero")
     );
 
     /**

@@ -218,6 +218,13 @@ public interface Faction {
     double getBank();
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    void setBank(double balance);
+
+    /**
      * Method to get a Warp set by the faction by its name.
      *
      * @param name of the Warp to get

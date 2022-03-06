@@ -230,6 +230,16 @@ public class UltimateFactionsFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        faction.setBank(balance);
+    }
+
+    /**
      * Method to get a Warp set by the faction by its name.
      *
      * @param name of the Warp to get

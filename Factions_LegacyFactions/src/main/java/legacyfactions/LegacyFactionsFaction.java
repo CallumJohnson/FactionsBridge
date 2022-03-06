@@ -196,6 +196,17 @@ public class LegacyFactionsFaction extends AbstractFaction<Faction> {
     }
 
     /**
+     * Method to set the balance of the Faction.
+     *
+     * @param balance to set.
+     */
+    @Override
+    public void setBank(double balance) {
+        faction.getVaultAccount().withdraw(getBank());
+        faction.getVaultAccount().deposit(balance);
+    }
+
+    /**
      * Method to get the points of a Faction.
      *
      * @return in the form of Integer.

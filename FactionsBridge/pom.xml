@@ -95,6 +95,10 @@
                                     <shadedPattern>${package.directory}.korefactions</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>improvedfactions</pattern>
+                                    <shadedPattern>${package.directory}.improvedfactions</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>cc.javajobs.factionsbridge.bstats</shadedPattern>
                                 </relocation>
@@ -270,6 +274,14 @@
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
             <artifactId>Factions_KoreFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Improved Factions -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_ImprovedFactions</artifactId>
             <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>
