@@ -13,7 +13,7 @@ To view the JavaDocs, visit the following website: <redacted>
 
 ### Plugins which are supported.
 
-As of Version 1.3.3, 14 different versions of Factions are supported.
+As of Version 1.3.6, 15 different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
@@ -30,6 +30,7 @@ As of Version 1.3.3, 14 different versions of Factions are supported.
 | UltimateFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_UltimateFactions |
 | Towny | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_Towny |
 | Factions (Kore Factions) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_KoreFactions |
+| ImprovedFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_ImprovedFactions | 
 
 ## How to use the API
 
@@ -41,7 +42,7 @@ main: com.yourname.yourproject.YourProject
 version: 1.0-Snapshot-of-the-century
 
 # If you are shading the project in, include the following:
-softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions, Towny]
+softdepend: [Factions, FactionsX, FactionsBlue, KingdomsX, Kingdoms, LegacyFactions, MedievalFactions, UltimateFactions, Towny, ImprovedFactions]
 
 # If you are depending on the standalone plugin, including the following:
 softdepend/depend: [FactionsBridge] # depending on your preference or requirements.
