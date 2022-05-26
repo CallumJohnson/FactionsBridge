@@ -34,7 +34,7 @@ As of Version 1.3.6, 15 different versions of Factions are supported.
 
 ## How to use the API
 
-To begin, you need to remove Factions from your dependancies, this will hopefully be a full replacement and if it is not, please create an issue/contact me to get your desired functionality added into this project.
+To begin, you need to remove Factions from your dependencies, this will hopefully be a full replacement and if it is not, please create an issue/contact me to get your desired functionality added into this project.
 Added FactionsBridge into your plugin.yml dependancies to ensure that your plugin is hooked correctly.
 ```YML
 name: YourProject
