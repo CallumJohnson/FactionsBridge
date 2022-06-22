@@ -1,21 +1,21 @@
 ```
-    public static String getFormatted(Player p, Faction f){
-        String re="&cERROR_GETTING_FACTION_NAME";
-        Faction ff = VortechFactions.api.getFaction(p);
-        assert ff != null;
-        Relationship r = ff.getRelationshipTo(f);
-        if(r.equals(Relationship.MEMBER)){
-            re="&a"+f.getName();
-        }else if(r.equals(Relationship.ALLY)){
-            re="&5"+f.getName();
-        }else if(r.equals(Relationship.TRUCE)){
-            re="&d"+f.getName();
-        }else if(r.equals(Relationship.ENEMY)){
-            re="&c"+f.getName();
-        }else if(r.equals(Relationship.DEFAULT_RELATIONSHIP)){
-            re="&b"+f.getName();
+    public static String getFormatted(Player player, Faction faction){
+        String formattedName="&cERROR_GETTING_FACTION_NAME";
+        Faction playerFaction = api.getFaction(player);
+        assert playerFaction != null;
+        Relationship relationship = playerFaction.getRelationshipTo(faction);
+        if(relationship.equals(Relationship.MEMBER)){
+            formattedName="&a"+faction.getName();
+        }else if(relationship.equals(Relationship.ALLY)){
+            formattedName="&5"+faction.getName();
+        }else if(relationship.equals(Relationship.TRUCE)){
+            formattedName="&d"+faction.getName();
+        }else if(relationship.equals(Relationship.ENEMY)){
+            formattedName="&c"+faction.getName();
+        }else if(relationship.equals(Relationship.DEFAULT_RELATIONSHIP)){
+            formattedName="&b"+faction.getName();
         }
-        return ChatColor.translateAlternateColorCodes('&', re);
+        return ChatColor.translateAlternateColorCodes('&', formattedName);
     }
 ```
 
