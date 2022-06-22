@@ -7,4 +7,4 @@ Faction f = fp.getFaction();
 Bukkit.getLogger().info(f.getName());
 ```
 
-In this example, you grab the player from their username, then get their f player. The f player is all the factions info about the player. Then you get their faction, if they are in wilderness, this will return the same thing as `api.getWilderness()`.
+In this example, you grab the player from their username, then get their f player. The f player is all the factions info about the player. Then you get their faction, if they are in wilderness, this will return `api.getWilderness()`.
