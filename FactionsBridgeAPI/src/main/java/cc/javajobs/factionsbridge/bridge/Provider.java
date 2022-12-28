@@ -37,12 +37,18 @@ public enum Provider {
             "Factions",
             "factionsuuid.FactionsUUIDAPI",
             new AuthorConfiguration("1.6.9.5-U0.5.24", "Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens"),
-            new AuthorConfiguration("1.6.9.5-U0.5.25", "Olof Larsson", "Brett Flannigan", "drtshock", "dariasc", "CmdrKittens", "mbaxter")
+            new AuthorConfiguration("1.6.9.5-U0.5.25", "Olof Larsson", "Brett Flannigan", "drtshock", "dariasc", "CmdrKittens", "mbaxter"),
+            new AuthorConfiguration("VulcanFactions-Fork", "Olof Larsson", "Brett Flannigan", "drtshock", "CmdrKittens", "Jerry")
     ),
     Factions_FactionsX(
             "FactionsX",
             "factionsx.FactionsXAPI",
             new AuthorConfiguration("1.2-STABLE", "ProSavage")
+    ),
+    Factions_Kingdoms14(
+            "Kingdoms",
+            "kingdoms14.KingdomsAPI",
+            new AuthorConfiguration("1.14", "Crypto Morin")
     ),
     Factions_Kingdoms(
             "Kingdoms",
@@ -167,6 +173,26 @@ public enum Provider {
         if (authors == null || authors.isEmpty()) return null;
         for (final AuthorConfiguration configuration : this.authors) {
             if (configuration.equals(authors)) return configuration;
+        }
+        return null;
+    }
+
+    /**
+     * Method to match authors to a Provider.
+     *
+     * @param authors of the Plugin identified at runtime.
+     * @param version of  the Plugin identified at runtime.
+     * @return {@link Boolean} if the entire list matches or not.
+     */
+    public AuthorConfiguration versionAndAuthorsMatch(String version, List<String> authors) {
+        if (authors == null || authors.isEmpty() || version.isEmpty()) return null;
+        for (final AuthorConfiguration configuration : this.authors) {
+            if (!version.startsWith(configuration.getVersion()) && !version.equals(configuration.getVersion())) {
+                continue;
+            }
+            if (configuration.equals(authors)) {
+                return configuration;
+            }
         }
         return null;
     }

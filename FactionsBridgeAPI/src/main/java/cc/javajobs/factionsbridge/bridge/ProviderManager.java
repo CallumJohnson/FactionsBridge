@@ -4,6 +4,7 @@ import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
 import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.ArrayList;
 
@@ -38,22 +39,32 @@ public class ProviderManager implements Communicator {
      */
     public Plugin discover() {
         for (Provider provider : Provider.values()) {
-            Plugin plugin = provider.getPlugin();
+            final Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
-            final AuthorConfiguration authorConfiguration = provider.authorsMatch(
-                    new ArrayList<>(plugin.getDescription().getAuthors()));
+            final PluginDescriptionFile description = plugin.getDescription();
+            final ArrayList<String> authors = new ArrayList<>(description.getAuthors());
+            final String version = description.getVersion();
+            final AuthorConfiguration authorAndVersionConfiguration = provider.versionAndAuthorsMatch(version, authors);
+            if (authorAndVersionConfiguration != null) {
+                return confirmHook(authorAndVersionConfiguration, provider, plugin);
+            }
+            final AuthorConfiguration authorConfiguration = provider.authorsMatch(authors);
             if (authorConfiguration != null) {
-                log("Found " + provider.name() + "!");
-                log("Matched '" + authorConfiguration + "'!");
-                spacer(ChatColor.AQUA);
-                log("Hooking into API for " + provider.fancy() + "!");
-                spacer(ChatColor.AQUA);
-                fapi = provider.getAPI();
-                hookedProvider = provider;
-                return plugin;
+                return confirmHook(authorConfiguration, provider, plugin);
             }
         }
         return null;
+    }
+
+    private Plugin confirmHook(AuthorConfiguration configuration, Provider provider, Plugin plugin) {
+        log("Found " + provider.name() + "!");
+        log("Matched '" + configuration + "'!");
+        spacer(ChatColor.AQUA);
+        log("Hooking into API for " + provider.fancy() + "!");
+        spacer(ChatColor.AQUA);
+        fapi = provider.getAPI();
+        hookedProvider = provider;
+        return plugin;
     }
 
     /**

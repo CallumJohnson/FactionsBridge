@@ -51,6 +51,15 @@ public class AuthorConfiguration {
     }
 
     /**
+     * Method to obtain the {@link #version} as a {@link String}.
+     *
+     * @return {@link String} version.
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
      * Method to determine if the given List of Strings matches this configuration.
      *
      * @param authors to test.

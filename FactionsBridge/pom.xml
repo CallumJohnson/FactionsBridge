@@ -229,6 +229,12 @@
             <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_KingdomsV14</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- LegacyFactions -->
         <dependency>

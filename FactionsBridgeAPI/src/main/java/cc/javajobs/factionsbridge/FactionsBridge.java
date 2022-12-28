@@ -179,7 +179,7 @@ public class FactionsBridge implements Communicator {
                 metrics.addCustomChart(new SimplePie("factions_implementation_used",
                         () -> manager.getHookedProvider().name()));
                 metrics.addCustomChart(new SimplePie("standalone_or_shaded",
-                        () -> String.valueOf(isFactionsBridge(plugin))));
+                        () -> isFactionsBridge(plugin) ? "FactionsBridge" : "Shaded"));
             }
         }
         long diff = System.currentTimeMillis()-start;

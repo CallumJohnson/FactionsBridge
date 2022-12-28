@@ -15,8 +15,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <factions.location>D:/Program Files/Intellij/FactionsBridge - Maven/jars</factions.location>
-        <bridge.version>1.3.6</bridge.version>
+        <factions.location>${pom.basedir}/../jars</factions.location>
+        <bridge.version>1.3.7</bridge.version>
         <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
     </properties>
 
@@ -46,6 +46,7 @@
         <module>Factions_FactionsUUID</module>
         <module>Factions_FactionsX</module>
         <module>Factions_Kingdoms</module>
+        <module>Factions_KingdomsV14</module>
         <module>Factions_LegacyFactions</module>
         <module>Factions_MassiveCoreFactions</module>
         <module>Factions_MedievalFactions</module>
