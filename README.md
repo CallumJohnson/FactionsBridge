@@ -13,11 +13,12 @@ To view the JavaDocs, visit the following website: <redacted>
 
 ### Plugins which are supported.
 
-As of Version 1.3.6, 15 different versions of Factions are supported.
+As of Version 1.3.7, 17 (two major versions of KingdomsX) different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
 | FactionsUUID | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsUUID |
+| VulcanFactions | https://vulcandev.org |
 | SavageFactions (Abandoned) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SavageFactions |
 | SaberFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SaberFactions |
 | SupremeFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SupremeFactions |
