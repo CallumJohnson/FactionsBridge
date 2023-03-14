@@ -65,6 +65,11 @@ public enum Provider {
             "massivecorefactions.MassiveCoreFactionsAPI",
             new AuthorConfiguration("2.14.0", "Cayorion", "Madus", "Ulumulu1510", "MarkehMe", "Brettflan")
     ),
+    Factions_MedievalFactions5(
+            "MedievalFactions",
+            "medievalfactions5.MedievalFactionsAPI",
+            new AuthorConfiguration("5.1.1", "DanTheTechMan" + "Pasarus", "Caibinus", "Callum", "Richardhyy", "Mitras2", "Kaonami", "GoodLucky777", "Elafir", "Deej", "VoChiDanh", "alyphen")
+    ),
     Factions_MedievalFactions(
             "MedievalFactions",
             "medievalfactions.MedievalFactionsAPI",
@@ -76,7 +81,8 @@ public enum Provider {
             "saberfactions.SaberFactionsAPI",
             new AuthorConfiguration("2.9.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay"),
             new AuthorConfiguration("3.0.1-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev"),
-            new AuthorConfiguration("3.0.2-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev", "Callum")
+            new AuthorConfiguration("3.0.2-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev", "Callum"),
+            new AuthorConfiguration("4.0.2-RC", "Olof Larsson", "Brett Flannigan", "drtshock", "ProSavage", "DroppingAnvil", "Driftay", "SaberDev", "Callum", "Atilt")
     ),
     Factions_SavageFactions(
             "Factions",
