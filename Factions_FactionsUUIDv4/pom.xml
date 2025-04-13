@@ -9,18 +9,11 @@
         <version>parent</version>
     </parent>
 
-    <name>FactionsUUID Implementation</name>
-    <artifactId>Factions_FactionsUUID</artifactId>
+    <name>FactionsUUIDv4 Implementation</name>
+    <artifactId>Factions_FactionsUUIDv4</artifactId>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <version>${bridge.version}</version>
-
-    <repositories>
-        <repository>
-            <id>dependency-download-releases</id>
-            <url>https://ci.ender.zone/plugin/repository/everything/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
 
@@ -32,13 +25,34 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- FactionsUUID Legacy -->
+        <!-- FactionsUUID -->
         <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>Factions</artifactId>
-            <version>1.6.9.5-U0.6.40</version>
+            <groupId>dev.kitteh</groupId>
+            <artifactId>factions</artifactId>
+            <version>4.0.0-beta.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-legacy</artifactId>
+            <version>4.23.0</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

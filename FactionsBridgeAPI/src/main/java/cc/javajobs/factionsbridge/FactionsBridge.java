@@ -84,6 +84,7 @@ public class FactionsBridge implements Communicator {
             log(sb.toString());
         }
         warn("Plugin Count§7:\t\t§f" + pluginCount);
+        warn("FactionsUUID Found§7:\t\t§f" + (Bukkit.getPluginManager().getPlugin("FactionsUUID") != null));
         warn("Factions Found§7:\t\t§f" + (Bukkit.getPluginManager().getPlugin("Factions") != null));
         warn("FactionsBlue Found§7:\t§f" + (Bukkit.getPluginManager().getPlugin("FactionsBlue") != null));
         warn("FactionsX Found§7:\t§f" + (Bukkit.getPluginManager().getPlugin("FactionsX") != null));

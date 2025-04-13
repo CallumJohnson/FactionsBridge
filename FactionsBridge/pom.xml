@@ -39,6 +39,10 @@
                         <configuration>
                             <relocations>
                                 <relocation>
+                                    <pattern>factionsuuidv4</pattern>
+                                    <shadedPattern>${package.directory}.factionsuuidv4</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>factionsuuid</pattern>
                                     <shadedPattern>${package.directory}.factionsuuid</shadedPattern>
                                 </relocation>
@@ -166,7 +170,15 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Factions UUID -->
+        <!-- FactionsUUID -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsUUIDv4</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- FactionsUUID Legacy -->
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
             <artifactId>Factions_FactionsUUID</artifactId>

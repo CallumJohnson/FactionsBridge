@@ -44,6 +44,7 @@
         <module>Factions_AtlasFactions</module>
         <module>Factions_FactionsBlue</module>
         <module>Factions_FactionsUUID</module>
+        <module>Factions_FactionsUUIDv4</module>
         <module>Factions_FactionsX</module>
         <module>Factions_Kingdoms</module>
         <module>Factions_KingdomsV14</module>
