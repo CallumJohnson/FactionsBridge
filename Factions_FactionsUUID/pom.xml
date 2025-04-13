@@ -15,6 +15,13 @@
     <modelVersion>4.0.0</modelVersion>
     <version>${bridge.version}</version>
 
+    <repositories>
+        <repository>
+            <id>dependency-download-releases</id>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
 
         <!-- FactionsBridge API -->
@@ -27,11 +34,9 @@
 
         <!-- Factions UUID -->
         <dependency>
-            <groupId>Factions</groupId>
-            <artifactId>FactionsUUID</artifactId>
-            <version>LATEST</version>
-            <scope>system</scope>
-            <systemPath>${factions.location}/FactionsUUID.jar</systemPath>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>Factions</artifactId>
+            <version>1.6.9.5-U0.6.40</version>
         </dependency>
 
     </dependencies>

@@ -39,7 +39,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public UUID getUniqueId() {
-        return fPlayer.getOfflinePlayer().getUniqueId();
+        return UUID.fromString(fPlayer.getId());
     }
 
     /**
