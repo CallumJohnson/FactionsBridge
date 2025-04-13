@@ -56,7 +56,8 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @Nullable
     @Override
     public Faction getFaction(@NotNull String id) {
-        return new FactionsUUIDFaction(Factions.getInstance().getFactionById(id));
+        com.massivecraft.factions.Faction faction = Factions.getInstance().getFactionById(id);
+        return faction == null ? null : new FactionsUUIDFaction(faction);
     }
 
     /**
@@ -68,7 +69,8 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @Nullable
     @Override
     public Faction getFactionByTag(@NotNull String tag) {
-        return new FactionsUUIDFaction(Factions.getInstance().getByTag(tag));
+        com.massivecraft.factions.Faction faction = Factions.getInstance().getByTag(tag);
+        return faction == null ? null : new FactionsUUIDFaction(faction);
     }
 
     /**
@@ -129,8 +131,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction createFaction(@NotNull String name) throws IllegalStateException {
-        Faction fac = getFactionByName(name);
-        if (fac != null && !fac.isServerFaction()) throw new IllegalStateException("Faction already exists.");
+        if (Factions.getInstance().getByTag(name) != null) throw new IllegalStateException("Faction already exists.");
         com.massivecraft.factions.Faction faction = Factions.getInstance().createFaction();
         faction.setTag(name);
         return new FactionsUUIDFaction(faction);
@@ -144,7 +145,9 @@ public class FactionsUUIDAPI implements FactionsAPI {
      */
     @Override
     public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
-        Factions.getInstance().removeFaction(faction.getId());
+        com.massivecraft.factions.Faction fac = Factions.getInstance().getFactionById(faction.getId());
+        if (fac == null) throw new IllegalStateException("Faction does not exist.");
+        Factions.getInstance().removeFaction(fac.getId());
     }
 
     /**
