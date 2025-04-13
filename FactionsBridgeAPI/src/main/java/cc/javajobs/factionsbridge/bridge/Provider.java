@@ -33,6 +33,11 @@ public enum Provider {
             "factionsblue.FactionsBlueAPI",
             new AuthorConfiguration("1.1.6 Stable", "NickD")
     ),
+    Factions_FactionsUUIDv1(
+            "FactionsUUID",
+            "factionsuuidv1.FactionsUUIDAPI",
+            new AuthorConfiguration("1.0.0-SNAPSHOT", "mbaxter", "drtshock", "dariasc", "Brett Flannigan", "Olof Larsson")
+    ),
     Factions_FactionsUUID(
             "Factions",
             "factionsuuid.FactionsUUIDAPI",

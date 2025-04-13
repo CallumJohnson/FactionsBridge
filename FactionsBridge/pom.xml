@@ -39,6 +39,10 @@
                         <configuration>
                             <relocations>
                                 <relocation>
+                                    <pattern>factionsuuidv1</pattern>
+                                    <shadedPattern>${package.directory}.factionsuuidv1</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>factionsuuid</pattern>
                                     <shadedPattern>${package.directory}.factionsuuid</shadedPattern>
                                 </relocation>
@@ -163,6 +167,14 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>2.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Factions UUID v1.0-->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsUUIDv1</artifactId>
+            <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>
 
