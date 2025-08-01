@@ -1,20 +1,18 @@
-package factionsuuid.events;
+package factionsuuidv4.events;
 
-import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.events.*;
-import com.massivecraft.factions.event.LandClaimEvent;
-import com.massivecraft.factions.event.LandUnclaimAllEvent;
-import com.massivecraft.factions.event.LandUnclaimEvent;
-import factionsuuid.FactionsUUIDClaim;
-import factionsuuid.FactionsUUIDFPlayer;
-import factionsuuid.FactionsUUIDFaction;
-import org.bukkit.event.Cancellable;
+import dev.kitteh.factions.FPlayer;
+import dev.kitteh.factions.event.LandClaimEvent;
+import dev.kitteh.factions.event.LandUnclaimAllEvent;
+import dev.kitteh.factions.event.LandUnclaimEvent;
+import factionsuuidv4.FactionsUUIDClaim;
+import factionsuuidv4.FactionsUUIDFPlayer;
+import factionsuuidv4.FactionsUUIDFaction;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import static org.bukkit.Bukkit.getPluginManager;
-import static org.bukkit.Bukkit.getScheduler;
 
 /**
  * FactionsUUID implementation of the Bridges needed to handle all Custom Events.
@@ -37,7 +35,7 @@ public class FactionsUUIDListener implements Listener {
         FactionClaimEvent bridgeEvent = new FactionClaimEvent(
                 new FactionsUUIDClaim(event.getLocation()),
                 new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDFPlayer(event.getfPlayer()),
+                new FactionsUUIDFPlayer(event.getFPlayer()),
                 event
         );
         getPluginManager().callEvent(bridgeEvent);
@@ -45,7 +43,7 @@ public class FactionsUUIDListener implements Listener {
     }
 
     /**
-     * Listener for the {@link com.massivecraft.factions.event.FPlayerJoinEvent}.
+     * Listener for the {@link dev.kitteh.factions.event.FPlayerJoinEvent}.
      * <p>
      *     This listener calls the {@link FactionJoinEvent}.
      * </p>
@@ -53,18 +51,20 @@ public class FactionsUUIDListener implements Listener {
      * @param event to monitor.
      */
     @EventHandler
-    public void onJoin(@NotNull com.massivecraft.factions.event.FPlayerJoinEvent event) {
+    public void onJoin(@NotNull dev.kitteh.factions.event.FPlayerJoinEvent event) {
         FactionJoinEvent bridgeEvent = new FactionJoinEvent(
                 new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDFPlayer(event.getfPlayer()),
+                new FactionsUUIDFPlayer(event.getFPlayer()),
                 event
         );
         getPluginManager().callEvent(bridgeEvent);
-        event.setCancelled(bridgeEvent.isCancelled());
+        if (event.isCancellable()) {
+            event.setCancelled(bridgeEvent.isCancelled());
+        }
     }
 
     /**
-     * Listener for the {@link com.massivecraft.factions.event.FPlayerLeaveEvent}.
+     * Listener for the {@link dev.kitteh.factions.event.FPlayerLeaveEvent}.
      * <p>
      *     This listener calls the {@link FactionLeaveEvent}.
      * </p>
@@ -72,15 +72,17 @@ public class FactionsUUIDListener implements Listener {
      * @param event to monitor.
      */
     @EventHandler
-    public void onLeave(@NotNull com.massivecraft.factions.event.FPlayerLeaveEvent event) {
+    public void onLeave(@NotNull dev.kitteh.factions.event.FPlayerLeaveEvent event) {
         FactionLeaveEvent bridgeEvent = new FactionLeaveEvent(
                 new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDFPlayer(event.getfPlayer()),
+                new FactionsUUIDFPlayer(event.getFPlayer()),
                 FactionLeaveEvent.LeaveReason.fromString(event.getReason().name()),
                 event
         );
         getPluginManager().callEvent(bridgeEvent);
-        event.setCancelled(bridgeEvent.isCancelled());
+        if (event.isCancellable()) {
+            event.setCancelled(bridgeEvent.isCancelled());
+        }
     }
 
     /**
@@ -95,7 +97,7 @@ public class FactionsUUIDListener implements Listener {
     public void onUnclaimAll(@NotNull LandUnclaimAllEvent event) {
         FactionUnclaimAllEvent bridgeEvent = new FactionUnclaimAllEvent(
                 new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDFPlayer(event.getfPlayer()),
+                new FactionsUUIDFPlayer(event.getFPlayer()),
                 event
         );
         getPluginManager().callEvent(bridgeEvent);
@@ -115,7 +117,7 @@ public class FactionsUUIDListener implements Listener {
         FactionUnclaimEvent bridgeEvent = new FactionUnclaimEvent(
                 new FactionsUUIDClaim(event.getLocation()),
                 new FactionsUUIDFaction(event.getFaction()),
-                new FactionsUUIDFPlayer(event.getfPlayer()),
+                new FactionsUUIDFPlayer(event.getFPlayer()),
                 event
         );
         getPluginManager().callEvent(bridgeEvent);
@@ -123,7 +125,7 @@ public class FactionsUUIDListener implements Listener {
     }
 
     /**
-     * Listener for the {@link com.massivecraft.factions.event.FactionCreateEvent}.
+     * Listener for the {@link dev.kitteh.factions.event.FactionCreateEvent}.
      * <p>
      *     This listener calls the {@link FactionCreateEvent}.
      * </p>
@@ -131,20 +133,21 @@ public class FactionsUUIDListener implements Listener {
      * @param event to monitor.
      */
     @EventHandler
-    public void onFactionCreate(@NotNull com.massivecraft.factions.event.FactionCreateEvent event) {
-        getScheduler().runTaskLater(FactionsBridge.get().getDevelopmentPlugin(), () -> {
-            FactionCreateEvent bridgeEvent = new FactionCreateEvent(
-                    new FactionsUUIDFaction(event.getFaction()),
-                    new FactionsUUIDFPlayer(event.getFPlayer()),
-                    event
-            );
-            getPluginManager().callEvent(bridgeEvent);
-            if (event instanceof Cancellable) ((Cancellable) event).setCancelled(bridgeEvent.isCancelled());
-        }, 20);
+    public void onFactionCreate(@NotNull dev.kitteh.factions.event.FactionCreateEvent event) {
+        FPlayer fPlayer = event.getFPlayer();
+        if (fPlayer == null) { // Plugin-created, not fitting API spec for bridge event
+            return;
+        }
+        FactionCreateEvent bridgeEvent = new FactionCreateEvent(
+                new FactionsUUIDFaction(event.getFaction()),
+                new FactionsUUIDFPlayer(fPlayer),
+                event
+        );
+        getPluginManager().callEvent(bridgeEvent);
     }
 
     /**
-     * Listener for the {@link com.massivecraft.factions.event.FactionDisbandEvent}.
+     * Listener for the {@link dev.kitteh.factions.event.FactionDisbandEvent}.
      * <p>
      *     This listener calls the {@link FactionDisbandEvent}.
      * </p>
@@ -152,7 +155,7 @@ public class FactionsUUIDListener implements Listener {
      * @param event to monitor.
      */
     @EventHandler
-    public void onFactionDisband(@NotNull com.massivecraft.factions.event.FactionDisbandEvent event) {
+    public void onFactionDisband(@NotNull dev.kitteh.factions.event.FactionDisbandEvent event) {
         FactionDisbandEvent bridgeEvent = new FactionDisbandEvent(
                 new FactionsUUIDFPlayer(event.getFPlayer()),
                 new FactionsUUIDFaction(event.getFaction()),
@@ -164,7 +167,7 @@ public class FactionsUUIDListener implements Listener {
     }
 
     /**
-     * Listener for the {@link com.massivecraft.factions.event.FactionRenameEvent}.
+     * Listener for the {@link dev.kitteh.factions.event.FactionRenameEvent}.
      * <p>
      *     This listener calls the {@link FactionRenameEvent}.
      * </p>
@@ -172,7 +175,7 @@ public class FactionsUUIDListener implements Listener {
      * @param event to monitor.
      */
     @EventHandler
-    public void onRename(@NotNull com.massivecraft.factions.event.FactionRenameEvent event) {
+    public void onRename(@NotNull dev.kitteh.factions.event.FactionRenameEvent event) {
         FactionRenameEvent bridgeEvent = new FactionRenameEvent(
                 new FactionsUUIDFaction(event.getFaction()),
                 event.getFactionTag(),

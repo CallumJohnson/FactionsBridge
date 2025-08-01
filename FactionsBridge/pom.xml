@@ -29,7 +29,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0-SNAPSHOT</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -38,6 +38,10 @@
                         </goals>
                         <configuration>
                             <relocations>
+                                <relocation>
+                                    <pattern>factionsuuidv4</pattern>
+                                    <shadedPattern>${package.directory}.factionsuuidv4</shadedPattern>
+                                </relocation>
                                 <relocation>
                                     <pattern>factionsuuid</pattern>
                                     <shadedPattern>${package.directory}.factionsuuid</shadedPattern>
@@ -166,7 +170,15 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Factions UUID -->
+        <!-- FactionsUUID -->
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_FactionsUUIDv4</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- FactionsUUID Legacy -->
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
             <artifactId>Factions_FactionsUUID</artifactId>

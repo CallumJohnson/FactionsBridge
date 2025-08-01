@@ -1,16 +1,15 @@
-package factionsuuid;
+package factionsuuidv4;
 
 import cc.javajobs.factionsbridge.bridge.infrastructure.AbstractFPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Role;
-import com.massivecraft.factions.FPlayer;
-import org.bukkit.Bukkit;
+import dev.kitteh.factions.FPlayer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -39,7 +38,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public UUID getUniqueId() {
-        return UUID.fromString(fPlayer.getId());
+        return fPlayer.uniqueId();
     }
 
     /**
@@ -50,7 +49,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public String getName() {
-        return fPlayer.getName();
+        return fPlayer.name();
     }
 
     /**
@@ -65,7 +64,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @Nullable
     @Override
     public Faction getFaction() {
-        return new FactionsUUIDFaction(fPlayer.getFaction());
+        return new FactionsUUIDFaction(fPlayer.faction());
     }
 
     /**
@@ -76,7 +75,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
      */
     @Override
     public boolean hasFaction() {
-        return fPlayer.hasFaction() && getFaction() != null;
+        return fPlayer.hasFaction();
     }
 
     /**
@@ -87,7 +86,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public OfflinePlayer getOfflinePlayer() {
-        return fPlayer.getOfflinePlayer();
+        return fPlayer.asOfflinePlayer();
     }
 
     /**
@@ -102,7 +101,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @Nullable
     @Override
     public Player getPlayer() {
-        return fPlayer.getPlayer();
+        return fPlayer.asPlayer();
     }
 
     /**
@@ -122,7 +121,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
      */
     @Override
     public double getPower() {
-        return fPlayer.getPower();
+        return fPlayer.power();
     }
 
     /**
@@ -132,7 +131,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
      */
     @Override
     public void setPower(double power) {
-        fPlayer.alterPower(Math.abs(fPlayer.getPower() - power));
+        fPlayer.power(power);
     }
 
     /**
@@ -143,7 +142,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @Nullable
     @Override
     public String getTitle() {
-        return fPlayer.getTitle();
+        return fPlayer.titleLegacy();
     }
 
     /**
@@ -153,7 +152,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
      */
     @Override
     public void setTitle(@NotNull String title) {
-        fPlayer.setTitle(Bukkit.getConsoleSender(), title);
+        fPlayer.title(LegacyComponentSerializer.legacySection().deserialize(title));
     }
 
     /**
@@ -164,7 +163,7 @@ public class FactionsUUIDFPlayer extends AbstractFPlayer<FPlayer> {
     @NotNull
     @Override
     public Role getRole() {
-        return Role.getRole(fPlayer.getRole().name());
+        return Role.getRole(fPlayer.role().name());
     }
 
 }

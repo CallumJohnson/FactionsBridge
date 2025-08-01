@@ -1,14 +1,14 @@
-package factionsuuid;
+package factionsuuidv4;
 
 import cc.javajobs.factionsbridge.FactionsBridge;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Claim;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FPlayer;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.Faction;
 import cc.javajobs.factionsbridge.bridge.infrastructure.struct.FactionsAPI;
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Factions;
-import factionsuuid.events.FactionsUUIDListener;
+import dev.kitteh.factions.FLocation;
+import dev.kitteh.factions.FPlayers;
+import dev.kitteh.factions.Factions;
+import factionsuuidv4.events.FactionsUUIDListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
@@ -31,7 +31,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public List<Faction> getFactions() {
-        return Factions.getInstance().getAllFactions().stream().map(FactionsUUIDFaction::new)
+        return Factions.factions().all().stream().map(FactionsUUIDFaction::new)
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +48,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     }
 
     /**
-     * Method to retrieve an Faction by Id.
+     * Method to retrieve a Faction by id.
      *
      * @param id of the Faction
      * @return Faction implementation.
@@ -56,12 +56,12 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @Nullable
     @Override
     public Faction getFaction(@NotNull String id) {
-        com.massivecraft.factions.Faction faction = Factions.getInstance().getFactionById(id);
-        return faction == null ? null : new FactionsUUIDFaction(faction);
+        dev.kitteh.factions.Faction fac = getFactionInternalById(id);
+        return fac == null ? null : new FactionsUUIDFaction(fac);
     }
 
     /**
-     * Method to retrieve an Faction from Tag.
+     * Method to retrieve a Faction by Tag.
      *
      * @param tag of the Faction
      * @return Faction implementation.
@@ -69,8 +69,8 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @Nullable
     @Override
     public Faction getFactionByTag(@NotNull String tag) {
-        com.massivecraft.factions.Faction faction = Factions.getInstance().getByTag(tag);
-        return faction == null ? null : new FactionsUUIDFaction(faction);
+        dev.kitteh.factions.Faction fac = Factions.factions().get(tag);
+        return fac == null ? null : new FactionsUUIDFaction(fac);
     }
 
     /**
@@ -85,7 +85,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public FPlayer getFPlayer(@NotNull OfflinePlayer player) {
-        return new FactionsUUIDFPlayer(FPlayers.getInstance().getByOfflinePlayer(player));
+        return new FactionsUUIDFPlayer(FPlayers.fPlayers().get(player));
     }
 
     /**
@@ -96,7 +96,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getWarZone() {
-        return new FactionsUUIDFaction(Factions.getInstance().getWarZone());
+        return new FactionsUUIDFaction(Factions.factions().warZone());
     }
 
     /**
@@ -107,7 +107,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getSafeZone() {
-        return new FactionsUUIDFaction(Factions.getInstance().getSafeZone());
+        return new FactionsUUIDFaction(Factions.factions().safeZone());
     }
 
     /**
@@ -118,7 +118,7 @@ public class FactionsUUIDAPI implements FactionsAPI {
     @NotNull
     @Override
     public Faction getWilderness() {
-        return new FactionsUUIDFaction(Factions.getInstance().getWilderness());
+        return new FactionsUUIDFaction(Factions.factions().wilderness());
     }
 
     /**
@@ -126,15 +126,13 @@ public class FactionsUUIDAPI implements FactionsAPI {
      *
      * @param name of the new Faction.
      * @return IFaction implementation.
-     * @throws IllegalStateException if the IFaction exists already.
+     * @throws IllegalStateException if the Faction exists already.
      */
     @NotNull
     @Override
     public Faction createFaction(@NotNull String name) throws IllegalStateException {
-        if (Factions.getInstance().getByTag(name) != null) throw new IllegalStateException("Faction already exists.");
-        com.massivecraft.factions.Faction faction = Factions.getInstance().createFaction();
-        faction.setTag(name);
-        return new FactionsUUIDFaction(faction);
+        if (Factions.factions().get(name) != null) throw new IllegalStateException("Faction already exists.");
+        return new FactionsUUIDFaction(Factions.factions().create(name));
     }
 
     /**
@@ -145,9 +143,11 @@ public class FactionsUUIDAPI implements FactionsAPI {
      */
     @Override
     public void deleteFaction(@NotNull Faction faction) throws IllegalStateException {
-        com.massivecraft.factions.Faction fac = Factions.getInstance().getFactionById(faction.getId());
-        if (fac == null) throw new IllegalStateException("Faction does not exist.");
-        Factions.getInstance().removeFaction(fac.getId());
+        dev.kitteh.factions.Faction fac = getFactionInternalById(faction.getId());
+        if (fac == null) {
+            throw new IllegalStateException("Invalid faction id from FactionsBridge: '" + faction.getId() + "'.");
+        }
+        Factions.factions().remove(fac);
     }
 
     /**
@@ -162,4 +162,11 @@ public class FactionsUUIDAPI implements FactionsAPI {
         return true;
     }
 
+    private @Nullable dev.kitteh.factions.Faction getFactionInternalById(String id) {
+        try {
+            return Factions.factions().get(Integer.parseInt(id));
+        } catch (NumberFormatException e) {
+            throw new IllegalStateException("Invalid faction id '" + id + "'.");
+        }
+    }
 }
