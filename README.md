@@ -13,7 +13,7 @@ To view the JavaDocs, visit the following website: <redacted>
 
 ### Plugins which are supported.
 
-As of Version 1.3.7, 17 (two major versions of KingdomsX) different versions of Factions are supported.
+As of Version 1.3.9, 18 (two major versions of FactionsUUID and KingdomsX) different versions of Factions are supported.
 | Plugin | Download Link |
 | ------ | ------ |
 | FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
