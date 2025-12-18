@@ -361,4 +361,18 @@ public class FactionsUUIDFaction extends AbstractFaction<Faction> {
         return getRelationship(this.faction.relationTo((Participator) faction.getFaction()).name());
     }
 
+    @Override
+    public int getTNTBank() {
+        return this.faction.tntBank();
+    }
+
+    @Override
+    public void setTNTBank(int amount) {
+        this.faction.tntBank(amount);
+    }
+
+    @Override
+    public int getTNTBankMax() {
+        return this.faction.tntBankMax();
+    }
 }

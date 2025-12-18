@@ -353,6 +353,56 @@ public interface Faction {
     }
 
     /**
+     * Gets the faction's TNT bank, if such a feature exists.
+     *
+     * @return tnt bank or 0 if no bank exists
+     * @see FactionsAPI#supportsTNTBank()
+     */
+    default int getTNTBank() {
+        return 0;
+    }
+
+    /**
+     * Sets the faction's TNT bank, if such a feature exists.
+     *
+     * @param amount amount to set
+     * @see FactionsAPI#supportsTNTBank()
+     */
+    default void setTNTBank(int amount) {
+        // NOOP
+    }
+
+    /**
+     * Gets the faction's TNT bank maximum storage, if such a feature and limit exists.
+     *
+     * @return limit
+     * @see FactionsAPI#supportsTNTBank()
+     */
+    default int getTNTBankMax() {
+        return 0;
+    }
+
+    /**
+     * Adds to the faction's TNT bank, if such a feature exists.
+     *
+     * @param amount amount to add
+     * @see FactionsAPI#supportsTNTBank()
+     */
+    default void addTNT(int amount) {
+        this.setTNTBank(this.getTNTBank() + amount);
+    }
+
+    /**
+     * Subtracts from the faction's TNT bank, if such a feature exists.
+     *
+     * @param amount amount to remove
+     * @see FactionsAPI#supportsTNTBank()
+     */
+    default void removeTNT(int amount) {
+        this.setTNTBank(this.getTNTBank() - amount);
+    }
+
+    /**
      * Method to obtain the Provider name for Debugging/Console output purposes.
      * <p>
      *     Due to the nature of some of these classes, regex {@link String#replaceAll(String, String)} can't be used here.

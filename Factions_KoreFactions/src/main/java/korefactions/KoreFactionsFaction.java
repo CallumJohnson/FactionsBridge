@@ -376,4 +376,18 @@ public class KoreFactionsFaction extends AbstractFaction<Faction> {
         return getRelationship(this.faction.getRelationTo((RelationParticipator) faction.getFaction()).name());
     }
 
+    @Override
+    public int getTNTBank() {
+        return this.faction.getTNTBank();
+    }
+
+    @Override
+    public void setTNTBank(int amount) {
+        this.faction.setTNTBank(amount);
+    }
+
+    @Override
+    public int getTNTBankMax() {
+        return this.faction.getMaxTNT();
+    }
 }

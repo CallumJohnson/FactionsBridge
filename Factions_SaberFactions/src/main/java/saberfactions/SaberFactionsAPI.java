@@ -147,6 +147,11 @@ public class SaberFactionsAPI implements FactionsAPI {
         Factions.getInstance().removeFaction(faction.getId());
     }
 
+    @Override
+    public boolean supportsTNTBank() {
+        return true;
+    }
+
     /**
      * Method to register events and handle event pass-through for the Bridge.
      */
