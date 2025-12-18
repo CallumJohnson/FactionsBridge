@@ -355,4 +355,18 @@ public class SaberFactionsFaction extends AbstractFaction<Faction> {
         return getRelationship(this.faction.getRelationTo((RelationParticipator) faction.getFaction()).name());
     }
 
+    @Override
+    public int getTNTBank() {
+        return this.faction.getTnt();
+    }
+
+    @Override
+    public void setTNTBank(int amount) {
+        this.faction.setTnt(amount);
+    }
+
+    @Override
+    public int getTNTBankMax() {
+        return this.faction.getTntBankLimit();
+    }
 }

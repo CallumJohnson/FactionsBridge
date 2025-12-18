@@ -150,6 +150,11 @@ public class FactionsUUIDAPI implements FactionsAPI {
         Factions.factions().remove(fac);
     }
 
+    @Override
+    public boolean supportsTNTBank() {
+        return true;
+    }
+
     /**
      * Method to register events and handle event pass-through for the Bridge.
      */

@@ -211,6 +211,20 @@ public interface FactionsAPI {
     }
 
     /**
+     * Gets if this plugin's factions can have TNT banks.
+     *
+     * @return true if supported
+     * @see Faction#getTNTBank()
+     * @see Faction#getTNTBankMax()
+     * @see Faction#setTNTBank(int)
+     * @see Faction#addTNT(int)
+     * @see Faction#removeTNT(int)
+     */
+    default boolean supportsTNTBank() {
+        return false;
+    }
+
+    /**
      * Method to determine if the {@link FactionsAPI#register()} method has been called.
      * @return {@code true} yes, {@code false} no
      */
