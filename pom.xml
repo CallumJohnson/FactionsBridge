@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <factions.location>${pom.basedir}/../jars</factions.location>
-        <bridge.version>1.3.9</bridge.version>
+        <bridge.version>1.4.0</bridge.version>
         <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
     </properties>
 
