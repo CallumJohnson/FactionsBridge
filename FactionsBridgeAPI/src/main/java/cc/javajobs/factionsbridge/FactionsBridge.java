@@ -15,6 +15,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -37,6 +38,8 @@ public class FactionsBridge implements Communicator {
     private static final String version;
     private static FactionsBridge instance = null;
     private static FactionsAPI factionapi = null;
+    @Nullable
+    private String forcedProvider = null;
     public boolean registered = false;
     public boolean catch_exceptions;
     private Plugin development_plugin = null;
@@ -50,6 +53,10 @@ public class FactionsBridge implements Communicator {
         } catch (ReflectiveOperationException ex) {
             throw new BridgeMethodException(FactionsBridge.class, "version_getter", "Failed to get Version from class");
         }
+    }
+
+    public void withForcedProvider(@Nullable String provider) {
+        this.forcedProvider = provider;
     }
 
     /**
@@ -151,14 +158,14 @@ public class FactionsBridge implements Communicator {
         if (instance == null) instance = this;
         instance.development_plugin = plugin;
         ProviderManager manager = new ProviderManager();
-        Plugin provider = manager.discover();
+        Plugin provider = manager.discover(this.forcedProvider);
         factionapi = manager.getAPI();
         String status = "without";
         if ((provider == null || factionapi == null) && consoleOutput) {
             spacer(ChatColor.RED);
             warn("-> Failed to find Provider for the Server.");
             generateReport();
-            warn("-> End of Report. (Send a Screenshot of this to 'C A L L U M#4160' on Discord)");
+            warn("-> End of Report. (Send a Screenshot of this to 'pondinq' on Discord)");
             spacer(ChatColor.RED);
             status = "with";
         }

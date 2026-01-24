@@ -5,6 +5,7 @@ import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -37,14 +38,15 @@ public class ProviderManager implements Communicator {
      * @return the Plugin which will be used or {@code null}.
      * @see ProviderManager
      */
-    public Plugin discover() {
+    public Plugin discover(@Nullable String forcedProvider) {
         for (Provider provider : Provider.values()) {
+            final Boolean isForcedProvider = provider.name().equalsIgnoreCase(forcedProvider) || provider.fancy().equalsIgnoreCase(forcedProvider);
             final Plugin plugin = provider.getPlugin();
             if (plugin == null) continue;
             final PluginDescriptionFile description = plugin.getDescription();
             final ArrayList<String> authors = new ArrayList<>(description.getAuthors());
             final String version = description.getVersion();
-            final AuthorConfiguration authorAndVersionConfiguration = provider.versionAndAuthorsMatch(version, authors);
+            final AuthorConfiguration authorAndVersionConfiguration = provider.versionMatches(version, authors, isForcedProvider);
             if (authorAndVersionConfiguration != null) {
                 return confirmHook(authorAndVersionConfiguration, provider, plugin);
             }

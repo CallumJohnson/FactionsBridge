@@ -1,6 +1,9 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.Provider;
 import cc.javajobs.factionsbridge.bridge.commands.About;
+import cc.javajobs.factionsbridge.bridge.config.YMLManager;
+import cc.javajobs.factionsbridge.bridge.config.YMLManager.ConfigEntry;
 import cc.javajobs.factionsbridge.util.ACommand;
 import cc.javajobs.factionsbridge.util.Communicator;
 import cc.javajobs.factionsbridge.util.Updater;
@@ -11,7 +14,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -34,7 +39,18 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
      * Method which is called by {@link JavaPlugin} methods when loading the plugin.
      */
     public void onEnable() {
+        YMLManager manager = new YMLManager(this, "config.yml");
+        HashMap<String, ConfigEntry> map = new HashMap<>();
+        ArrayList<String> headers = new ArrayList<>();
+        headers.add("Configure the value below as one of the following:");
+        for (Provider provider : Provider.values()) {
+            headers.add(" - '" + provider.name() + "' or " + provider.fancy() + "'");
+        }
+        map.put("forced-provider", new ConfigEntry(null, Arrays.asList("Default this value is `null`, only specify this if you're using a custom fork of a project!")));
+        manager.createFromDefaults(map, headers);
+
         FactionsBridge bridge = new FactionsBridge();
+        bridge.withForcedProvider(manager.get("forced-provider"));
         bridge.connect(this);
         try {
             Objects.requireNonNull(getCommand("factionsbridge")).setExecutor(this);

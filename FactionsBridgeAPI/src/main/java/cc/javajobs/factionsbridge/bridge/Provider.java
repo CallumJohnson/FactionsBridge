@@ -191,13 +191,18 @@ public enum Provider {
     /**
      * Method to match authors to a Provider.
      *
-     * @param authors of the Plugin identified at runtime.
-     * @param version of  the Plugin identified at runtime.
+     * @param version          of  the Plugin identified at runtime.
+     * @param authors          of the Plugin identified at runtime.
+     * @param isForcedProvider true if this plugin should be loaded regardless of checks.
      * @return {@link Boolean} if the entire list matches or not.
      */
-    public AuthorConfiguration versionAndAuthorsMatch(String version, List<String> authors) {
+    public AuthorConfiguration versionMatches(String version, List<String> authors, Boolean isForcedProvider) {
         if (authors == null || authors.isEmpty() || version.isEmpty()) return null;
         for (final AuthorConfiguration configuration : this.authors) {
+            if (isForcedProvider) {
+                FactionsBridge.get().warn("Utilising forced provider, this is unstable and bug reports will be ignored.");
+                return configuration;
+            }
             if (!version.startsWith(configuration.getVersion()) && !version.equals(configuration.getVersion())) {
                 continue;
             }
