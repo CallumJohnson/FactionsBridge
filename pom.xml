@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <factions.location>${pom.basedir}/../jars</factions.location>
-        <bridge.version>1.4.1</bridge.version>
+        <bridge.version>1.4.2</bridge.version>
         <package.directory>cc.javajobs.factionsbridge.bridge.impl</package.directory>
     </properties>
 
@@ -58,6 +58,7 @@
         <module>Factions_UltimateFactions</module>
         <module>Factions_KoreFactions</module>
         <module>Factions_ImprovedFactions</module>
+        <module>Factions_Lands</module>
         <module>FactionsBridge</module>
     </modules>
 

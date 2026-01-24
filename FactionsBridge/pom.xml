@@ -103,6 +103,10 @@
                                     <shadedPattern>${package.directory}.improvedfactions</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>lands</pattern>
+                                    <shadedPattern>${package.directory}.lands</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>org.bstats</pattern>
                                     <shadedPattern>cc.javajobs.factionsbridge.bstats</shadedPattern>
                                 </relocation>
@@ -300,6 +304,13 @@
         <dependency>
             <groupId>cc.javajobs.factionsbridge</groupId>
             <artifactId>Factions_ImprovedFactions</artifactId>
+            <version>${bridge.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.javajobs.factionsbridge</groupId>
+            <artifactId>Factions_Lands</artifactId>
             <version>${bridge.version}</version>
             <scope>compile</scope>
         </dependency>
