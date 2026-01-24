@@ -1,6 +1,5 @@
 package cc.javajobs.factionsbridge;
 
-import cc.javajobs.factionsbridge.bridge.Provider;
 import cc.javajobs.factionsbridge.bridge.ProviderManager;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeAlreadyConnectedException;
 import cc.javajobs.factionsbridge.bridge.exceptions.BridgeMethodException;
@@ -20,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
  * @author Callum Johnson
  * @since 25/02/2021 - 09:05
  */
-@SuppressWarnings("deprecation")
 public class FactionsBridge implements Communicator {
 
     private static final String version;
@@ -158,10 +157,10 @@ public class FactionsBridge implements Communicator {
         if (instance == null) instance = this;
         instance.development_plugin = plugin;
         ProviderManager manager = new ProviderManager();
-        Plugin provider = manager.discover(this.forcedProvider);
+        Optional<Plugin> provider = manager.discover(this.forcedProvider);
         factionapi = manager.getAPI();
         String status = "without";
-        if ((provider == null || factionapi == null) && consoleOutput) {
+        if ((!provider.isPresent() || factionapi == null) && consoleOutput) {
             spacer(ChatColor.RED);
             warn("-> Failed to find Provider for the Server.");
             generateReport();
