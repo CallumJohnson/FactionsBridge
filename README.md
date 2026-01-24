@@ -96,5 +96,5 @@ The standalone plugin (FactionsBridge/BridgePlugin) uses bStats to track impleme
 
 ## Contact Me
 ```JAVA
-Discord: 	C A L L U M#4160
+Discord: `pondinq`
 ```

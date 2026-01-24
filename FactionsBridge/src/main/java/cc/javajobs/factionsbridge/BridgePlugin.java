@@ -1,5 +1,6 @@
 package cc.javajobs.factionsbridge;
 
+import cc.javajobs.factionsbridge.bridge.Provider;
 import cc.javajobs.factionsbridge.bridge.commands.About;
 import cc.javajobs.factionsbridge.util.ACommand;
 import cc.javajobs.factionsbridge.util.Communicator;
@@ -8,10 +9,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,7 +38,9 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
      * Method which is called by {@link JavaPlugin} methods when loading the plugin.
      */
     public void onEnable() {
+        setupConfigurationFile();
         FactionsBridge bridge = new FactionsBridge();
+        bridge.withForcedProvider(getConfig().getString("forced-provider"));
         bridge.connect(this);
         try {
             Objects.requireNonNull(getCommand("factionsbridge")).setExecutor(this);
@@ -87,6 +93,23 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
             }
         });
 
+    }
+
+    private void setupConfigurationFile() {
+        saveDefaultConfig();
+        FileConfiguration config = getConfig();
+        config.addDefault("forced-provider", null);
+        List<String> headerLines = new ArrayList<>();
+        headerLines.add("Configure the value below as one of the following:");
+        for (Provider provider : Provider.values()) {
+            headerLines.add(" - '" + provider.name() + "' or '" + provider.fancy() + "'");
+        }
+        headerLines.add("");
+        headerLines.add("Default this value is `null`, only specify this if you're using a custom fork of a project!");
+        config.options().header(String.join("\n", headerLines));
+        config.set("forced-provider", null);
+        config.options().copyDefaults(true);
+        saveConfig();
     }
 
     /**

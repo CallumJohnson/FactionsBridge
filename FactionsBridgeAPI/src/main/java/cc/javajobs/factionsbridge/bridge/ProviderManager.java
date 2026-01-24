@@ -5,8 +5,11 @@ import cc.javajobs.factionsbridge.util.Communicator;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The Provider Manager class handles all methodology to locate/identify the API-provider for the plugin.
@@ -34,26 +37,36 @@ public class ProviderManager implements Communicator {
     /**
      * Method to perform all functionality of the ProviderManager class.
      *
-     * @return the Plugin which will be used or {@code null}.
+     * @return the Plugin which will be used or {@link Optional#empty()}.
      * @see ProviderManager
      */
-    public Plugin discover() {
-        for (Provider provider : Provider.values()) {
-            final Plugin plugin = provider.getPlugin();
-            if (plugin == null) continue;
-            final PluginDescriptionFile description = plugin.getDescription();
-            final ArrayList<String> authors = new ArrayList<>(description.getAuthors());
-            final String version = description.getVersion();
-            final AuthorConfiguration authorAndVersionConfiguration = provider.versionAndAuthorsMatch(version, authors);
-            if (authorAndVersionConfiguration != null) {
-                return confirmHook(authorAndVersionConfiguration, provider, plugin);
-            }
-            final AuthorConfiguration authorConfiguration = provider.authorsMatch(authors);
-            if (authorConfiguration != null) {
-                return confirmHook(authorConfiguration, provider, plugin);
-            }
-        }
-        return null;
+    public Optional<Plugin> discover(@Nullable String forcedProvider) {
+        return Arrays.stream(Provider.values())
+            .filter(provider -> {
+                final Plugin plugin = provider.getPlugin();
+                return plugin != null;
+            })
+            .map(provider -> {
+                final boolean isForcedProvider = provider.name().equalsIgnoreCase(forcedProvider) || provider.fancy().equalsIgnoreCase(forcedProvider);
+                final Plugin plugin = provider.getPlugin();
+                final PluginDescriptionFile description = plugin.getDescription();
+                final List<String> authors = description.getAuthors();
+                final String version = description.getVersion();
+                // Try version and author matching first
+                Optional<AuthorConfiguration> configuration = provider.findMatchingAuthorConfiguration(version, authors, isForcedProvider);
+                if (configuration.isPresent()) {
+                    return Optional.of(confirmHook(configuration.get(), provider, plugin));
+                }
+                // Fallback to author-only matching
+                AuthorConfiguration authorConfiguration = provider.authorsMatch(authors);
+                if (authorConfiguration != null) {
+                    return Optional.of(confirmHook(authorConfiguration, provider, plugin));
+                }
+                return Optional.<Plugin>empty();
+            })
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
     }
 
     private Plugin confirmHook(AuthorConfiguration configuration, Provider provider, Plugin plugin) {

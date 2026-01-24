@@ -8,7 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The Provider enumeration is a data store class for all plugins supported by this release of FactionsBridge.
@@ -128,7 +130,7 @@ public enum Provider {
     /**
      * The authors of the plugin of the given Provider.
      */
-    private final AuthorConfiguration[] authors;
+    private final List<@NotNull AuthorConfiguration> authors;
 
     /**
      * The api class which will be obtainable using {@link FactionsBridge#getFactionsAPI()}.
@@ -144,7 +146,7 @@ public enum Provider {
      */
     Provider(@NotNull String pluginName, @Nullable String fapiName, @NotNull AuthorConfiguration... configurations) {
         this.pluginName = pluginName;
-        this.authors = configurations;
+        this.authors = Arrays.asList(configurations);
         this.API_CLASS_NAME = fapiName;
     }
 
@@ -189,23 +191,25 @@ public enum Provider {
     }
 
     /**
-     * Method to match authors to a Provider.
+     * Finds the matching AuthorConfiguration for a Provider.
      *
-     * @param authors of the Plugin identified at runtime.
-     * @param version of  the Plugin identified at runtime.
-     * @return {@link Boolean} if the entire list matches or not.
+     * @param version          of the Plugin identified at runtime.
+     * @param authors          of the Plugin identified at runtime.
+     * @param isForcedProvider true if this plugin should be loaded regardless of checks.
+     * @return {@link Optional<AuthorConfiguration>} containing the matching configuration, or empty if no match found.
      */
-    public AuthorConfiguration versionAndAuthorsMatch(String version, List<String> authors) {
-        if (authors == null || authors.isEmpty() || version.isEmpty()) return null;
-        for (final AuthorConfiguration configuration : this.authors) {
-            if (!version.startsWith(configuration.getVersion()) && !version.equals(configuration.getVersion())) {
-                continue;
-            }
-            if (configuration.equals(authors)) {
-                return configuration;
-            }
+    public Optional<AuthorConfiguration> findMatchingAuthorConfiguration(String version, List<String> authors, boolean isForcedProvider) {
+        if (authors == null || authors.isEmpty() || version.isEmpty()) {
+            return Optional.empty();
         }
-        return null;
+        if (isForcedProvider) {
+            FactionsBridge.get().warn("Utilising forced provider, this is unstable and bug reports will be ignored.");
+            return this.authors.stream().findFirst();
+        }
+        return this.authors.stream()
+            .filter(config -> version.startsWith(config.getVersion()) || version.equals(config.getVersion()))
+            .filter(config -> config.equals(authors))
+            .findFirst();
     }
 
     /**
