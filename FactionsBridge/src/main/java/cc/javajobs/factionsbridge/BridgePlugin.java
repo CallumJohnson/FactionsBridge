@@ -107,6 +107,7 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
         headerLines.add("");
         headerLines.add("Default this value is `null`, only specify this if you're using a custom fork of a project!");
         config.options().header(String.join("\n", headerLines));
+        config.set("forced-provider", null);
         config.options().copyDefaults(true);
         saveConfig();
     }
