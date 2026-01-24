@@ -44,7 +44,7 @@ public class BridgePlugin extends JavaPlugin implements Communicator, CommandExe
         ArrayList<String> headers = new ArrayList<>();
         headers.add("Configure the value below as one of the following:");
         for (Provider provider : Provider.values()) {
-            headers.add(" - '" + provider.name() + "' or " + provider.fancy() + "'");
+            headers.add(" - '" + provider.name() + "' or '" + provider.fancy() + "'");
         }
         map.put("forced-provider", new ConfigEntry(null, Arrays.asList("Default this value is `null`, only specify this if you're using a custom fork of a project!")));
         manager.createFromDefaults(map, headers);
