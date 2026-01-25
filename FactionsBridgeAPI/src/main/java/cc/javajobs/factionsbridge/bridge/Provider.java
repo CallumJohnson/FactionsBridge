@@ -120,6 +120,11 @@ public enum Provider {
             "ImprovedFactions",
             "improvedfactions.ImprovedFactionsAPI",
             new AuthorConfiguration("BETA-5.0.4", "Tobero")
+    ),
+    Factions_Lands(
+        "Lands",
+        "lands.LandsFactionsAPI",
+        new AuthorConfiguration("7.23.3", "Angeschossen")
     );
 
     /**
