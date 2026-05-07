@@ -3,3 +3,4 @@
 FactionsBridgeAPI/src/main/java/cc/javajobs/factionsbridge/Version.java
 FactionsBridge/dependency-reduced-pom.xml
 /jars/
+*.iml

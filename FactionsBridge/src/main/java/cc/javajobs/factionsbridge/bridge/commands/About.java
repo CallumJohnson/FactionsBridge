@@ -59,7 +59,7 @@ public class About extends ACommand {
             sender.sendMessage(translate("  &cPlugin&7: &f'" + provider.getPlugin().getName() + "'"));
         }
         sender.sendMessage("");
-        sender.sendMessage(obtainCenteredMessage("&bDeveloped by &7'&fC A L L U M#4160&7' &8(&dDiscord&8)"));
+        sender.sendMessage(obtainCenteredMessage("&bDeveloped by &7'&fpondinq&7' &8(&dDiscord&8)"));
         sender.sendMessage("");
         sender.sendMessage(translate("&b=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"));
     }
