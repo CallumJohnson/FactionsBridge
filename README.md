@@ -13,30 +13,29 @@ To view the JavaDocs, visit the following website: <redacted>
 
 ### Plugins which are supported.
 
-As of Version 1.3.9, 18 (two major versions of FactionsUUID and KingdomsX) different versions of Factions are supported.
-| Plugin | Download Link |
-| ------ | ------ |
-| FactionsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsX |
-| FactionsUUID | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsUUID |
-| VulcanFactions | https://vulcandev.org |
-| SavageFactions (Abandoned) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SavageFactions |
-| SaberFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SaberFactions |
-| SupremeFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_SupremeFactions |
-| Atlas Factions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_AtlasFactions | 
-| FactionsBlue | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_FactionsBlue | 
-| MassiveFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_MassiveCoreFactions |
-| KingdomsX | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_Kingdoms |
-| MedievalFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_MedievalFactions |
-| LegacyFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_LegacyFactions |
-| UltimateFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_UltimateFactions |
-| Towny | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_Towny |
-| Factions (Kore Factions) | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_KoreFactions |
-| ImprovedFactions | https://github.com/CallumJohnson/FactionsBridge/tree/main/Factions_ImprovedFactions | 
+As of Version 1.4.2, 18 (two major versions of FactionsUUID and KingdomsX) different versions of Factions are supported.
+- FactionsX
+- FactionsUUID (including v4!)
+- VulcanFactions
+- SavageFactions (Abandoned)
+- SaberFactions
+- SupremeFactions
+- Atlas Factions
+- FactionsBlue
+- MassiveFactions
+- KingdomsX
+- MedievalFactions
+- LegacyFactions
+- UltimateFactions
+- Towny
+- Factions (Kore Factions)
+- ImprovedFactions
+- Lands
 
 ## How to use the API
 
 To begin, you need to remove Factions from your dependencies, this will hopefully be a full replacement and if it is not, please create an issue/contact me to get your desired functionality added into this project.
-Added FactionsBridge into your plugin.yml dependancies to ensure that your plugin is hooked correctly.
+Added FactionsBridge into your plugin.yml dependencies to ensure that your plugin is hooked correctly.
 ```YML
 name: YourProject
 main: com.yourname.yourproject.YourProject
